@@ -10,7 +10,7 @@ defmodule DavosCharityApiWeb.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug :accepts, ["json", "json-api"]
   end
 
   scope "/", DavosCharityApiWeb do
@@ -19,8 +19,14 @@ defmodule DavosCharityApiWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", DavosCharityApiWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", DavosCharityApiWeb do
+    pipe_through :api
+
+    resources "/donors", DonorController, except: [:new, :edit]
+    resources "/payment-methods", PaymentMethodController, except: [:new, :edit]
+    resources "/addresses", AddressController, except: [:new, :edit]
+
+    get "/donors/:donor_id/addresses", AddressController, :addresses_for_donor
+    get "/donors/:donor_id/payment-methods", PaymentMethodController, :payment_methods_for_donor
+  end
 end

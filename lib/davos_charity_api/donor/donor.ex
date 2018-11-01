@@ -8,7 +8,7 @@ defmodule DavosCharityApi.Donor do
   alias DavosCharityApi.Donor.PaymentMethod
 
   import Ecto.Query
-  
+
   schema "donors" do
     field :email, :string
     field :fname, :string
