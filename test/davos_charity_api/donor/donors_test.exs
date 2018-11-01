@@ -2,7 +2,10 @@ defmodule DavosCharityApi.DonorsTest do
   use DavosCharityApi.DataCase
 
   alias DavosCharityApi.Donor
-  alias DavosCharityApi.Donor.PaymentMethod
+  alias DavosCharityApi.Donor.{
+    PaymentMethod,
+    Address
+  }
 
   require IEx
 
@@ -68,5 +71,37 @@ defmodule DavosCharityApi.DonorsTest do
   end
 
   describe "create_address/1" do
+    @valid_attrs %{
+      name: "Home",
+      address_1: "123 Fake Street",
+      postal_code: "a1b 2c3",
+      city: "Vancouver",
+      province: "BC",
+      country: "Canada"
+    }
+
+
+    test "with valid data inserts address and attaches it to donor" do
+      donor = donor_fixture()
+
+      {:ok, %Address{id: id} = address} = Donor.create_address(Map.put(@valid_attrs, :donor_id, donor.id))
+
+      assert address.name == "Home"
+      assert address.address_1 == "123 Fake Street"
+      assert address.postal_code == "a1b 2c3"
+      assert address.city == "Vancouver"
+      assert address.province == "BC"
+      assert address.country == "Canada"
+
+      assert [%Address{id: id}] = Donor.list_addresses_for_donor(donor.id)
+    end
+
+    test "with invalid data does not insert the address" do
+      donor = donor_fixture()
+
+      assert {error, _changeset} = Donor.create_address(@invalid_attrs)
+      assert Donor.list_addresses_for_donor(donor.id) == []
+    end
+
   end
 end
