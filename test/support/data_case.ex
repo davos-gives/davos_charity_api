@@ -22,6 +22,7 @@ defmodule DavosCharityApi.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import DavosCharityApi.DataCase
+      import DavosCharityApi.TestHelpers
     end
   end
 
