@@ -6,6 +6,11 @@ defmodule DavosCharityApi.DonorsTest do
     PaymentMethod,
     Address
   }
+  alias DavosCharityApi.Donation
+  alias DavosCharityApi.Donation.{
+    Ongoing,
+    Payment
+  }
 
   require IEx
 
@@ -102,6 +107,25 @@ defmodule DavosCharityApi.DonorsTest do
       assert {error, _changeset} = Donor.create_address(@invalid_attrs)
       assert Donor.list_addresses_for_donor(donor.id) == []
     end
+  end
 
+  describe "create_ongoing_gift_for_donor/1" do
+    @valid_attrs %{
+      frequency: "Daily",
+      status: "Active",
+      amount: 125,
+    }
+
+    test "with valid data inserts ongoing donation and attaches it to donor" do
+      donor = donor_fixture()
+
+      {:ok, %Ongoing{id: id} = ongoing_donation} = Donation.create_ongoing_gift(Map.put(@valid_attrs, :donor_id, donor.id))
+
+      assert ongoing_donation.frequency == "Daily"
+      assert ongoing_donation.status == "Active"
+      assert ongoing_donation.amount == 125
+
+      assert [%Ongoing{id: id}] = Donor.list_ongoing_donations_for_donor(donor.id)
+    end
   end
 end

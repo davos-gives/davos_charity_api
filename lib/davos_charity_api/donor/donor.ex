@@ -6,6 +6,7 @@ defmodule DavosCharityApi.Donor do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donor.Address
   alias DavosCharityApi.Donor.PaymentMethod
+  alias DavosCharityApi.Donation.Ongoing
 
   import Ecto.Query
 
@@ -16,6 +17,7 @@ defmodule DavosCharityApi.Donor do
 
     has_many :addresses, Address
     has_many :payment_methods, PaymentMethod
+    has_many :ongoing_payments, Ongoing
     timestamps()
   end
 
@@ -66,5 +68,11 @@ defmodule DavosCharityApi.Donor do
     payment_method
     |> PaymentMethod.changeset(attrs)
     |> Repo.update
+  end
+
+  def list_ongoing_donations_for_donor(donor_id) do
+    Ongoing
+    |> where([og], og.donor_id == ^donor_id)
+    |> Repo.all
   end
 end

@@ -11,6 +11,8 @@ defmodule DavosCharityApiWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json", "json-api"]
+    plug JaSerializer.ContentTypeNegotiation
+    plug JaSerializer.Deserializer
   end
 
   scope "/", DavosCharityApiWeb do

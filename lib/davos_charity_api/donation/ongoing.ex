@@ -9,6 +9,8 @@ defmodule DavosCharityApi.Donation.Ongoing do
     field :frequency, :string
     field :status, :string
     field :amount, :integer
+    field :start_date, :utc_datetime
+
     belongs_to :donor, Donor
 
     timestamps()
@@ -16,7 +18,7 @@ defmodule DavosCharityApi.Donation.Ongoing do
 
   def changeset(%Ongoing{} = model, attrs) do
     model
-    |> cast(attrs, [:frequency, :status, :amount, :donor_id])
+    |> cast(attrs, [:frequency, :status, :amount, :donor_id, :start_date])
     |> validate_required([:frequency, :status, :amount, :donor_id])
   end
 end
