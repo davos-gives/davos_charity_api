@@ -19,7 +19,7 @@ defmodule DavosCharityApi.Fundraising.Campaign do
 
   def changeset(%Campaign{} = model, attrs) do
     model
-    |> cast(attrs, [:name, :type, :status, :form_id, :organization_id])
-    |> validate_required([:name, :type, :status, :form_id, :organization_id])
+    |> cast(attrs, [:name, :type, :status, :organization_id])
+    |> validate_required([:name, :type, :status, :organization_id])
   end
 end

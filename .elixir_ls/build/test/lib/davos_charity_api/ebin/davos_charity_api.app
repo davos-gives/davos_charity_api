@@ -33,6 +33,8 @@
                         'Elixir.DavosCharityApiWeb.ErrorView',
                         'Elixir.DavosCharityApiWeb.Gettext',
                         'Elixir.DavosCharityApiWeb.LayoutView',
+                        'Elixir.DavosCharityApiWeb.OngoingDonationController',
+                        'Elixir.DavosCharityApiWeb.OngoingDonationView',
                         'Elixir.DavosCharityApiWeb.PageController',
                         'Elixir.DavosCharityApiWeb.PageView',
                         'Elixir.DavosCharityApiWeb.PaymentMethodController',

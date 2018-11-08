@@ -44,6 +44,21 @@ defmodule DavosCharityApi.Donor do
     |> Repo.insert
   end
 
+  def get_ongoing_donation!(id), do: Repo.get!(Ongoing, id)
+
+  def get_donor_for_ongoing_donation!(ongoing_donation_id) do
+    donation = get_ongoing_donation!(ongoing_donation_id)
+    donation = Repo.preload(donation, :donor)
+
+    donation.donor
+  end
+
+  def create_ongoing_donation(attrs \\ %{}) do
+    %Ongoing{}
+    |> Ongoing.changeset(attrs)
+    |> Repo.insert
+  end
+
   def list_addresses_for_donor(donor_id) do
     Address
     |> where([a], a.donor_id == ^donor_id)

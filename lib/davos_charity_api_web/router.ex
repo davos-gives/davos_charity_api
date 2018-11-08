@@ -27,8 +27,12 @@ defmodule DavosCharityApiWeb.Router do
     resources "/donors", DonorController, except: [:new, :edit]
     resources "/payment-methods", PaymentMethodController, except: [:new, :edit]
     resources "/addresses", AddressController, except: [:new, :edit]
+    resources "/ongoing-donations", OngoingDonationController, except: [:new, :edit]
 
     get "/donors/:donor_id/addresses", AddressController, :addresses_for_donor
     get "/donors/:donor_id/payment-methods", PaymentMethodController, :payment_methods_for_donor
+    get "/donors/:donor_id/ongoing-donations", OngoingDonationController, :ongoing_donations_for_donor
+
+    get "/ongoing-donations/:ongoing_donation_id/donor", DonorController, :donor_for_ongoing_donation
   end
 end
