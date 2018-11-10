@@ -7,6 +7,7 @@ defmodule DavosCharityApi.Donor do
   alias DavosCharityApi.Donor.Address
   alias DavosCharityApi.Donor.PaymentMethod
   alias DavosCharityApi.Donation.Ongoing
+  alias DavosCharityApi.Donation
 
   import Ecto.Query
 
@@ -38,25 +39,24 @@ defmodule DavosCharityApi.Donor do
     |> Repo.insert
   end
 
+  def get_address!(id), do: Repo.get!(Address, id)
+
+  def get_donor_for_address!(address_id) do
+    address = Donor.get_address!(address_id)
+    address = Repo.preload(address, :donor)
+    address.donor
+  end
+
   def create_address(attrs \\ %{}) do
     %Address{}
     |> Address.changeset(attrs)
     |> Repo.insert
   end
 
-  def get_ongoing_donation!(id), do: Repo.get!(Ongoing, id)
-
-  def get_donor_for_ongoing_donation!(ongoing_donation_id) do
-    donation = get_ongoing_donation!(ongoing_donation_id)
-    donation = Repo.preload(donation, :donor)
-
-    donation.donor
-  end
-
-  def create_ongoing_donation(attrs \\ %{}) do
-    %Ongoing{}
-    |> Ongoing.changeset(attrs)
-    |> Repo.insert
+  def update_address(%Address{} = address, attrs) do
+    address
+    |> Address.changeset(attrs)
+    |> Repo.update
   end
 
   def list_addresses_for_donor(donor_id) do
@@ -73,6 +73,13 @@ defmodule DavosCharityApi.Donor do
 
   def get_payment_method!(id), do: Repo.get!(PaymentMethod, id)
 
+  def get_donor_for_payment_method!(payment_method_id) do
+    payment_method = Donor.get_payment_method!(payment_method_id)
+    payment_method = Repo.preload(payment_method, :donor)
+    payment_method.donor
+  end
+
+
   def create_payment_method(attrs \\ %{}) do
     %PaymentMethod{}
     |> PaymentMethod.changeset(attrs)
@@ -83,11 +90,5 @@ defmodule DavosCharityApi.Donor do
     payment_method
     |> PaymentMethod.changeset(attrs)
     |> Repo.update
-  end
-
-  def list_ongoing_donations_for_donor(donor_id) do
-    Ongoing
-    |> where([og], og.donor_id == ^donor_id)
-    |> Repo.all
   end
 end

@@ -4,6 +4,7 @@ defmodule DavosCharityApi.Donor.PaymentMethod do
 
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donor.PaymentMethod
+  alias DavosCharityApi.Donation.Ongoing
 
   schema "donor_payment_methods" do
     field :name, :string
@@ -13,6 +14,7 @@ defmodule DavosCharityApi.Donor.PaymentMethod do
     field :cvv, :integer
 
     belongs_to :donor, Donor
+    has_many :ongoing_donations, Ongoing
     timestamps()
   end
 

@@ -2,6 +2,7 @@ defmodule DavosCharityApiWeb.DonorController do
   use DavosCharityApiWeb, :controller
 
   alias DavosCharityApi.Donor
+  alias DavosCharityApi.Donation
 
   def show(conn, %{"id" => id}) do
     donor = Donor.get_donor!(id)
@@ -14,7 +15,17 @@ defmodule DavosCharityApiWeb.DonorController do
   end
 
   def donor_for_ongoing_donation(conn, %{"ongoing_donation_id" => ongoing_donation_id}) do
-    donor = Donor.get_donor_for_ongoing_donation!(ongoing_donation_id)
+    donor = Donation.get_donor_for_ongoing_donation!(ongoing_donation_id)
+    render(conn, "show.json-api", data: donor)
+  end
+
+  def donor_for_address(conn, %{"address_id" => address_id}) do
+    donor = Donor.get_donor_for_address!(address_id)
+    render(conn, "show.json-api", data: donor)
+  end
+
+  def donor_for_payment_method(conn, %{"payment_method_id" => payment_method_id}) do
+    donor = Donor.get_donor_for_payment_method!(payment_method_id)
     render(conn, "show.json-api", data: donor)
   end
 end

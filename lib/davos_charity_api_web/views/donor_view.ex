@@ -13,7 +13,7 @@ defmodule DavosCharityApiWeb.DonorView do
   ]
 
   has_many :payment_methods,
-  serializer: DavosCharityApiWeb.PaymentView,
+  serializer: DavosCharityApiWeb.PaymentMethodView,
   identifiers: :when_included,
   links: [
     related: "/donors/:id/payment-methods"

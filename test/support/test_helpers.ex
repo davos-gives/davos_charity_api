@@ -2,7 +2,8 @@ defmodule DavosCharityApi.TestHelpers do
 
   alias DavosCharityApi.{
     Donor,
-    Organization
+    Organization,
+    Donor.PaymentMethod,
   }
 
   def donor_fixture(attrs \\ %{}) do
@@ -31,6 +32,19 @@ defmodule DavosCharityApi.TestHelpers do
         })
       |> Organization.create_organization()
     organization
+  end
 
+  def payment_option_fixture(attrs \\ %{}) do
+    {:ok, paymentMethod} =
+      attrs
+      |> Enum.into(%{
+        name: "Vancity Visa",
+        type: "visa",
+        number: "4545454545454545",
+        expiry: "01/21",
+        cvv: 123,
+      })
+      |> Donor.create_payment_method()
+    paymentMethod
   end
 end
