@@ -4,6 +4,7 @@ defmodule DavosCharityApi.Fundraising.Campaign do
 
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Fundraising.Form
+  alias DavosCharityApi.Donation.Payment
   alias DavosCharityApi.Organization
 
 
@@ -14,6 +15,7 @@ defmodule DavosCharityApi.Fundraising.Campaign do
 
     belongs_to :organization, Organization
     has_many :forms, Form
+    has_many :payments, Payment
     timestamps()
   end
 

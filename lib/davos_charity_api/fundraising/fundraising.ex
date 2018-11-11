@@ -44,5 +44,4 @@ defmodule DavosCharityApi.Fundraising do
     campaign = Repo.preload(campaign, :organization)
     campaign.organization
   end
-
 end

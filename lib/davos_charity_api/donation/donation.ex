@@ -2,6 +2,7 @@ defmodule DavosCharityApi.Donation do
 
   alias DavosCharityApi.Repo
   alias DavosCharityApi.Donation.Ongoing
+  alias DavosCharityApi.Donation.Payment
   alias DavosCharityApi.Donation
 
   import Ecto.Query
@@ -41,5 +42,21 @@ defmodule DavosCharityApi.Donation do
     donation = Donation.get_ongoing_donation!(ongoing_donation_id)
     donation = Repo.preload(donation, :payment_method)
     donation.payment_method
+  end
+
+  def get_payment!(id), do: Repo.get!(Payment, id)
+
+  def list_payments(), do: Repo.all(Payment)
+
+  def list_payments_for_donor(donor_id) do
+    Payment
+    |> where([pm], pm.donor_id == ^donor_id)
+    |> Repo.all
+  end
+
+  def create_payment(attrs \\ %{}) do
+    %Payment{}
+    |> Payment.changeset(attrs)
+    |> Repo.insert
   end
 end

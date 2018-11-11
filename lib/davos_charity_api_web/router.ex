@@ -35,6 +35,7 @@ defmodule DavosCharityApiWeb.Router do
     get "/donors/:donor_id/addresses", AddressController, :addresses_for_donor
     get "/donors/:donor_id/payment-methods", PaymentMethodController, :payment_methods_for_donor
     get "/donors/:donor_id/ongoing-donations", OngoingDonationController, :ongoing_donations_for_donor
+    get "/donors/:donor_id/payments", PaymentController, :payments_for_donor
 
     get "/ongoing-donations/:ongoing_donation_id/donor", DonorController, :donor_for_ongoing_donation
     get "/ongoing-donations/:ongoing_donation_id/payment-method", PaymentMethodController, :payment_method_for_ongoing_donation
