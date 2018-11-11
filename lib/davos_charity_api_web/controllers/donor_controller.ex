@@ -28,4 +28,9 @@ defmodule DavosCharityApiWeb.DonorController do
     donor = Donor.get_donor_for_payment_method!(payment_method_id)
     render(conn, "show.json-api", data: donor)
   end
+
+  def get_donor_for_relationship(conn, %{"relationship_id" => relationship_id}) do
+    relationship = Donor.get_donor_for_relationship!(relationship_id)
+    render(conn, "show.json-api", data: relationship)
+  end
 end

@@ -6,8 +6,10 @@ defmodule DavosCharityApi.Donor do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donor.Address
   alias DavosCharityApi.Donor.PaymentMethod
-  alias DavosCharityApi.Donation.Ongoing
+  alias DavosCharityApi.Donor.DonorOrganizationRelationship
   alias DavosCharityApi.Donation
+  alias DavosCharityApi.Donation.Ongoing
+  alias DavosCharityApi.Donation.Payment
 
   import Ecto.Query
 
@@ -19,6 +21,8 @@ defmodule DavosCharityApi.Donor do
     has_many :addresses, Address
     has_many :payment_methods, PaymentMethod
     has_many :ongoing_payments, Ongoing
+    has_many :payments, Payment
+    has_many :donor_organization_relationships, DonorOrganizationRelationship
     timestamps()
   end
 
@@ -79,7 +83,6 @@ defmodule DavosCharityApi.Donor do
     payment_method.donor
   end
 
-
   def create_payment_method(attrs \\ %{}) do
     %PaymentMethod{}
     |> PaymentMethod.changeset(attrs)
@@ -90,5 +93,19 @@ defmodule DavosCharityApi.Donor do
     payment_method
     |> PaymentMethod.changeset(attrs)
     |> Repo.update
+  end
+
+  def get_donor_organization_relationship!(id), do: Repo.get!(DonorOrganizationRelationship, id)
+
+  def create_donor_organization_relationship(attrs \\ %{}) do
+    %DonorOrganizationRelationship{}
+    |> DonorOrganizationRelationship.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def get_donor_for_relationship!(relationship_id) do
+    relationship = Donor.get_donor_organization_relationship!(relationship_id)
+    relationship = Repo.preload(relationship, :donor)
+    relationship.donor
   end
 end

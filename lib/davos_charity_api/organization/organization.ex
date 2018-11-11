@@ -6,6 +6,7 @@ defmodule DavosCharityApi.Organization do
   alias DavosCharityApi.Organization
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Donor.DonorOrganizationRelationship
+  alias DavosCharityApi.Donor
 
   import Ecto.Query
 
@@ -24,9 +25,17 @@ defmodule DavosCharityApi.Organization do
     |> validate_required([:name, :logo])
   end
 
+  def get_organization!(id), do: Repo.get!(Organization, id)
+
   def create_organization(attrs \\ %{}) do
     %Organization{}
     |> Organization.changeset(attrs)
     |> Repo.insert
   end
- end
+
+  def get_organization_for_relationship!(relationship_id) do
+    relationship = Donor.get_donor_organization_relationship!(relationship_id)
+    relationship = Repo.preload(relationship, :organization)
+    relationship.organization
+  end
+end
