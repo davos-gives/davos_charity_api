@@ -24,6 +24,8 @@ defmodule DavosCharityApiWeb.Router do
   scope "/api", DavosCharityApiWeb do
     pipe_through :api
 
+    get "/donors/me", DonorController, :show_current
+
     resources "/donors", DonorController, except: [:new, :edit]
     resources "/payment-methods", PaymentMethodController, except: [:new, :edit]
     resources "/addresses", AddressController, except: [:new, :edit]
@@ -32,6 +34,8 @@ defmodule DavosCharityApiWeb.Router do
     resources "/organizations", OrganizationController, except: [:new, :edit]
     resources "/relationships", DonorOrganizationRelationshipController, except: [:new, :edit]
 
+    post "/session", SessionController, :create
+
     get "/donors/:donor_id/addresses", AddressController, :addresses_for_donor
     get "/donors/:donor_id/payment-methods", PaymentMethodController, :payment_methods_for_donor
     get "/donors/:donor_id/ongoing-donations", OngoingDonationController, :ongoing_donations_for_donor
@@ -39,6 +43,7 @@ defmodule DavosCharityApiWeb.Router do
 
     get "/ongoing-donations/:ongoing_donation_id/donor", DonorController, :donor_for_ongoing_donation
     get "/ongoing-donations/:ongoing_donation_id/payment-method", PaymentMethodController, :payment_method_for_ongoing_donation
+    get "/ongoing-donations/:ongoing_donation_id/campaign", CampaignController, :campaign_for_ongoing_donation
 
     get "/addresses/:address_id/donor", DonorController, :donor_for_address
     get "/payment-methods/:payment_method_id/donor", DonorController, :donor_for_payment_method

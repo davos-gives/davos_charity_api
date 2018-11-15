@@ -12,6 +12,7 @@ defmodule DavosCharityApi.Fundraising.Campaign do
     field :name, :string
     field :type, :string
     field :status, :string
+    field :image, :string
 
     belongs_to :organization, Organization
     has_many :forms, Form

@@ -1,6 +1,10 @@
 defmodule DavosCharityApi.Donor do
   use Ecto.Schema
+
   import Ecto.Changeset
+  import Ecto.Query
+
+  alias Comeonin.Bcrypt
 
   alias DavosCharityApi.Repo
   alias DavosCharityApi.Donor
@@ -11,12 +15,12 @@ defmodule DavosCharityApi.Donor do
   alias DavosCharityApi.Donation.Ongoing
   alias DavosCharityApi.Donation.Payment
 
-  import Ecto.Query
-
   schema "donors" do
     field :email, :string
     field :fname, :string
+    field :password_hash, :string
     field :lname, :string
+    field :password, :string, virtual: true
 
     has_many :addresses, Address
     has_many :payment_methods, PaymentMethod
@@ -26,16 +30,27 @@ defmodule DavosCharityApi.Donor do
     timestamps()
   end
 
+  def hash_password(changeset= %{valid?: false}), do: changeset
+
+  def hash_password(changeset) do
+    hash = Bcrypt.hashpwsalt(get_field(changeset, :password))
+    put_change(changeset, :password_hash, hash)
+  end
+
   @doc false
   def changeset(donor, attrs) do
     donor
-    |> cast(attrs, [:fname, :lname, :email])
-    |> validate_required([:fname, :lname, :email])
+    |> cast(attrs, [:fname, :lname, :email, :password])
+    |> validate_required([:fname, :lname, :email, :password])
+    |> unsafe_validate_unique([:email], DavosCharityApi.Repo)
+    |> hash_password()
   end
 
   def list_donors, do: Repo.all(Donor)
 
   def get_donor!(id), do: Repo.get!(Donor, id)
+
+  def get_donor_by_email!(email), do: Repo.get_by!(Donor, email: email)
 
   def create_donor(attrs \\ %{}) do
     %Donor{}
@@ -95,7 +110,7 @@ defmodule DavosCharityApi.Donor do
     |> Repo.update
   end
 
-  def get_donor_organization_relationship!(id), do: Repo.get!(DonorOrganizationRelationship, id)
+  def get_donor_organization_relationship!(id), do: Repo.get!(DonorOrganizationRelationship, id) |> Repo.preload(donor: :payments)
 
   def create_donor_organization_relationship(attrs \\ %{}) do
     %DonorOrganizationRelationship{}

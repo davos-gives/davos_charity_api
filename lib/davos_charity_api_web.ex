@@ -24,6 +24,45 @@ defmodule DavosCharityApiWeb do
       import Plug.Conn
       import DavosCharityApiWeb.Gettext
       alias DavosCharityApiWeb.Router.Helpers, as: Routes
+      alias DavosCharityApi.Donor
+
+      require IEx
+
+      def access_error(conn) do
+        conn
+        |> put_status(:forbidden)
+        |> render(DavosCharityApiWeb.ErrorView, "403.json-api", %{})
+      end
+
+      def authenticate_donor(conn, _params) do
+        try do
+          ["Bearer " <> token] = get_req_header(conn, "authorization")
+
+          verified_token = token
+          |> Joken.token
+          |> Joken.with_signer(Joken.hs512(Application.get_env(:davos_charity_api, :jwt_secret)))
+          |> Joken.verify
+
+          %{"sub" => donor_id} = verified_token.claims
+
+          IO.puts(donor_id)
+
+          donor = Donor.get_donor!(donor_id)
+
+          params = Map.get(conn, :params)
+          |> Map.put(:current_donor, donor)
+
+          conn
+          |> Map.put(:params, params)
+
+        rescue
+          _err ->
+            conn
+            |> put_status(:unauthorized)
+            |> render(DavosCharityApiWeb.ErrorView, "401.json-api", %{detail: "User must be logged in to view this resource"})
+            |> halt
+        end
+      end
     end
   end
 

@@ -5,9 +5,18 @@ defmodule DavosCharityApiWeb.PaymentMethodController do
   alias DavosCharityApi.Donor.PaymentMethod
   alias DavosCharityApi.Donation
 
-  def show(conn, %{"id" => id}) do
-    review = Donor.get_payment_method!(id)
-    render(conn, "show.json-api", data: review)
+  plug :authenticate_donor when action in [:show]
+
+  def show(conn, %{:current_donor => current_donor, "id" => id}) do
+    payment_method = Donor.get_payment_method!(id)
+
+    cond do
+      payment_method.donor_id == current_donor.id ->
+        conn
+        |> render("show.json-api", data: payment_method)
+      true ->
+        access_error conn
+    end
   end
 
   def create(conn, %{"data" => data = %{"type" => "payment-methods", "attributes" => _params}}) do

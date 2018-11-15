@@ -3,12 +3,12 @@ defmodule DavosCharityApiWeb.CampaignView do
   use JaSerializer.PhoenixView
 
   location "/campaigns/:id"
-  attributes [:name, :type, :status]
+  attributes [:name, :status, :image]
 
   has_one :organization,
     serializer: LibraryApiWeb.OrganizationView,
     identifiers: :when_included,
     links: [
-      related: "/campaigns/:id/organization"
+      related: "/api/campaigns/:id/organization"
     ]
 end

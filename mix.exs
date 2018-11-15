@@ -45,7 +45,10 @@ defmodule DavosCharityApi.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:ja_serializer, github: "vt-elixir/ja_serializer"},
-      {:cors_plug, "~> 1.2"}
+      {:cors_plug, "~> 1.2"},
+      {:comeonin, "~>4.0"},
+      {:bcrypt_elixir, "~> 1.0"},
+      {:joken, "~> 1.5.0"},  
     ]
   end
 

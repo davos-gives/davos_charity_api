@@ -5,6 +5,7 @@ defmodule DavosCharityApi.Donation.Ongoing do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donor.PaymentMethod
   alias DavosCharityApi.Donation.Ongoing
+  alias DavosCharityApi.Fundraising.Campaign
 
   schema "donation_ongoing" do
     field :frequency, :string
@@ -12,6 +13,7 @@ defmodule DavosCharityApi.Donation.Ongoing do
     field :amount, :integer
 
     belongs_to :donor, Donor
+    belongs_to :campaign, Campaign
     belongs_to :payment_method, PaymentMethod
 
     timestamps()
@@ -19,7 +21,7 @@ defmodule DavosCharityApi.Donation.Ongoing do
 
   def changeset(%Ongoing{} = model, attrs) do
     model
-    |> cast(attrs, [:frequency, :status, :amount, :donor_id, :payment_method_id])
-    |> validate_required([:frequency, :status, :amount, :donor_id, :payment_method_id])
+    |> cast(attrs, [:frequency, :status, :amount, :donor_id, :payment_method_id, :campaign_id])
+    |> validate_required([:frequency, :status, :amount, :donor_id, :payment_method_id, :campaign_id])
   end
 end

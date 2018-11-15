@@ -16,6 +16,6 @@ defmodule DavosCharityApiWeb.OrganizationView do
       serializer: LibraryApiWeb.DonorOrganizationRelationshipView,
       identifier: :when_included,
       links: [
-        related: "/campaigns/:id/relationships"
+        related: "/organizations/:id/relationships"
       ]
 end

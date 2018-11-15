@@ -3,6 +3,7 @@ defmodule DavosCharityApiWeb.CampaignController do
 
   alias DavosCharityApi.Fundraising
   alias DavosCharityApi.Fundraising.Campaign
+  alias DavosCharityApi.Donation
 
   def index(conn, _params) do
     campaigns = Fundraising.list_campaigns
@@ -14,7 +15,7 @@ defmodule DavosCharityApiWeb.CampaignController do
     render(conn, "show.json-api", data: campaign)
   end
 
-  def create(conn, %{"data" => data = %{"type" => "fundraising-campaigns", "attributes" => _params}}) do
+  def create(conn, %{"data" => data = %{"type" => "campaigns", "attributes" => _params}}) do
     data = data
     |> JaSerializer.Params.to_attributes
 
@@ -31,7 +32,7 @@ defmodule DavosCharityApiWeb.CampaignController do
     end
   end
 
-  def update(conn, %{"id" => id, "data" => data = %{"type" => "fundraising-campaigns", "attributes" => _params}}) do
+  def update(conn, %{"id" => id, "data" => data = %{"type" => "campaigns", "attributes" => _params}}) do
     data = JaSerializer.Params.to_attributes(data)
     campaign = Fundraising.get_campaign!(id)
 
@@ -49,5 +50,10 @@ defmodule DavosCharityApiWeb.CampaignController do
   def campaigns_for_organization(conn, %{"organization_id" => organization_id}) do
     campaigns = Fundraising.list_campaigns_for_organization(organization_id)
     render(conn, "index.json-api", data: campaigns)
+  end
+
+  def campaign_for_ongoing_donation(conn, %{"ongoing_donation_id" => ongoing_donation_id}) do
+    campaign = Donation.list_campaign_for_ongoing_donation(ongoing_donation_id)
+    render(conn, "show.json-api", data: campaign)
   end
 end

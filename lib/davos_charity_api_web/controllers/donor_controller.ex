@@ -4,6 +4,13 @@ defmodule DavosCharityApiWeb.DonorController do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donation
 
+  plug :authenticate_donor when action in [:show_current]
+
+  def show_current(conn, %{current_donor: donor}) do
+    conn
+    |> render("show.json-api", data: donor)
+  end
+
   def show(conn, %{"id" => id}) do
     donor = Donor.get_donor!(id)
     render(conn, "show.json-api", data: donor)

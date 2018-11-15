@@ -44,6 +44,12 @@ defmodule DavosCharityApi.Donation do
     donation.payment_method
   end
 
+  def list_campaign_for_ongoing_donation(ongoing_donation_id) do
+    donation = Donation.get_ongoing_donation!(ongoing_donation_id)
+    donation = Repo.preload(donation, :campaign)
+    donation.campaign
+  end
+
   def get_payment!(id), do: Repo.get!(Payment, id)
 
   def list_payments(), do: Repo.all(Payment)

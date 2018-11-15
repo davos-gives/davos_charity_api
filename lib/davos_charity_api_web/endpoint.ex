@@ -42,5 +42,7 @@ defmodule DavosCharityApiWeb.Endpoint do
     key: "_davos_charity_api_key",
     signing_salt: "Lr5PuwB5"
 
+
+  plug CORSPlug, origins: "*"
   plug DavosCharityApiWeb.Router
 end

@@ -2,7 +2,7 @@ defmodule DavosCharityApiWeb.OngoingDonationView do
   use DavosCharityApiWeb, :view
   use JaSerializer.PhoenixView
 
-  location "/ongoing-donations/:id"
+  location "/api/ongoing-donations/:id"
   attributes [:frequency, :status, :amount]
 
   has_one :donor,
@@ -16,6 +16,14 @@ defmodule DavosCharityApiWeb.OngoingDonationView do
     serializer: DavosCharityApiWeb.PaymentMethodView,
     identifiers: :when_included,
     links: [
-      related: "/ongoing-donations/:id/payment-method"
+      related: "/api/ongoing-donations/:id/payment-method"
     ]
+
+    has_one :campaign,
+      serializer: LibraryApiWeb.CampaignView,
+      identifiers: :when_included,
+      links: [
+        related: "/api/ongoing-donations/:id/campaign"
+      ]
+
 end

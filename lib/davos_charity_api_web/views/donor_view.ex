@@ -23,7 +23,7 @@ defmodule DavosCharityApiWeb.DonorView do
   serializer: DavosCharityApiWeb.OngoingView,
   identifiers: :when_included,
   links: [
-    related: "/donors/:id/ongoing-donations"
+    related: "/api/donors/:id/ongoing-donations"
   ]
 
   has_many :payments,

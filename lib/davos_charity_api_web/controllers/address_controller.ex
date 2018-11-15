@@ -4,9 +4,18 @@ defmodule DavosCharityApiWeb.AddressController do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donor.Address
 
-  def show(conn, %{"id" => id}) do
+  plug :authenticate_donor when action in [:show]
+
+  def show(conn, %{:current_donor => current_donor, "id" => id}) do
     address = Donor.get_address!(id)
-    render(conn, "show.json-api", data: address)
+
+    cond do
+      address.donor_id == current_donor.id ->
+        conn
+        |> render("show.json-api", data: address)
+      true ->
+        access_error conn
+    end
   end
 
   def create(conn, %{"data" => data = %{"type" => "donor_addresses", "attributes" => _params}}) do

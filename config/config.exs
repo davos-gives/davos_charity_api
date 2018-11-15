@@ -8,7 +8,8 @@
 use Mix.Config
 
 config :davos_charity_api,
-  ecto_repos: [DavosCharityApi.Repo]
+  ecto_repos: [DavosCharityApi.Repo],
+  jwt_secret: System.get_env("JWT_SECRET") || "gjAjSF8cOSxzqEjoNYC6I9flgUJdHJPrPx7hnzEcQCBVCDaLCrY8G/AN6fmewFF/"
 
 # Configures the endpoint
 config :davos_charity_api, DavosCharityApiWeb.Endpoint,
@@ -24,12 +25,14 @@ config :logger, :console,
 
 config :mime, :types, %{
   "application/vnd.api+json" => ["json-api"],
+  "application/json" => ["json"]
 }
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
 config :phoenix, :format_encoders, "json-api": Jason
+config :phoenix, :format_encoders, "json": Jason
 
 
 # Import environment specific config. This must remain at the bottom

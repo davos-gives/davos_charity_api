@@ -2,14 +2,16 @@ defmodule DavosCharityApiWeb.DonorOrganizationRelationshipView do
   use DavosCharityApiWeb, :view
   use JaSerializer.PhoenixView
 
+  require IEx
+
+
   location "/relationships/:id"
   attributes [:yearly_donations, :lifetime_donations]
 
-
   def attributes(model, conn) do
     model
-    |> Map.put(:yearly_donations, 58115)
-    |> Map.put(:lifetime_donations, 100035)
+    |> Map.put(:yearly_donations, Enum.reduce(model.donor.payments, 0, fn x, acc -> x.amount + acc end))
+    |> Map.put(:lifetime_donations, Enum.reduce(model.donor.payments, 0, fn x, acc -> x.amount + acc end))
     |> super(conn)
   end
 
