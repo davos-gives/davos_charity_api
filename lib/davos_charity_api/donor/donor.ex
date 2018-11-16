@@ -24,7 +24,7 @@ defmodule DavosCharityApi.Donor do
 
     has_many :addresses, Address
     has_many :payment_methods, PaymentMethod
-    has_many :ongoing_payments, Ongoing
+    has_many :ongoing_donations, Ongoing
     has_many :payments, Payment
     has_many :donor_organization_relationships, DonorOrganizationRelationship
     timestamps()

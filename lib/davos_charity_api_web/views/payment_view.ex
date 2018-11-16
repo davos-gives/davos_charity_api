@@ -9,13 +9,20 @@ defmodule DavosCharityApiWeb.PaymentView do
     serializer: LibraryApiWeb.DonorView,
     identifiers: :when_included,
     links: [
-      related: "/payments/:id/donor"
+      related: "/api/payments/:id/donor"
     ]
 
   has_one :campaign,
     serializer: LibraryApiWeb.CampaignView,
     identifiers: :when_included,
     links: [
-      related: "/payments/:id/campaign"
+      related: "/api/payments/:id/campaign"
     ]
+
+    has_one :donor_organization_relationship,
+      serializer: LibraryApiWeb.DonorOrganiztaionRelationshipView,
+      identifiers: :when_included,
+      links: [
+        related: "/api/payments/:id/donor-organization-relationship"
+      ]
 end

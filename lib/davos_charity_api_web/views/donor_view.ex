@@ -9,14 +9,14 @@ defmodule DavosCharityApiWeb.DonorView do
   serializer: DavosCharityApiWeb.AddressView,
   identifiers: :when_included,
   links: [
-    related: "/donors/:id/addresses"
+    related: "/api/donors/:id/addresses"
   ]
 
   has_many :payment_methods,
   serializer: DavosCharityApiWeb.PaymentMethodView,
   identifiers: :when_included,
   links: [
-    related: "/donors/:id/payment-methods"
+    related: "/api/donors/:id/payment-methods"
   ]
 
   has_many :ongoing_donations,
@@ -30,6 +30,6 @@ defmodule DavosCharityApiWeb.DonorView do
   serializer: DavosCharityApiWeb.PaymentView,
   identifiers: :when_included,
   links: [
-    related: "/donors/:id/payments"
+    related: "/api/donors/:id/payments"
   ]
 end

@@ -26,6 +26,12 @@ defmodule DavosCharityApi.Donation do
     |> Repo.all
   end
 
+  def list_ongoing_donations_for_relationship(relationship_id) do
+    Ongoing
+    |> where([og], og.donor_organization_relationship_id == ^relationship_id)
+    |> Repo.all
+  end
+
   def update_ongoing_donation(%Ongoing{} = ongoing, attrs) do
     ongoing
     |> Ongoing.changeset(attrs)
@@ -60,9 +66,27 @@ defmodule DavosCharityApi.Donation do
     |> Repo.all
   end
 
+  def list_payments_for_relationship(relationship_id) do
+    Payment
+    |> where([pm], pm.donor_organization_relationship_id == ^relationship_id)
+    |> Repo.all
+  end
+
   def create_payment(attrs \\ %{}) do
     %Payment{}
     |> Payment.changeset(attrs)
     |> Repo.insert
+  end
+
+  def get_relationship_for_ongoing_donation(ongoing_donation_id) do
+    donation = Donation.get_ongoing_donation!(ongoing_donation_id)
+    donation = Repo.preload(donation, :donor_organization_relationship)
+    donation.donor_organization_relationship
+  end
+
+  def get_relationship_for_payment(payment_id) do
+    payment = Donation.get_payment!(payment_id)
+    payment = Repo.preload(payment, :donor_organization_relationship)
+    payment.donor_organization_relationship
   end
 end
