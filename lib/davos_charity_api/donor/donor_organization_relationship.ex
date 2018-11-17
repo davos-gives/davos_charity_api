@@ -12,6 +12,8 @@ defmodule DavosCharityApi.Donor.DonorOrganizationRelationship do
     belongs_to :donor, Donor
     belongs_to :organization, Organization
     has_many :ongoing_donations, Ongoing
+    has_many :payments, Payment
+    timestamps()
   end
 
   def changeset(%DonorOrganizationRelationship{} = model, attrs) do

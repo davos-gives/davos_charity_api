@@ -5,14 +5,15 @@ defmodule DavosCharityApiWeb.DonorOrganizationRelationshipView do
   require IEx
 
   location "/donor-organization-relationships/:id"
-  attributes [:yearly_donations, :lifetime_donations]
+  attributes [:yearly_donations, :lifetime_donations, :created_at]
 
-  # def attributes(model, conn) do
-  #   model
-  #   |> Map.put(:yearly_donations, Enum.reduce(model.donor.payments, 0, fn x, acc -> x.amount + acc end))
-  #   |> Map.put(:lifetime_donations, Enum.reduce(model.donor.payments, 0, fn x, acc -> x.amount + acc end))
-  #   |> super(conn)
-  # end
+  def attributes(model, conn) do
+    model
+    |> Map.put(:yearly_donations, Enum.reduce(model.payments, 0, fn x, acc -> x.amount + acc end))
+    |> Map.put(:lifetime_donations, Enum.reduce(model.payments, 0, fn x, acc -> x.amount + acc end))
+    |> Map.put(:created_at, model.inserted_at)
+    |> super(conn)
+  end
 
   has_one :organization,
     serializer: LibraryApiWeb.OrganizationView,

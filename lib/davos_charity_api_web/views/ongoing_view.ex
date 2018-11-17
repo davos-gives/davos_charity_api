@@ -3,7 +3,13 @@ defmodule DavosCharityApiWeb.OngoingDonationView do
   use JaSerializer.PhoenixView
 
   location "/api/ongoing-donations/:id"
-  attributes [:frequency, :status, :amount]
+  attributes [:frequency, :status, :amount, :created_at]
+
+  def attributes(model, conn) do
+    model
+    |> Map.put(:created_at, model.inserted_at)
+    |> super(conn)
+  end
 
   has_one :donor,
     serializer: LibraryApiWeb.DonorView,

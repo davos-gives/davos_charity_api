@@ -4,6 +4,8 @@ defmodule DavosCharityApiWeb.DonorOrganizationRelationshipController do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donation
 
+  require IEx
+
   def show(conn, %{"id" => id}) do
     relationship = Donor.get_donor_organization_relationship!(id)
     render(conn, "show.json-api", data: relationship)

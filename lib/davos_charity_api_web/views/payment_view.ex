@@ -2,8 +2,16 @@ defmodule DavosCharityApiWeb.PaymentView do
   use DavosCharityApiWeb, :view
   use JaSerializer.PhoenixView
 
+  require IEx
+
   location "/payments/:id"
-  attributes [:amount]
+  attributes [:amount, :created_at]
+
+  def attributes(model, conn) do
+    model
+    |> Map.put(:created_at, model.inserted_at)
+    |> super(conn)
+  end
 
   has_one :donor,
     serializer: LibraryApiWeb.DonorView,

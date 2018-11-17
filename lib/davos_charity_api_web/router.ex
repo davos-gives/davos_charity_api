@@ -37,6 +37,7 @@ defmodule DavosCharityApiWeb.Router do
     post "/session", SessionController, :create
 
     get "/payments/:payment_id/donor-organization-relationship", DonorOrganizationRelationshipController, :relationship_for_payment
+    get "/payments/:payment_id/campaign", CampaignController, :campaign_for_payment
 
     get "/donors/:donor_id/addresses", AddressController, :addresses_for_donor
     get "/donors/:donor_id/payment-methods", PaymentMethodController, :payment_methods_for_donor

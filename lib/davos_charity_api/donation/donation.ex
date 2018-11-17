@@ -38,6 +38,8 @@ defmodule DavosCharityApi.Donation do
     |> Repo.update
   end
 
+  def delete_ongoing_donation(%Ongoing{} = model), do: Repo.delete(model)
+
   def get_donor_for_ongoing_donation!(ongoing_donation_id) do
     donation = Donation.get_ongoing_donation!(ongoing_donation_id)
     donation = Repo.preload(donation, :donor)
@@ -50,7 +52,7 @@ defmodule DavosCharityApi.Donation do
     donation.payment_method
   end
 
-  def list_campaign_for_ongoing_donation(ongoing_donation_id) do
+  def get_campaign_for_ongoing_donation(ongoing_donation_id) do
     donation = Donation.get_ongoing_donation!(ongoing_donation_id)
     donation = Repo.preload(donation, :campaign)
     donation.campaign
@@ -81,12 +83,18 @@ defmodule DavosCharityApi.Donation do
   def get_relationship_for_ongoing_donation(ongoing_donation_id) do
     donation = Donation.get_ongoing_donation!(ongoing_donation_id)
     donation = Repo.preload(donation, :donor_organization_relationship)
-    donation.donor_organization_relationship
+    donation.donor_organization_relationship |> Repo.preload(:payments)
   end
 
   def get_relationship_for_payment(payment_id) do
     payment = Donation.get_payment!(payment_id)
     payment = Repo.preload(payment, :donor_organization_relationship)
     payment.donor_organization_relationship
+  end
+
+  def get_campaign_for_payment(payment_id) do
+    payment = Donation.get_payment!(payment_id)
+    payment = Repo.preload(payment, :campaign)
+    payment.campaign
   end
 end

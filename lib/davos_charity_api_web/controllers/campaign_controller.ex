@@ -53,7 +53,12 @@ defmodule DavosCharityApiWeb.CampaignController do
   end
 
   def campaign_for_ongoing_donation(conn, %{"ongoing_donation_id" => ongoing_donation_id}) do
-    campaign = Donation.list_campaign_for_ongoing_donation(ongoing_donation_id)
+    campaign = Donation.get_campaign_for_ongoing_donation(ongoing_donation_id)
+    render(conn, "show.json-api", data: campaign)
+  end
+
+  def campaign_for_payment(conn, %{"payment_id" => payment_id}) do
+    campaign = Donation.get_campaign_for_payment(payment_id)
     render(conn, "show.json-api", data: campaign)
   end
 end

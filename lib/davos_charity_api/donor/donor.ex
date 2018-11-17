@@ -110,7 +110,10 @@ defmodule DavosCharityApi.Donor do
     |> Repo.update
   end
 
-  def get_donor_organization_relationship!(id), do: Repo.get!(DonorOrganizationRelationship, id) |> Repo.preload(donor: :payments)
+  def get_donor_organization_relationship!(id) do
+    relationship = Repo.get!(DonorOrganizationRelationship, id)
+    |> Repo.preload(:payments)
+  end
 
   def create_donor_organization_relationship(attrs \\ %{}) do
     %DonorOrganizationRelationship{}

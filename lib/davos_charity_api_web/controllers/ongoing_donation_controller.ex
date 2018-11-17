@@ -4,6 +4,9 @@ defmodule DavosCharityApiWeb.OngoingDonationController do
   alias DavosCharityApi.Donation
   alias DavosCharityApi.Donation.Ongoing
 
+  plug :authenticate_donor when action in [:delete]
+
+
   def show(conn, %{"id" => id}) do
     donation = Donation.get_ongoing_donation!(id)
     render(conn, "show.json-api", data: donation)
@@ -43,6 +46,19 @@ defmodule DavosCharityApiWeb.OngoingDonationController do
         conn
         |> put_status(:unprocessable_entity)
         |> render(DavosCharityApiWeb.ErrorView, "400.json-api", changeset)
+    end
+  end
+
+  def delete(conn, %{:current_donor => current_donor, "id" => id}) do
+    ongoing_donation = Donation.get_ongoing_donation!(id)
+
+    cond do
+      ongoing_donation.donor_ id == current_donor.id ->
+        with {:ok, %Ongoing{}} <- Donation.delete_ongoing_donation(ongoing_donation) do
+          send_resp(conn, :no_content, "")
+        end
+    true ->
+      access_error conn
     end
   end
 
