@@ -27,10 +27,15 @@ defmodule DavosCharityApiWeb.Router do
     resources "/donors", Admin.DonorController, except: [:new, :edit]
     resources "/payments", Admin.PaymentController, except: [:new, :edit]
     resources "/campaigns", Admin.CampaignController, except: [:new, :edit]
+    resources "/ongoing", Admin.OngoingDonationController, except: [:new, :edit]
+    resources "/donor-history", Admin.DonorHistoryController, except: [:new, :edit]
 
     get "/campaigns/:campaign_id/payments", Admin.PaymentController, :get_payments_for_campaign
 
     get "/donors/:donor_id/payments", Admin.PaymentController, :get_payments_for_donor
+    get "/donors/:donor_id/ongoing-donations", Admin.OngoingDonationController, :ongoing_donations_for_donor
+
+    get "/donors/:donor_id/donor-history", Admin.DonorHistoryController, :history_for_donor
 
     get "/payments/:payment_id/donor", Admin.DonorController, :get_donor_for_payment
     get "/payments/:payment_id/campaign", Admin.CampaignController, :campaign_for_payment

@@ -11,6 +11,7 @@ defmodule DavosCharityApi.Donor do
   alias DavosCharityApi.Donor.Address
   alias DavosCharityApi.Donor.PaymentMethod
   alias DavosCharityApi.Donor.DonorOrganizationRelationship
+  alias DavosCharityApi.Donor.DonorHistory
   alias DavosCharityApi.Donation
   alias DavosCharityApi.Donation.Ongoing
   alias DavosCharityApi.Donation.Payment
@@ -125,5 +126,13 @@ defmodule DavosCharityApi.Donor do
     relationship = Donor.get_donor_organization_relationship!(relationship_id)
     relationship = Repo.preload(relationship, :donor)
     relationship.donor
+  end
+
+  def list_donor_history, do: Repo.all(DonorHistory)
+
+  def list_history_for_donor(donor_id) do
+    DonorHistory
+    |> where([dh], dh.donor_id == ^donor_id)
+    |> Repo.all
   end
 end
