@@ -10,6 +10,7 @@ defmodule DavosCharityApi.Donation.Payment do
 
   schema "donation_payments" do
     field :amount, :integer
+    field :frequency, :string
 
     belongs_to :donor, Donor
     belongs_to :ongoing_donation, Ongoing
@@ -20,7 +21,7 @@ defmodule DavosCharityApi.Donation.Payment do
 
   def changeset(%Payment{} = model, attrs) do
     model
-    |> cast(attrs, [:amount, :donor_id, :ongoing_donation_id, :campaign_id, :donor_organization_relationship_id])
-    |> validate_required([:amount, :donor_id, :campaign_id,  :donor_organization_relationship_id])
+    |> cast(attrs, [:amount, :frequency, :donor_id, :ongoing_donation_id, :campaign_id, :donor_organization_relationship_id])
+    |> validate_required([:amount, :frequency, :donor_id, :campaign_id,  :donor_organization_relationship_id])
   end
 end
