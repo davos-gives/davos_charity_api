@@ -19,6 +19,7 @@ defmodule DavosCharityApiWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/forms/:form_id", FormController, :show
   end
 
   scope "/api/admin", DavosCharityApiWeb do

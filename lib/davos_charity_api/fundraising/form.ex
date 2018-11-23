@@ -4,7 +4,7 @@ defmodule DavosCharityApi.Fundraising.Form do
 
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Fundraising.Form
-
+  alias DavosCharityApi.Donation.Payment
 
   schema "forms" do
     field :name, :string
@@ -18,6 +18,7 @@ defmodule DavosCharityApi.Fundraising.Form do
 
     field :status, :string
     belongs_to :campaign, Campaign
+    has_many :payments, Payment
 
     timestamps()
   end

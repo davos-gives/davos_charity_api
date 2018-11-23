@@ -6,7 +6,6 @@ defmodule DavosCharityApiWeb.OngoingDonationController do
 
   plug :authenticate_donor when action in [:delete]
 
-
   def show(conn, %{"id" => id}) do
     donation = Donation.get_ongoing_donation!(id)
     render(conn, "show.json-api", data: donation)

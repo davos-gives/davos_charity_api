@@ -15,7 +15,7 @@ defmodule DavosCharityApi.Fundraising do
     |> Repo.insert
   end
 
-  def get_form!(id), do: Repo.get!(Form, id)
+  def get_form!(id), do: Repo.get!(Form, id) |> Repo.preload(:payments)
 
   def list_campaigns, do: Repo.all(Campaign)
 
