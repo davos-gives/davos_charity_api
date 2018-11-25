@@ -10,6 +10,12 @@ import css from "../css/app.css"
 // Import dependencies
 //
 import "phoenix_html"
+import "react-phoenix"
+
+import App from "./react/app"
+window.Components = {
+  App
+}
 
 // Import local files
 //

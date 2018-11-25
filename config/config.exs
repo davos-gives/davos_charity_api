@@ -34,6 +34,7 @@ config :phoenix, :json_library, Jason
 config :phoenix, :format_encoders, "json-api": Jason
 config :phoenix, :format_encoders, "json": Jason
 
+config :ja_serializer, pluralize_types: true
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
