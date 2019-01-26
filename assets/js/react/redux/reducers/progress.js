@@ -1,4 +1,4 @@
-import { ADD_TODO, TOGGLE_TODO } from "../actionTypes";
+import { UPDATE_PROGRESS_STEP, UPDATE_REVIEWING_STATUS } from "../actionTypes";
 
 const initialState = {
   step: 1,
@@ -7,32 +7,18 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case ADD_TODO: {
-      const { id, content } = action.payload;
+    case UPDATE_PROGRESS_STEP: {
+      const { step } = action.payload;
       return {
         ...state,
-        allIds: [...state.allIds, id],
-        byIds: {
-          ...state.byIds,
-          [id]: {
-            content,
-            completed: false
-          }
-        }
+        step: step
       };
     }
-    case TOGGLE_TODO: {
-      const { id } = action.payload;
+    case UPDATE_REVIEWING_STATUS: {
       return {
         ...state,
-        byIds: {
-          ...state.byIds,
-          [id]: {
-            ...state.byIds[id],
-            completed: !state.byIds[id].completed
-          }
-        }
-      };
+        reviewing: true
+      }
     }
     default:
       return state;

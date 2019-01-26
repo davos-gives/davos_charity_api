@@ -8,12 +8,22 @@ class StepTracker extends React.Component {
 
   render() {
     const { progress } = this.props
+    let title = "";
+    switch (progress.step) {
+      case 1: title = "Gift Options"; break;
+      case 2: title = "Personal Info"; break;
+      case 3: title = "Payment"; break;
+      case 4: title = "Review"; break;
+      default: console.log("something has gone terribly wrong");
+    }
+
+
 
     return (
       <div>
         <h1 className="text-purple-darkest text-3xl flex align-middle">
           <span className="bg-purple-darkest text-white rounded-full h-12 w-12 flex items-center justify-center mr-8 -mt-2">{progress.step}</span>
-          Gift Options
+          {title}
         </h1>
         <div className="flex mt-8 mr-8">
           <div className="w-1/8">

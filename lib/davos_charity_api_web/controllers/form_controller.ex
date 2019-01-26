@@ -3,7 +3,7 @@ defmodule DavosCharityApiWeb.FormController do
 
   alias DavosCharityApi.Fundraising
 
-  def show(conn, %{"form_id" => form_id}) do
+  def show(conn, %{"form_id" => form_id}) do    
     form = Fundraising.get_form!(form_id)
 
     render(conn, "show.html", form: form)

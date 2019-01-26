@@ -1,5 +1,10 @@
 /** assets/css/app.css */
 
+:root {
+  --primary: #c99c29;
+  --secondary: #411e82;
+}
+
 /**
  * This injects Tailwind's base styles, which is a combination of
  * Normalize.css and some additional base styles.
@@ -112,14 +117,14 @@
     height: 40px!important;
   }
   .province .Select-arrow {
-    background: url('/ChevronDownGrey.svg');
+    background: url('/images/ChevronDownGrey.svg');
     background-repeat: no-repeat;
     width: 12px!important;
     height: 12px!important;
   }
 
   .is-open .Select-arrow {
-    background: url('/ChevronDown.svg');
+    background: url('/images/ChevronDown.svg');
     transform: rotate(180deg);
     background-repeat: no-repeat;
     width: 12px!important;
@@ -127,7 +132,7 @@
   }
 
   .Select-arrow {
-    background: url('/ChevronDownWhite.svg');
+    background: url('/images/ChevronDownWhite.svg');
     background-repeat: no-repeat;
     width: 12px!important;
     height: 12px!important;
@@ -204,7 +209,7 @@
     top: 7px;
     left: -50px;
     transform: scale(0.5);
-    content: url('/error.png');
+    content: url('/images/error.png');
   }
 
   .invalid-login {
@@ -222,7 +227,7 @@
     top: 7px;
     left: -35px;
     transform: scale(0.5);
-    content: url('/error.png');
+    content: url('/images/error.png');
   }
 
   .Visa:before {
@@ -231,14 +236,14 @@
 
   .Visa:after {
     position: absolute;
-    content: url('/visa.png');
+    content: url('/images/visa.png');
     top: 16px;
     right: 5px;
   }
 
   .MasterCard:after {
     position: absolute;
-    content: url('/mastercard.png');
+    content: url('/images/mastercard.png');
     top: 16px;
     right: 5px;
   }
@@ -264,3 +269,20 @@
   }
 
   button:focus {outline:none;}
+
+  .background-logo {
+    position: absolute;
+    width: 200px;
+    left: 170px;
+    top: 20px;
+    transform: rotate(-50deg);
+  /* background-blend-mode: screen; */
+}
+
+.primary-background-color {
+  background-color: var(--primary);
+}
+
+.secondary-background-color {
+  background-color: var(--secondary);
+}

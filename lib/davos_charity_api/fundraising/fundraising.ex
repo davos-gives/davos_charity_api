@@ -4,6 +4,7 @@ defmodule DavosCharityApi.Fundraising do
   alias DavosCharityApi.Repo
   alias DavosCharityApi.Fundraising.Form
   alias DavosCharityApi.Fundraising.Campaign
+  alias DavosCharityApi.Fundraising.Template
   alias DavosCharityApi.Fundraising
   alias DavosCharityApi.Organization
 
@@ -16,6 +17,8 @@ defmodule DavosCharityApi.Fundraising do
   end
 
   def get_form!(id), do: Repo.get!(Form, id) |> Repo.preload(:payments)
+
+  def get_template!(id), do: Repo.get!(Template, id)
 
   def list_campaigns, do: Repo.all(Campaign)
 

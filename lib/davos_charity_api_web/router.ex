@@ -6,7 +6,7 @@ defmodule DavosCharityApiWeb.Router do
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug :put_secure_browser_headers, %{"content-security-policy" => "frame-ancestors http://localhost:4200"}
   end
 
   pipeline :api do
@@ -18,8 +18,11 @@ defmodule DavosCharityApiWeb.Router do
   scope "/", DavosCharityApiWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
     get "/forms/:form_id", FormController, :show
+    get "/forms/:form_id/*anything", FormController, :show
+
+    get "/templates/:template_id", TemplateController, :show
+    get "/templates/:template_id/*anything", TemplateController, :show
   end
 
   scope "/api/admin", DavosCharityApiWeb do

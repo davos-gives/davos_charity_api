@@ -3,13 +3,11 @@ import { formatPrice } from '../helpers';
 import Select from 'react-select';
 import { connect } from "react-redux";
 import { updateGiftType } from "../redux/actions";
-import 'react-select/dist/react-select.css';
 
 class GiftAmountDisplay extends React.Component {
 
   updateFrequency = frequency => {
-    console.log(frequency);
-    this.props.updateGiftType(frequency);
+    this.props.updateGiftType(frequency.value);
   }
 
   render() {

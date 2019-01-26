@@ -5,23 +5,6 @@ import cx from "classnames";
 
 class GiftAmountBlock extends React.Component {
 
-  // handleChange = event => {
-  //   let newValue = (event.currentTarget.value * 100);
-  //   this.props.updateGiftAmount(newValue);
-  //   this.props.updateCustomState(true);
-  // }
-  //
-  // handleClick = () => {
-  //   this.props.updateGiftAmount(this.props.amount);
-  //   this.props.updateCustomState(false);
-  // }
-  //
-  // handleCustomClick = () => {
-  //   console.log('running');
-  //   this.props.updateCustomState(true);
-  // }
-
-
   floatPosition = () => {
     return ((this.props.currentGiftType == 'one-time') ? 'float-left' : 'float-right' )
   }

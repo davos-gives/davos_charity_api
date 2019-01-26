@@ -1,19 +1,13 @@
-import { ADD_TODO, TOGGLE_TODO, UPDATE_GIFT_TYPE, UPDATE_GIFT_AMOUNT, UPDATE_CUSTOM_GIFT_AMOUNT, UPDATE_CUSTOM_GIFT_STATUS } from "./actionTypes";
-
-let nextTodoId = 0;
-
-export const addTodo = content => ({
-  type: ADD_TODO,
-  payload: {
-    id: ++nextTodoId,
-    content
-  }
-});
-
-export const toggleTodo = id => ({
-  type: TOGGLE_TODO,
-  payload: { id }
-});
+import {
+  UPDATE_GIFT_TYPE,
+  UPDATE_GIFT_AMOUNT,
+  UPDATE_CUSTOM_GIFT_AMOUNT,
+  UPDATE_CUSTOM_GIFT_STATUS,
+  UPDATE_PROGRESS_STEP,
+  UPDATE_PERSONAL_INFORMATION,
+  UPDATE_PAYMENT_INFORMATION,
+  UPDATE_REVIEWING_STATUS,
+} from "./actionTypes";
 
 export const updateGiftType = frequency => ({
   type: UPDATE_GIFT_TYPE,
@@ -41,4 +35,29 @@ export const updateCustomGiftStatus = status => ({
   payload: {
     status
   }
+})
+
+export const updateProgressStep = step => ({
+  type: UPDATE_PROGRESS_STEP,
+  payload: {
+    step
+  }
+})
+
+export const updatePersonalInformation = info => ({
+  type: UPDATE_PERSONAL_INFORMATION,
+  payload: {
+    info
+  }
+})
+
+export const updatePaymentInformation = info => ({
+  type: UPDATE_PAYMENT_INFORMATION,
+  payload: {
+    info
+  }
+})
+
+export const updateReviewingStatus = () => ({
+  type: UPDATE_REVIEWING_STATUS
 })
