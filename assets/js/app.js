@@ -27,17 +27,42 @@ window.addEventListener('message', function(event) {
       if(element.key == 'colour') {
         var html = document.getElementsByTagName('html')[0];
         html.style.cssText = `--primary: ${element.value}`;
-      } else {
-        $(`#${element.key}`).text(element.value)
+      } else if(element.key == "description"){
+        if (!element.value) {
+          $(`#${element.key}`).html('');
+        } else {
+          $(`#${element.key}`).html(element.value);
+        }
+      } else if (element.key == "showGoal") {
+        if(element.value == true) {
+          $(`#${element.key}`).show();
+        } else {
+          $(`#${element.key}`).hide();
+        }
+      } else if(element.key == "goalInDollars"){
+        if (!element.value) {
+          $(`#${element.key}`).text(formatCurrency(1000));
+        } else {
+          $(`#${element.key}`).text(formatCurrency(element.value));
+        }
+      } else if(element.key == "name") {
+        $('#name').text(element.value);
       }
     });
 
 
 
-
-      // $('#name').text(event.data);
   }
 })
+
+function formatCurrency(value) {
+  var dollars = value;
+  var sign = '$';
+  var opening = '<span>';
+  var closing = '</span>';
+
+  return `${sign}${dollars}.00`;
+};
 
 // Import local files
 //

@@ -39,7 +39,7 @@ class PaymentPage extends React.Component {
             frequency={frequency}
           />
           </div>
-          <div className="w-5/6 mx-auto">
+          <div className="w-5/6 mx-auto sm:w-full sm:px-2">
             <GiftAmountBlock
               currentGiftType={frequency}
               setAmount={amount}

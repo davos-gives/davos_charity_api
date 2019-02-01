@@ -85,11 +85,25 @@
     line-height: 150px;
   }
 
+  @media (max-width: 767px) and (min-width: 0px){
+    .line-200 {
+      line-height: auto;
+    }
+  }
+
+
   .Select-value-label {
     color: #fff!important;
     font-weight: bold;
     font-size: 1.3rem;
   }
+
+  @media (max-width: 767px) and (min-width: 0px){
+    .Select-value-label {
+      font-size: 1rem;
+    }
+  }
+
 
   .province .Select-value-label {
     color: #606f7b!important;
@@ -256,9 +270,26 @@
     height: 700px!important;
   }
 
+  @media (max-width: 767px) and (min-width: 0px){
+    .forced-height {
+      height: auto!important;
+    }
+  }
+
   .gift-options {
     width: 225px;
   }
+
+  @media (max-width: 767px) and (min-width: 0px){
+    .gift-options {
+      width: 150px;
+    }
+
+    .gift-container {
+      min-height: 143px;
+    }
+  }
+
 
   .w90 {
     width: 90%;

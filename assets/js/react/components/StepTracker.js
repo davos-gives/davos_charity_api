@@ -21,11 +21,11 @@ class StepTracker extends React.Component {
 
     return (
       <div>
-        <h1 className="text-purple-darkest text-3xl flex align-middle">
-          <span className="bg-purple-darkest text-white rounded-full h-12 w-12 flex items-center justify-center mr-8 -mt-2">{progress.step}</span>
-          {title}
+        <h1 className="text-purple-darkest text-3xl sm:text-xl flex align-middle sm:w-full sm:justify-center sm:items-center">
+          <span className="bg-purple-darkest text-white rounded-full h-12 w-12 flex items-center justify-center mr-8 -mt-2 sm:w-8 sm:h-8 sm:self-center sm:items-center sm:mr-4 sm:-mt-0">{progress.step}</span>
+          <span className="sm:self-center">{title}</span>
         </h1>
-        <div className="flex mt-8 mr-8">
+        <div className="flex mt-8 mr-8 sm:hidden">
           <div className="w-1/8">
           </div>
           <div className={cx("w-1/8 text-center opacity-25", progress.step == 1 && "opacity-100")}>

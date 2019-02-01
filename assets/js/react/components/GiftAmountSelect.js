@@ -19,16 +19,16 @@ class GiftAmountSelect extends React.Component {
     if(this.props.isCustom == true) {
       if(this.props.custom == true) {
         return (
-          <div className="w-1/3">
-            <div className={"bg-white shadow-md rounded-lg text-grey-darker w-29 pt-6 pb-5 text-lg text-center border-b-4 font-bold border-orange " + this.floatPosition()} onClick={() => this.props.updateCustomGiftStatus()}>
+          <div className="w-1/3 sm:w-auto">
+            <div className={"bg-white shadow-md rounded-lg text-grey-darker w-29 pt-6 pb-5 text-lg text-center border-b-4 font-bold border-orange sm:w-24 " + this.floatPosition()} onClick={() => this.props.updateCustomGiftStatus()}>
               <input className="text-grey-darker font-bold w-20 border-none ml-2 outline-none" type="text"  placeholder="Custom" value={this.props.amount} onChange={this.customChange}  />
             </div>
           </div>
         )
       } else {
       return (
-        <div className="w-1/3">
-          <div className={"bg-white shadow-md rounded-lg text-grey-darker w-29 pt-6 pb-6 text-lg text-center font-bold " + this.floatPosition()} onClick={() => this.props.updateCustomGiftStatus()}>
+        <div className="w-1/3 sm:w-auto">
+          <div className={"bg-white shadow-md rounded-lg text-grey-darker w-29 pt-6 pb-6 text-lg text-center font-bold sm:w-24 " + this.floatPosition()} onClick={() => this.props.updateCustomGiftStatus()}>
             <input className="text-grey-darker font-bold w-20 border-none ml-2 text-center outline-none" type="string" placeholder="Custom" value={this.props.amount} onChange={this.customChange} />
           </div>
         </div>
@@ -38,16 +38,16 @@ class GiftAmountSelect extends React.Component {
 
     if(this.props.amount === this.props.setAmount && !this.props.custom) {
       return (
-      <div className="w-1/3">
-        <div className={"bg-white shadow-md rounded-lg text-grey-darker w-29 pt-6 pb-5 text-lg text-center border-b-4 font-bold border-orange cursor-pointer " + this.floatPosition()} onClick={this.handleClick}>
+      <div className="w-1/3 sm:w-auto">
+        <div className={"bg-white shadow-md rounded-lg text-grey-darker w-29 pt-6 pb-5 text-lg text-center border-b-4 font-bold border-orange cursor-pointer sm:w-24 " + this.floatPosition()} onClick={this.handleClick}>
           {formatPrice(this.props.amount)}
         </div>
       </div>
       )
     }
       return (
-        <div className="w-1/3">
-          <div className={"bg-white shadow-md rounded-lg text-grey-darker w-29 py-6 text-lg text-center cursor-pointer " + this.floatPosition()} onClick={() => this.props.updateGiftAmount(amount)}>
+        <div className="w-1/3 sm:w-auto">
+          <div className={"bg-white shadow-md rounded-lg text-grey-darker w-29 py-6 text-lg text-center cursor-pointer sm:w-24 " + this.floatPosition()} onClick={() => this.props.updateGiftAmount(amount)}>
             {formatPrice(this.props.amount)}
           </div>
         </div>
