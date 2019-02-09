@@ -5,6 +5,8 @@ defmodule DavosCharityApi.Fundraising do
   alias DavosCharityApi.Fundraising.Form
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Fundraising.Template
+  alias DavosCharityApi.Fundraising.ReceiptTemplate
+  alias DavosCharityApi.Fundraising.Photo
   alias DavosCharityApi.Fundraising
   alias DavosCharityApi.Organization
 
@@ -19,6 +21,18 @@ defmodule DavosCharityApi.Fundraising do
   def get_form!(id), do: Repo.get!(Form, id) |> Repo.preload(:payments)
 
   def get_template!(id), do: Repo.get!(Template, id)
+
+  def get_photo!(id), do: Repo.get!(Photo, id)
+
+  def list_photos, do: Repo.all(Photo)
+
+  def create_photo(attrs \\ %{}) do
+    %Photo{}
+    |> Photo.changeset(attrs)
+    |> Repo.insert
+  end
+
+  def get_receipt_template!(id), do: Repo.get!(ReceiptTemplate, id)
 
   def list_campaigns, do: Repo.all(Campaign)
 

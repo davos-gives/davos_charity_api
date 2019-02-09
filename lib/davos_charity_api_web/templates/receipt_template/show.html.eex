@@ -1,0 +1,42 @@
+<div class="mx-auto font-sans">
+  <section class="container mx-auto">
+    <img src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="w-32 mt-6 sm:mt-0 sm:w-16" />
+    <h1 class="text-purple-darkest capitalize my-12" id="header"><%= @template.header %></h1>
+    <p class="text-purple-darkest leading-normal" id="description"><%= @template.description %></p>
+
+    <img src="<%= Routes.static_path(@conn, "/images/signature.png") %>" class="w-32 mt-6 sm:mt-0 sm:w-16" />
+    <p class="text-purple-darkest leading-normal text-sm">CEO, Barks & Meows Shelter</p>
+    <p class="text-purple-darkest leading-normal text-sm mt-12 mb-6">Official Receipt below</p>
+  </section>
+  <section class="bg-orange">
+    <div class="container mx-auto my-8">
+      <img src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="w-32 mt-6 sm:mt-0 sm:w-16" />
+    </div>
+    <div class="flex flex-wrap container mx-auto pb-8 justify-between">
+      <div class="w-45/100">
+
+        <ul class="list-reset text-white">
+          <li class="my-4 w-full"><span class="uppercase font-thin text-xs inline-block w-48 align-top">Charitable Registration</span> <span class="font-bold text-sm">#119219814 RR 0001<span></li>
+          <li class="my-4 w-full"><span class="uppercase font-thin text-xs inline-block w-48 align-top">Receipt #</span> <span class="font-bold text-sm">#100500<span></li>
+          <li class="my-4 w-full"><span class="uppercase font-thin text-xs inline-block w-48 align-top">Date of issue</span> <span class="font-bold text-sm">26-12-2017<span></li>
+          <li class="my-4 w-full"><span class="uppercase font-thin text-xs inline-block w-48 align-top">Place of Issue</span> <span class="font-bold text-sm">Vancouver, Canada<span></li>
+          <li class="my-4 w-full"></li>
+          <li class="my-4 w-full"><span class="uppercase font-thin text-xs inline-block w-48 align-top">Received on</span> <span class="font-bold text-sm">26-12-2017<span></li>
+          <li class="my-4 w-full"><span class="uppercase font-thin text-xs inline-block w-48 align-top">Received the Sum of</span> <span class="font-bold text-sm">$200.00<span></li>
+        </ul>
+      </div>
+      <div class="w-45/100">
+        <ul class="list-reset text-white">
+          <li class="my-4 w-full"><span class="uppercase font-thin text-xs inline-block w-48 align-top">Name</span> <span class="font-bold text-sm">Ian Knauer<span></li>
+          <li class="my-4 w-full"><span class="uppercase font-thin text-xs inline-block w-48 align-top">Street and Suite</span> <span class="font-bold text-sm">1120 thomson road<span></li>
+          <li class="my-4 w-full"><span class="uppercase font-thin text-xs inline-block w-48 align-top">City, Province</span> <span class="font-bold text-sm">Anmore, BC<span></li>
+          <li class="my-4 w-full"><span class="uppercase font-thin text-xs inline-block w-48 align-top">Country</span> <span class="font-bold text-sm">Canada<span></li>
+          <li class="my-4 w-full"></li>
+          <li class="my-4 w-full"><span class="uppercase font-thin text-xs inline-block w-48 align-top">Amount Received</span> <span class="font-bold text-sm">$200.00<span></li>
+          <li class="my-4 w-full"><span class="uppercase font-thin text-xs inline-block w-48 align-top">Value of advantage</span> <span class="font-bold text-sm">$0.00<span></li>
+          <li class="my-4 w-full"><span class="uppercase font-thin text-xs inline-block w-48 align-top">Eligible amount of gift for tax purposes</span> <span class="font-bold text-sm">$200</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>

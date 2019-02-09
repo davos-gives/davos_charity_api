@@ -47,6 +47,15 @@ window.addEventListener('message', function(event) {
         }
       } else if(element.key == "name") {
         $('#name').text(element.value);
+
+      } else if(element.key == "header") {
+        $('#header').text(element.value);
+      } else if(element.key == "imageUrl") {
+        $('#image').attr('src', element.value);
+      } else if(element.key == "font") {
+        console.log(element.value)
+        var html = document.getElementsByTagName('html')[0];
+        html.style.cssText = `--font: ${element.value}`;
       }
     });
 

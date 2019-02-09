@@ -44,7 +44,7 @@
       <%= ReactPhoenix.ClientSide.react_component("Components.App") %>
     </div>
     <div class="w-1/3 sm:w-full">
-      <img src="<%= Routes.static_path(@conn, "/images/dogs.jpg") %>" alt="dogs!" class="h-full sm:h-auto rounded-r-lg side-image sm:rounded-t-lg"/>
+      <img id="image" src="<%= Routes.static_path(@conn, "/images/dogs.jpg") %>" alt="dogs!" class="h-full sm:h-auto rounded-r-lg side-image sm:rounded-t-lg"/>
     </div>
   </div>
 </div>

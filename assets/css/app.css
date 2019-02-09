@@ -3,6 +3,7 @@
 :root {
   --primary: #c99c29;
   --secondary: #411e82;
+  --font: "Open Sans";
 }
 
 /**
@@ -316,4 +317,8 @@
 
 .secondary-background-color {
   background-color: var(--secondary);
+}
+
+.font-sans {
+  font-family: var(--font);
 }

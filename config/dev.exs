@@ -73,3 +73,5 @@ config :davos_charity_api, DavosCharityApi.Repo,
   database: "davos_charity_api_dev",
   hostname: "localhost",
   pool_size: 10
+
+# import_config "dev.secret.exs"

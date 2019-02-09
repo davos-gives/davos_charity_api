@@ -15,6 +15,10 @@ defmodule DavosCharityApiWeb.Router do
     plug JaSerializer.Deserializer
   end
 
+  pipeline :public do
+    plug :accepts, ["json"]
+  end
+
   scope "/", DavosCharityApiWeb do
     pipe_through :browser
 
@@ -23,6 +27,15 @@ defmodule DavosCharityApiWeb.Router do
 
     get "/templates/:template_id", TemplateController, :show
     get "/templates/:template_id/*anything", TemplateController, :show
+
+    get "/receipt_templates/:receipt_template_id", ReceiptTemplateController, :show
+    get "/receipt_templates/:receipt_template_id/*anything", ReceiptTemplateController, :show
+  end
+
+  scope "/api/public", DavosCharityApiWeb do
+    pipe_through :public
+
+    post "/upload-signature", Admin.UploadSignatureController, :create
   end
 
   scope "/api/admin", DavosCharityApiWeb do
@@ -33,6 +46,7 @@ defmodule DavosCharityApiWeb.Router do
     resources "/campaigns", Admin.CampaignController, except: [:new, :edit]
     resources "/ongoing", Admin.OngoingDonationController, except: [:new, :edit]
     resources "/donor-history", Admin.DonorHistoryController, except: [:new, :edit]
+    resources "/photos", Admin.PhotoController, except: [:new, :edit]
 
     get "/campaigns/:campaign_id/payments", Admin.PaymentController, :get_payments_for_campaign
 

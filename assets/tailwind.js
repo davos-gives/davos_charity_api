@@ -194,7 +194,7 @@ module.exports = {
 
   fonts: {
     'sans': [
-      'open sans',
+      'Open Sans',
     ],
     'serif': [
       'Constantia',

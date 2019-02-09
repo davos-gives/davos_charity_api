@@ -51,7 +51,8 @@ defmodule DavosCharityApi.MixProject do
       {:joken, "~> 1.5.0"},
       {:number, "~> 0.5.7"},
       {:react_phoenix, github: "geolessel/react-phoenix", branch: "webpack"},
-      {:poison, "~> 4.0.1", override: true}
+      {:poison, "~> 4.0.1", override: true},
+      {:timex, "~> 3.1"},
     ]
   end
 
