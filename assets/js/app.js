@@ -24,9 +24,21 @@ window.Components = {
 window.addEventListener('message', function(event) {
   if(event.data.type != "INIT_INSTANCE") {
     event.data.forEach(function(element) {
-      if(element.key == 'colour') {
+      if(element.key == 'primaryColour') {
         var html = document.getElementsByTagName('html')[0];
-        html.style.cssText = `--primary: ${element.value}`;
+        html.style.cssText += `--primary: ${element.value}`;
+      } else if(element.key == 'secondaryColour') {
+          var html = document.getElementsByTagName('html')[0];
+          html.style.cssText += `--secondary: ${element.value}`;
+      } else if(element.key == 'tertiaryColour') {
+          var html = document.getElementsByTagName('html')[0];
+          html.style.cssText += `--tertiary: ${element.value}`;
+      } else if(element.key == 'quaternaryColour') {
+          var html = document.getElementsByTagName('html')[0];
+          html.style.cssText += `--quaternary: ${element.value}`;
+      } else if(element.key == 'quniaryColour') {
+          var html = document.getElementsByTagName('html')[0];
+          html.style.cssText += `--quinary: ${element.value}`;
       } else if(element.key == "description"){
         if (!element.value) {
           $(`#${element.key}`).html('');
@@ -55,7 +67,7 @@ window.addEventListener('message', function(event) {
       } else if(element.key == "font") {
         console.log(element.value)
         var html = document.getElementsByTagName('html')[0];
-        html.style.cssText = `--font: ${element.value}`;
+        html.style.cssText += `--font: ${element.value}`;
       }
     });
 

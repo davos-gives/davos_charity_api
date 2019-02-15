@@ -10,7 +10,7 @@ class ButtonBlock extends React.Component {
     } else {
      if(!this.props.formValid) {
        return (
-           <button className="rounded-full bg-orange text-white font-thin py-4 px-8 rounded-full font-bold mt-8 float-right outline-none opacity-50 cursor-not-allowed">{this.props.buttonText}</button>
+           <button className="rounded-full secondary-background-color text-white font-thin py-4 px-8 rounded-full font-bold mt-8 float-right outline-none opacity-50 cursor-not-allowed">{this.props.buttonText}</button>
        )
      } else {
         if(this.props.hasBack) {
@@ -21,14 +21,14 @@ class ButtonBlock extends React.Component {
               </div>
               <div className="w-1/2 ml-8">
                 <div className="float-right">
-                  <button className="rounded-full bg-orange text-white font-thin py-4 px-8 rounded-full mr-6 font-bold mt-5 outline-none sm:py-2" onClick={() => this.props.handleClick()}>{this.props.buttonText}</button>
+                  <button className="rounded-full secondary-background-color text-white font-thin py-4 px-8 rounded-full mr-6 font-bold mt-5 outline-none sm:py-2" onClick={() => this.props.handleClick()}>{this.props.buttonText}</button>
                 </div>
               </div>
             </div>
           )
         } else {
           return (
-          <button className="rounded-full bg-orange text-white font-thin py-4 px-8 rounded-full font-bold mt-8 float-right outline-none sm:py-2" onClick={() => this.props.handleClick()}>{this.props.buttonText}</button>
+          <button className="rounded-full secondary-background-color text-white font-thin py-4 px-8 rounded-full font-bold mt-8 float-right outline-none sm:py-2" onClick={() => this.props.handleClick()}>{this.props.buttonText}</button>
           )
         }
       }

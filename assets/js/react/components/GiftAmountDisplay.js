@@ -24,7 +24,7 @@ class GiftAmountDisplay extends React.Component {
       if(type === currentGiftType) {
         return (
           <div className="gift-options">
-            <div className="bg-orange text-white w-full rounded-lg pt-8 text-center pb-4 gift-container">
+            <div className="primary-background-color text-white w-full rounded-lg pt-8 text-center pb-4 gift-container">
               <span className="text-5xl font-bold block pb-2 sm:text-xl">{formatPrice(amount)}</span>
               <span className="block border-t pt-2 border-white border-solid mx-8 text-xl font-bold pb-4 capitalize sm:text-base">{type} gift</span>
             </div>
@@ -46,9 +46,9 @@ class GiftAmountDisplay extends React.Component {
       if(currentGiftType !== 'one-time') {
         return (
           <div className="gift-options">
-            <div className="bg-orange text-white w-full rounded-lg pt-8 text-center pb-6 gift-container">
+            <div className="primary-background-color text-white w-full rounded-lg pt-8 text-center pb-6 gift-container">
               <span className="text-5xl font-bold block pb-2 sm:text-xl">{formatPrice(amount)}</span>
-              <Select className="capitalize bg-orange" disabled={false} options={options} clearable={false} isDisabled={false} searchable={false} value={frequency} onChange={this.updateFrequency}/>
+              <Select className="capitalize primary-background-color" disabled={false} options={options} clearable={false} isDisabled={false} searchable={false} value={frequency} onChange={this.updateFrequency}/>
             </div>
           </div>
         )

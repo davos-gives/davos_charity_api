@@ -1,8 +1,11 @@
 /** assets/css/app.css */
 
 :root {
-  --primary: #c99c29;
-  --secondary: #411e82;
+  --primary: #E5AD23;
+  --secondary: #411E82;
+  --tertiary: #BB8B0E;
+  --quaternary: #FFFFFF;
+  --quniary: #666271;
   --font: "Open Sans";
 }
 
@@ -113,7 +116,7 @@
 
 
   .is-open .Select-value-label {
-    color: #c99c29!important;
+    color: var(--secondary)!important;
     font-style: italic;
   }
 
@@ -169,9 +172,10 @@
 
   .Select-menu-outer {
     padding-top:3px!important;
-    border-top: #c99c29 solid 2px!important;
+    border-top: var(--secondary) solid 2px!important;
     max-height: 300px!important;
   }
+
 
   .Select-control:hover {
     box-shadow: none!important;
@@ -179,7 +183,7 @@
 
   .Select-option {
     font-size: 1.3rem!important;
-    color:#411e82!important;
+    color: var(--primary)!important;
     padding-top: 15px!important;
     height: 60px!important;
   }
@@ -315,9 +319,47 @@
   background-color: var(--primary);
 }
 
+.primary-text {
+  color: var(--primary);
+}
+
+.border-primary {
+  border-color: var(--primary);
+}
+
 .secondary-background-color {
   background-color: var(--secondary);
 }
+
+.secondary-text {
+  color: var(--secondary);
+}
+
+.tertiary-background-color {
+  background-color: var(--tertiary);
+}
+
+.tertiary-text {
+  color: var(--teriary);
+}
+
+.quaternary-background-color {
+  background-color: var(--quaternary);
+}
+
+.quaternary-text {
+  color: var(--quaternary);
+}
+
+.quinary-background-color {
+  background-color: var(--quinary);
+}
+
+.quinary-text {
+  color: var(--quinary);
+}
+
+.st78{ fill: var(--primary); }
 
 .font-sans {
   font-family: var(--font);
