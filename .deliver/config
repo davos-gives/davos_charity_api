@@ -43,7 +43,7 @@ pre_erlang_clean_compile() {
       [ -f ~/.profile ] && source ~/.profile
       set -e
       cd '$BUILD_AT'/assets
-      node_modules/.bin/webpack --mode production --silent
+      node_modules/.bin/webpack --mode production
     "
 
   status "Running phoenix.digest" # log output prepended with "----->"
