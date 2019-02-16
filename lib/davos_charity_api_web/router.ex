@@ -22,6 +22,8 @@ defmodule DavosCharityApiWeb.Router do
   scope "/", DavosCharityApiWeb do
     pipe_through :browser
 
+    get "/", PageController, :index
+
     get "/forms/:form_id", FormController, :show
     get "/forms/:form_id/*anything", FormController, :show
 

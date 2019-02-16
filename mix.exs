@@ -53,6 +53,8 @@ defmodule DavosCharityApi.MixProject do
       {:react_phoenix, github: "geolessel/react-phoenix", branch: "webpack"},
       {:poison, "~> 4.0.1", override: true},
       {:timex, "~> 3.1"},
+      {:edeliver, ">= 1.6.0"},
+      {:distillery, "~> 2.0", warn_missing: false},
     ]
   end
 
