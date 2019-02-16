@@ -30,12 +30,12 @@ pre_erlang_get_and_update_deps() {
 }
 
 pre_erlang_clean_compile() {
-  status "Running npm install"
+  status "Running yarn install"
     __sync_remote "
       [ -f ~/.profile ] && source ~/.profile
       set -e
       cd '$BUILD_AT'/assets
-      npm install
+      yarn install
     "
 
   status "Compiling assets"
