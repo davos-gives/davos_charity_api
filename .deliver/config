@@ -2,7 +2,7 @@
 
 APP="davos_charity_api"
 
-BUILD_HOST="app.davos.gives"
+BUILD_HOST="138.197.161.69"
 BUILD_USER="deploy"
 BUILD_AT="/tmp/edeliver/$APP/builds"
 
@@ -12,7 +12,7 @@ CLEAN_DEPLOY=true
 # prevent re-installing node modules; this defaults to "."
 GIT_CLEAN_PATHS="_build rel priv/static"
 
-PRODUCTION_HOSTS="app.davos.gives"
+PRODUCTION_HOSTS="138.197.161.69"
 PRODUCTION_USER="deploy"
 DELIVER_TO="/home/deploy/apps"
 
