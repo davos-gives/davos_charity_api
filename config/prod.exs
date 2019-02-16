@@ -11,7 +11,7 @@ use Mix.Config
 # before starting your production server.
 config :davos_charity_api, DavosCharityApiWeb.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [host: "app.davos.gives", port: 80],
+  url: [host: "138.197.132.125", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   code_reloader: false
