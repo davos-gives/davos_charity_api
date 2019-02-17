@@ -6,7 +6,7 @@ defmodule DavosCharityApiWeb.Router do
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
-    plug :put_secure_browser_headers, %{"content-security-policy" => "frame-ancestors http://localhost:4200"}
+    plug :put_secure_browser_headers, %{"content-security-policy" => "frame-ancestors https://admin.davos.gives"}
   end
 
   pipeline :api do
