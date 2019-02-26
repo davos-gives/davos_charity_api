@@ -1,0 +1,106 @@
+<div>
+  <div class="mx-auto font-sans w-3/5 sm:w-full sm:h-16 sm:mt-4">
+    <div class="bg-white pt-4 sm:pt-0 flex self-center sm:justify-around sm:h-16 sm:items-end">
+      <div class="w-1/2 sm:w-1/3 sm:self-center">
+        <!-- <img src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="w-32 mt-6 sm:mt-0 sm:w-16" /> -->
+      </div>
+      <div class="w-1/2 sm:w-1/3 line-200 sm:self-center">
+        <p class="float-right text-grey-darker align-bottom">
+          <svg class="w-4 mr-3 rotate-90" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        	 viewBox="0 0 16 10.5">
+        	 <path class="st78" d="M8,10.4c0,0-0.1,0-0.1,0c-0.6,0-1.2-0.2-1.8-0.6C5.6,9.5,4.2,8.1,4.2,8.1c0,0-0.1-0.1-0.3-0.3
+        		 C3.5,7.5,3.1,7.1,2.9,6.9L1.9,5.8C1.4,5.3,1,4.8,0.6,4.2L0.4,3.9C-0.3,2.8,0,1.3,1.1,0.6c1.1-0.7,2.6-0.5,3.3,0.6l0.1,0.2
+        			c0.3,0.4,0.6,0.8,0.9,1.2l1.1,1.1c0.2,0.2,0.4,0.4,0.6,0.6c0.2,0.2,0.4,0.4,0.5,0.5C7.7,4.8,7.8,5,8,5.1C8.1,5,8.3,4.9,8.3,4.8
+        			c0.1-0.1,0.3-0.3,0.5-0.5C9,4.1,9.3,3.9,9.4,3.8l1.2-1.3c0.3-0.3,0.6-0.7,0.9-1.1l0.1-0.2c0.8-1.1,2.3-1.4,3.3-0.6
+        			c1.1,0.7,1.4,2.2,0.6,3.3l-0.2,0.3c-0.4,0.5-0.8,1-1.2,1.5L13,7c-0.1,0.2-0.5,0.5-0.9,0.8C12,7.9,11.9,8,11.8,8.1l0,0
+        			c0,0-1.4,1.4-2,1.8C9.3,10.2,8.7,10.4,8,10.4z"/>
+            </svg>
+          Go Back</p>
+      </div>
+    </div>
+  </div>
+  <div class="flex sm:flex-col-reverse mx-auto w-5/6 sm:w-full justify-center sm-tertiary-background-color sm:w-full sm:py-2">
+    <div class="font-sans w-4/5 sm:mt-0 sm:w-9/10 -mt-12 z-20 sm:mx-auto">
+      <div class="bg-white mt-8 rounded-lg shadow-md flex self-center forced-height sm:flex-col-reverse sm:mt-0">
+        <div class="w-2/3 p-6 mt-8 sm:w-full sm:mx-0 sm:p-0 sm:pb-4">
+          <%= ReactPhoenix.ClientSide.react_component("Components.App") %>
+        </div>
+        <div class="w-1/3 sm:w-full">
+          <img id="image" src="<%= Routes.static_path(@conn, "/images/dogs.jpg") %>" alt="dogs!" class="h-full sm:h-auto rounded-r-lg side-image sm:rounded-t-lg"/>
+        </div>
+      </div>
+    </div>
+    <div class="sm:w-full sm:bg-white items-center relative hidden" id="showGoal">
+      <div class="justify-left flex flex-wrap ml-8 sm:ml-0 h-full items-start sm:justify-center">
+        <div class="sm:w-full">
+        <h3 class="primary-text mb-8 pr-8 sm:leading-loose ml-4 sm:ml-0 sm:pr-0 sm:text-xl sm:text-center">Help us reach <br class="sm:hidden"/> our goal!</h3>
+        <div class="lg:rounded-lg primary-background-color sm-tertiary-background-color py-8 px-6 w-full sm:py-0 relative pull-left">
+          <p class="px-4 py-6 text-lg text-white text-left sm:text-left sm:ml-6 sm:py-4">
+            <span class="text-4xl font-bold text-white text-left sm:pr-2">$150</span><br class="sm:hidden"/>
+            of <span class="text-2xl text-white" id="goalInDollars"><%= cents_to_dollars(@template.goal) %></span>
+          </p>
+          <div class="w-4/5 bg-white h-2 rounded-lg mx-8 mb-4 flex justify-start sm:justify-start">
+            <div class="w-12 secondary-background-color h-2 rounded-lg"></div>
+          </div>
+          <p class="font-bold text-white px-4 pb-8 text-right sm:text-center">
+            Raised by 215 people
+          </p>
+        </div>
+      </div>
+        </div>
+    </div>
+</div>
+
+<div class="background-white pb-8 sm:h-auto w-full mx-auto flex justify-center sm:flex-col">
+  <div class="mx-auto font-sans w-3/5 pt-8 sm:w-full">
+    <div class="mt-4 py-4 flex self-center sm:flex-col sm:mx-12">
+      <div class="w-auto pr-8 sm:pr-0 sm:w-full">
+        <h1 class="primary-text mb-8 pr-8 sm:text-2xl sm:leading-normal" id="name"><%= @template.name %></h1>
+        <div class="quinary-text text-lg leading-normal pr-8 sm:pr-0 sm:text-normal" id="description"><p><%= raw @template.description %></p></div>
+      </div>
+    </div>
+  </div>
+  <div id="social-header" class="w-1/4 sm:w-full mt-12 pt-6" style="display: none;">
+    <h3  class="text-grey-dark text-xl mb-6 sm:text-center">Spread the word!</h3>
+    <div class="flex mb-8 sm:items-center sm:justify-left">
+      <div id="facebook_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="display: none;">
+        <img src="<%= Routes.static_path(@conn, "/images/FacebookWhite.svg") %>"  class="h-6"/>
+      </div>
+      <div id="linkedin_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="display: none;">
+        <img src="<%= Routes.static_path(@conn, "/images/LinkedinWhite.svg") %>" class="w-6"/>
+      </div>
+      <div id="twitter_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="display: none;">
+        <img src="<%= Routes.static_path(@conn, "/images/TwitterWhite.svg") %>" class="w-6"/>
+      </div>
+      <div id="email_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="display: none;">
+        <img src="<%= Routes.static_path(@conn, "/images/MailWhite.svg") %>" class="w-6"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mx-auto font-sans w-3/5 sm:w-3/4">
+  <div class="bg-white pt-4 flex items-center  sm:flex-col">
+    <div class="w-2/3 sm:w-full">
+    </div>
+    <div class="w-1/3 flex items-end pb-6 sm:w-full justify-end sm:justify-center">
+      <p class="float-right text-grey-lighter inline-block sm:text-center">Powered by</p><img class=" inline-block -mt-2 pt-px ml-4" src="<%= Routes.static_path(@conn, "/images/davos-logo.png") %>" />
+    </div>
+  </div>
+</div>
+
+  <div class="tertiary-background-color w=full py-3">
+    <div class="pt-4 flex self-center mt-8 justify-between pt-8 sm:flex-col sm:w-full w-2/3 mx-auto">
+    <div class="w-3/4 mt-8 sm:w-full">
+        <p class="text-lg quaternary-text leading-normal sm:text-center"><strong>Contact the Barks & Meows Shelter</strong> -  (778) 598 2346 - info@bmshelter.org</p>
+    </div>
+    <div class="mt-8">
+
+    </div>
+
+    <div class="mr-8 mt-6 mb-12 sm:w-1/2 sm:text-center sm:mx-auto">
+      <p class="text-lg quaternary-text leading-normal sm:text-center sm:items-center sm:text-center"><span class="font-bold">Connect With Us</span></p>
+      <div class="flex h-6 items-center mb-4 justify-around"><img class="mt-2 sm:mt-0 w-4" src="<%= Routes.static_path(@conn, "/images/LinkedinWhite.svg") %>" /> <img class="mt-2 sm:mt-0 w-3" src="<%= Routes.static_path(@conn, "/images/FacebookWhite.svg") %>" /> <img class="mt-2 sm:mt-0 w-4" src="<%= Routes.static_path(@conn, "/images/TwitterWhite.svg") %>" /></div>
+    </div>
+  </div>
+</div>

@@ -6,7 +6,7 @@ defmodule DavosCharityApiWeb.TemplateController do
   def show(conn, %{"template_id" => template_id}) do
     template = Fundraising.get_template!(template_id)
 
-    render(conn, "show.html", template: template)
+    render(conn, template_id <> ".html", template: template)
   end
 
 end

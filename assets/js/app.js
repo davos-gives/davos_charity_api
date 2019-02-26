@@ -64,15 +64,41 @@ window.addEventListener('message', function(event) {
         $('#header').text(element.value);
       } else if(element.key == "imageUrl") {
         $('#image').attr('src', element.value);
+      } else if(element.key == "facebook_share") {
+        if(element.value == "true") {
+          $('#facebook_share').show();
+          $('#social-header').show();
+        } else {
+          $('#facebook_share').hide();
+        }
+      } else if(element.key == "linkedin_share") {
+        if(element.value == "true") {
+          $('#linkedin_share').show();
+          $('#social-header').show();
+        } else {
+          $('#linkedin_share').hide();
+        }
+      } else if(element.key == "twitter_share") {
+        if(element.value == "true") {
+          $('#twitter_share').show();
+          $('#social-header').show();
+
+        } else {
+          $('#twitter_share').hide();
+        }
+      } else if(element.key == "email_share") {
+        if(element.value == "true") {
+          $('#email_share').show();
+          $('#social-header').show();
+
+        } else {
+          $('#email_share').hide();
+        }
       } else if(element.key == "font") {
-        console.log(element.value)
         var html = document.getElementsByTagName('html')[0];
         html.style.cssText += `--font: ${element.value}`;
       }
     });
-
-
-
   }
 })
 
