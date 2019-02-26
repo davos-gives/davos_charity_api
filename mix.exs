@@ -4,7 +4,7 @@ defmodule DavosCharityApi.MixProject do
   def project do
     [
       app: :davos_charity_api,
-      version: "0.1.8",
+      version: "0.1.9",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
