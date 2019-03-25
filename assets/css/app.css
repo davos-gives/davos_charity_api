@@ -409,3 +409,7 @@
 .pull-left {
   left: -35px;
 }
+
+b {
+  font-weight: 600!important;
+}

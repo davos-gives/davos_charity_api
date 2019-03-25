@@ -10,7 +10,10 @@ class App extends React.Component {
    return (
      <Provider store={store}>
        <Router>
-         <Route path="/templates/:id" component={Payments} />
+        <div>
+           <Route path="/templates/:id" component={Payments} />
+           <Route path="/campaigns/:id" component={Payments} />
+         </div>
        </Router>
      </Provider>
    )

@@ -6,4 +6,5 @@ defmodule DavosCharityApiWeb.TemplateView do
   def cents_to_dollars(cents) do
     cents / 100 |> Number.Currency.number_to_currency()
   end
+
 end

@@ -5,14 +5,16 @@ defmodule DavosCharityApiWeb.CampaignController do
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Donation
 
+  alias IEx
+
   def index(conn, _params) do
     campaigns = Fundraising.list_campaigns
     render(conn, "index.json-api", data: campaigns)
   end
 
-  def show(conn, %{"id" => id}) do
-    campaign = Fundraising.get_campaign!(id)
-    render(conn, "show.json-api", data: campaign)
+  def show(conn, %{"campaign_id" => campaign_id}) do
+    campaign = Fundraising.get_campaign!(campaign_id)
+    render(conn, Integer.to_string(campaign.template_id) <> ".html", campaign: campaign)
   end
 
   def create(conn, %{"data" => data = %{"type" => "campaigns", "attributes" => _params}}) do

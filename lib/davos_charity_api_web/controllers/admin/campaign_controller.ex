@@ -61,4 +61,5 @@ defmodule DavosCharityApiWeb.Admin.CampaignController do
     campaign = Donation.get_campaign_for_payment(payment_id)
     render(conn, "show.json-api", data: campaign)
   end
+
 end

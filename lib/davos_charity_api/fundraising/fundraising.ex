@@ -61,4 +61,16 @@ defmodule DavosCharityApi.Fundraising do
     campaign = Repo.preload(campaign, :organization)
     campaign.organization
   end
+
+  def get_template_for_campaign(campaign_id) do
+    campaign = Fundraising.get_campaign!(campaign_id)
+    campaign = Repo.preload(campaign, :template)
+    campaign.template
+  end
+
+  def get_template_id_for_campaign(campaign_id) do
+    campaign = Fundraising.get_campaign!(campaign_id)
+    campaign = Repo.preload(campaign, :template)
+    campaign.template.id
+  end
 end

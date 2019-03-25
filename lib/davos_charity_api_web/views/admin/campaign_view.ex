@@ -3,7 +3,8 @@ defmodule DavosCharityApiWeb.Admin.CampaignView do
   use JaSerializer.PhoenixView
 
   location "/admin/campaigns/:id"
-  attributes [:name, :status, :image, :created_at]
+  attributes [:name, :status, :image, :description, :has_end_date, :go_back_url, :image_url, :font, :end_date, :end_month, :end_year, :primary_colour, :secondary_colour, :tertiary_colour, :quaternary_colour, :quinary_colour, :facebook_share, :twitter_share, :linkedin_share, :email_share, :published, :created_at, :updated_at, :template_id]
+  attributes [:goal, :has_goal, :show_goal]
 
   def attributes(model, conn) do
     model
@@ -17,6 +18,13 @@ defmodule DavosCharityApiWeb.Admin.CampaignView do
     links: [
       related: "/api/admin/campaigns/:id/organization"
     ]
+
+  # has_one :template,
+  #   serializer: LibraryApiWeb.TemplateView,
+  #   identifiers: :when_included,
+  #   links: [
+  #     related: "/api/admin/campaigns/:id/template"
+  #   ]
 
   has_many :payments,
     serializer: LibraryApiWeb.Admin.PaymentView,

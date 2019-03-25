@@ -90,59 +90,7 @@ class PaymentForm extends React.Component {
   render() {
     return (
       <div>
-      <div className="flex mt-8">
-        <div className="w-4/5 mx-auto pl-8">
-        <form className="flex flex-wrap mt-4">
-          <div className="w-full">
-            <Number
-              onChange={this.handleCardChange}
-              masked={true}
-              value={this.state.number.value}
-              render={({
-                getInputProps,
-                valid,
-                type
-              }) => <div className={valid ? "relative border-b border-grey pb-3" : "relative invalid border-b border-grey pb-3"} >
-                <label className={"uppercase text-xs text-grey-darker block pl-4 " + `${type}`}>Card number</label>
-                <input {...getInputProps()} className='block mt-2 capitalize text-grey-darker font-semibold pl-4 outline-none' /> </div> }
-            />
-          </div>
-
-          <div className="w-1/4">
-          <Expiration
-            onChange={this.handleExpiryChange}
-            month={this.state.expiry.month}
-            year={this.state.expiry.year}
-            render={({
-              getInputProps,
-              valid,
-              error
-            }) => (
-              <div className={this.state.expiry.valid ? "border-b border-grey pb-3 mt-6" : "border-b border-grey pb-3 mt-6 invalid"}>
-                <label className="uppercase text-xs text-grey-darker block pl-4" htmlFor="lname">expires</label>
-                <input {...getInputProps()} className="inline-block mt-2 capitalize text-grey-darker font-semibold pl-4 w-24 outline-none" />
-              </div>
-            )} />
-          </div>
-
-          <div className="w-1/10"></div>
-
-          <Cvc
-            onChange={this.handleCvvChange}
-            value={this.state.cvv.value}
-            render={({
-              getInputProps,
-              valid
-            }) => (
-              <div className={valid ? "border-b border-grey pb-3 mt-6 w-1/5" : "border-b border-grey pb-3 mt-6 w-1/5 invalid"}>
-                <label className="uppercase text-xs text-grey-darker block pl-4">CVV</label>
-                <input {...getInputProps()} className="block mt-2 text-grey-darker font-semibold pl-4 w-24 outline-none" />
-              </div>
-              )}
-          />
-        </form>
-        </div>
-      </div>
+      <div id="checkout-embed"></div>
 
       <ButtonBlock
         buttonText={"Next"}

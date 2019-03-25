@@ -6,7 +6,7 @@ defmodule DavosCharityApiWeb.Router do
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
-    plug :put_secure_browser_headers, %{"content-security-policy" => "frame-ancestors https://admin.davos.gives"}
+    plug :put_secure_browser_headers, %{"content-security-policy" => "frame-ancestors http://localhost:4200"}
   end
 
   pipeline :api do
@@ -30,6 +30,9 @@ defmodule DavosCharityApiWeb.Router do
     get "/templates/:template_id", TemplateController, :show
     get "/templates/:template_id/*anything", TemplateController, :show
 
+    get "/campaigns/:campaign_id", CampaignController, :show
+    get "/campaigns/:campaign_id/*anything", CampaignController, :show
+
     get "/receipt_templates/:receipt_template_id", ReceiptTemplateController, :show
     get "/receipt_templates/:receipt_template_id/*anything", ReceiptTemplateController, :show
   end
@@ -49,8 +52,10 @@ defmodule DavosCharityApiWeb.Router do
     resources "/ongoing", Admin.OngoingDonationController, except: [:new, :edit]
     resources "/donor-history", Admin.DonorHistoryController, except: [:new, :edit]
     resources "/photos", Admin.PhotoController, except: [:new, :edit]
+    resources "/templates", Admin.TemplateController, except: [:new, :edit]
 
     get "/campaigns/:campaign_id/payments", Admin.PaymentController, :get_payments_for_campaign
+    get "/campaigns/:campaign_id/template", Admin.TemplateController, :template_for_campaign
 
     get "/donors/:donor_id/payments", Admin.PaymentController, :get_payments_for_donor
     get "/donors/:donor_id/ongoing-donations", Admin.OngoingDonationController, :ongoing_donations_for_donor

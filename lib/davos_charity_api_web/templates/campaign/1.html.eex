@@ -23,24 +23,24 @@
     <div class="mx-auto font-sans w-3/5 mt-8 pt-8 forced-height sm:w-full">
       <div class="mt-4 py-4 flex self-center sm:flex-col sm:mx-12">
         <div class="w-auto pr-8 sm:pr-0 sm:w-full">
-          <h1 class="quaternary-text mb-8 pr-8 sm:text-2xl sm:leading-normal" id="name"><%= @template.name %></h1>
-          <div class="quaternary-text text-lg leading-normal pr-8 sm:pr-0 sm:text-normal" id="description"><p><%= raw @template.description %></p></div>
+          <h1 class="quaternary-text mb-8 pr-8 sm:text-2xl sm:leading-normal" id="name"><%= defaulted_name(@conn) %></h1>
+          <div class="quaternary-text text-lg leading-normal pr-8 sm:pr-0 sm:text-normal" id="description"><p><%= defaulted_description(@conn) %></p></div>
         </div>
-        <div class="w-1/3 min-w-1/3 sm:w-full sm:mt-6" id="showGoal">
+        <div class="w-1/3 min-w-1/3 sm:w-full sm:mt-6 <%= show_goal(@conn) %>" id="showGoal">
           <div class="justify-center flex flex-wrap ml-8 sm:ml-0">
             <div class="primary-background-color rounded-lg float-right py-8 px-6 w-full">
               <p class="px-8 py-6 text-lg text-white">
-                <span class="text-4xl font-bold text-white">$150</span><br />
-                of <span class="text-3xl text-white" id="goalInDollars"><%= cents_to_dollars(@template.goal) %></span>
+                <span class="text-4xl font-bold text-white font-sans"><%= cents_to_dollars(amount_raised(@conn)) %></span><br />
+                of <span class="text-3xl text-white" id="goal font-sans"><%= cents_to_dollars(defaulted_goal(@conn)) %></span>
               </p>
-              <div class="w-4/5 bg-white h-2 rounded-lg mx-8 mb-4">
+              <div class="w-4/5 bg-white h-2 rounded-lg mx-8 mb-4 font-sans">
                 <div class="w-16 secondary-background-color h-2 rounded-lg"></div>
               </div>
-              <p class="font-bold text-white px-8 pb-8">
+              <p class="font-bold text-white px-8 pb-8 .font-sans">
                 Raised by 215 people
               </p>
             </div>
-            <button class="rounded-full secondary-background-color text-white text-xl py-4 px-8 font-bold -mt-8">Donate Now</button>
+            <button class="rounded-full secondary-background-color text-white text-xl py-4 px-8 font-bold -mt-8 font-sans">Donate Now</button>
             </div>
         </div>
       </div>
@@ -54,7 +54,7 @@
       <%= ReactPhoenix.ClientSide.react_component("Components.App") %>
     </div>
     <div class="w-1/3 sm:w-full">
-      <img id="image" src="<%= Routes.static_path(@conn, "/images/dogs.jpg") %>" alt="dogs!" class="h-full sm:h-auto rounded-r-lg side-image sm:rounded-t-lg"/>
+      <img id="image" src="<%= defaulted_image(@conn) %>" alt="dogs!" class="h-full sm:h-auto rounded-r-lg side-image sm:rounded-t-lg"/>
     </div>
   </div>
 </div>
@@ -63,18 +63,18 @@
 <div class="mx-auto font-sans w-3/5 mt-8 sm:w-2/3">
   <div class="bg-white pt-4 flex items-center mb-8 sm:flex-col">
     <div class="w-1/2 sm:w-3/4">
-      <h3 id="social-header" class="text-grey-dark text-xl mb-6 sm:text-center" style="display: none;">Spread the word!</h3>
+      <h3 id="social-header" class="text-grey-dark text-xl mb-6 sm:text-center" style="<%= show_social_share(@conn) %>">Spread the word!</h3>
       <div class="flex mb-8 sm:items-center sm:justify-center">
-        <div id="facebook_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="display: none;">
+        <div id="facebook_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="<%= defaulted_facebook_share(@conn) %>">
           <img src="<%= Routes.static_path(@conn, "/images/FacebookWhite.svg") %>"  class="h-6"/>
         </div>
-        <div id="linkedin_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="display: none;">
+        <div id="linkedin_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="<%= defaulted_linkedin_share(@conn) %>">
           <img src="<%= Routes.static_path(@conn, "/images/LinkedinWhite.svg") %>" class="w-6"/>
         </div>
-        <div id="twitter_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="display: none;">
+        <div id="twitter_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="<%= defaulted_twitter_share(@conn) %>">
           <img src="<%= Routes.static_path(@conn, "/images/TwitterWhite.svg") %>" class="w-6"/>
         </div>
-        <div id="email_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="display: none;">
+        <div id="email_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="<%= defaulted_email_share(@conn) %>">
           <img src="<%= Routes.static_path(@conn, "/images/MailWhite.svg") %>" class="w-6"/>
         </div>
       </div>
@@ -95,3 +95,8 @@
     </div>
   </div>
 </div>
+<script src="https://secure.1stpaygateway.net/restgw/cdn/cryptogram.min.js"
+id="checkout-js" type="text/javascript"
+data-transcenter="[Transaction Center Id goes here]"
+data-processor="[Processor Id goes here]"
+data-type="[Operation Type goes here]"></script>

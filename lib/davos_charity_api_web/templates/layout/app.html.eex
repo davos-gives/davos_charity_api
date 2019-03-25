@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="--primary: <%= primary_colour(@conn, @view_module) %>; --secondary: <%= secondary_colour(@conn, @view_module) %>; --tertiary: <%= tertiary_colour(@conn, @view_module) %>; --quaternary: <%= quaternary_colour(@conn, @view_module) %>; --quinary: <%= quinary_colour(@conn, @view_module) %>; --font: <%= font(@conn, @view_module) %>">
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -25,4 +25,12 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   </footer>
+
+  <script src="https://secure-v.goemerchant.com/restgw/cdn/cryptogram.min.js"
+  id="checkout-js" type="text/javascript"
+  data-transcenter="209141"
+  data-processor="201173"
+  data-type="Auth"
+  ></script>
+
 </html>
