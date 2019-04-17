@@ -25,10 +25,6 @@ config :davos_charity_api, DavosCharityApiWeb.Endpoint,
     ]
   ]
 
-  config :exiats, :global_config,
-  merchant_key: "01249213-1680-4d4b-82fd-9bc33dd3f5b4",
-  processor_id:  "201173"
-
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
@@ -82,4 +78,4 @@ config :davos_charity_api, DavosCharityApi.Repo,
   hostname: "localhost",
   pool_size: 10
 
-# import_config "dev.secret.exs"
+import_config "dev.secret.exs"
