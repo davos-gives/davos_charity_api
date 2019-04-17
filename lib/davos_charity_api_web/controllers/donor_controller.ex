@@ -4,11 +4,13 @@ defmodule DavosCharityApiWeb.DonorController do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donation
 
+  import IEx
+
   plug :authenticate_donor when action in [:show_current]
 
   def show_current(conn, %{current_donor: donor}) do
     conn
-    |> render("show.json-api", data: donor)
+    |> render("show.json-api", data: donor, opts: [include: "addresses,vaults"])
   end
 
   def show(conn, %{"id" => id}) do
@@ -20,6 +22,25 @@ defmodule DavosCharityApiWeb.DonorController do
     donors = Donor.list_donors()
     render(conn, "index.json-api", data: donors)
   end
+
+  def create(conn, %{"data" => data = %{"type" => "donors", "attributes" => _params}}) do
+    data = data
+    |> JaSerializer.Params.to_attributes()
+
+    case Donor.create_donor(data) do
+      {:ok, %Donor{} = donor} ->
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.address_path(conn, :show, donor))
+        |> render("show.json-api", data: donor)
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_status(:bad_request)
+        |> render(DavosCharityApiWeb.ErrorView, "400,json-api", changeset)
+    end
+  end
+
+
 
   def donor_for_ongoing_donation(conn, %{"ongoing_donation_id" => ongoing_donation_id}) do
     donor = Donation.get_donor_for_ongoing_donation!(ongoing_donation_id)

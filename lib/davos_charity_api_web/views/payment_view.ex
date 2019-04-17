@@ -5,7 +5,7 @@ defmodule DavosCharityApiWeb.PaymentView do
   require IEx
 
   location "/payments/:id"
-  attributes [:amount, :created_at]
+  attributes [:amount, :created_at, :cryptogram]
 
   def attributes(model, conn) do
     model

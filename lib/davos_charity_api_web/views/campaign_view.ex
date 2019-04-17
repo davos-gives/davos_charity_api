@@ -31,6 +31,10 @@ defmodule DavosCharityApiWeb.CampaignView do
     conn.assigns.campaign.image_url || "/images/dogs.jpg"
   end
 
+  def defaulted_logo(conn) do
+    conn.assigns.campaign.logo_url || "/images/logo.png"
+  end
+
   def show_social_share(conn) do
     (conn.assigns.campaign.facebook_share == true || conn.assigns.campaign.twitter_share == true || conn.assigns.campaign.email_share == true || conn.assigns.campaign.linkedin_share == true) || "display: none"
   end

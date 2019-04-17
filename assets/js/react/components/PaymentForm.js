@@ -4,70 +4,25 @@ import {Number, Cvc, Expiration} from 'react-credit-card-primitives';
 import { connect } from "react-redux";
 import { updatePaymentInformation} from "../redux/actions";
 
+
 class PaymentForm extends React.Component {
 
   constructor(props) {
     super(props);
 
-    // let paymentInfo = JSON.parse(localStorage.getItem('payment'));
-
-    if(this.props.paymentInfo.number != '') {
+    if(this.props.paymentInfo.crypto != '') {
       this.state = {
-        number: this.props.paymentInfo.number,
-        expiry: this.props.paymentInfo.expiry,
-        cvv: this.props.paymentInfo.cvv,
+        crypto: "",
         canSubmit: true,
       }
 
     } else {
     this.state = {
-      number: this.props.paymentInfo.number,
-      expiry: this.props.paymentInfo.expiry,
-      cvv: this.props.paymentInfo.cvv,
+      crypto: "",
       canSubmit: '',
     }
   }
 }
-
-  handleCardChange = (event) => {
-    this.setState({ number: {value: event.value, valid: event.valid} }, () => {
-      this.formButton();
-    })
-  }
-
-  handleExpiryChange = (event) => {
-    let month = parseInt(event.rawValue.split("/")[0]);
-    let year = parseInt(event.rawValue.split("/")[1]);
-    console.log(event.valid);
-    this.setState({ expiry: {
-      rawValue: event.rawValue,
-      month: month,
-      year: year,
-      valid: event.valid
-    }}, () =>{
-      this.formButton();
-    })
-
-  }
-
-  formButton = () => {
-    if([this.state.number.valid, this.state.expiry.valid, this.state.cvv.valid].every(this.checkFormValidity)) {
-      this.setState({ canSubmit: true });
-    } else {
-      this.setState({ canSubmit: false });
-
-    };
-  }
-
-  handleCvvChange = (event) => {
-    this.setState({ cvv: {
-      focused: event.focused,
-      valid: event.valid,
-      value: event.value
-    } }, () => {
-      this.formButton();
-    })
-  }
 
   checkFormValidity = (element, index, array) => {
     return element === true;
@@ -101,6 +56,36 @@ class PaymentForm extends React.Component {
       />
     </div>
     )
+  }
+
+  componentWillMount() {
+  }
+
+  componentDidMount() {
+    const script = document.createElement("script");
+    script.src = "https://secure-v.goemerchant.com/restgw/cdn/cryptogram.min.js";
+    script.id = "checkout.js";
+    script.dataTranscenter = "209141";
+    script.dataProcessor = "201173";
+    script.dataStyleembed = "false";
+    script.dataCvv = true;
+    script.dataAutosubmit = "true";
+    document.body.appendChild(script);
+    window.addEventListener('message', this.handleFrameTasks);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('message', this.handleFrameTasks);
+  }
+
+  handleFrameTasks = (e) => {
+    console.log(e);
+    if(e.data !== "" && e.origin == "https://secure-v.1stpaygateway.net") {
+      this.setState({ crypto: e.data });
+      this.setState({ canSubmit: true });
+    } else {
+      this.setState({ canSubmit: false });
+    }
   }
 }
 

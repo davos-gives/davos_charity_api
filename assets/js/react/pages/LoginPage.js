@@ -2,18 +2,25 @@ import React from "react";
 import StepTracker from "../components/StepTracker";
 import { connect } from "react-redux";
 import ButtonBlock from "../components/ButtonBlock";
+import Login from "../components/Login";
+import { updateProgressStep } from "../redux/actions";
+
+
 // import Login from "./components/Login";
 import { getGiftInfo } from '../redux/selectors';
 import { getProgress } from "../redux/selectors";
-import { updateProgressStep } from "../redux/actions";
 import { withRouter } from 'react-router-dom';
 import { formatPrice } from '../helpers';
 
 
 class LoginPage extends React.Component {
   progressChange = step => {
-    this.props.updateProgressStep(step);
-    this.props.history.push(`personal-info`);
+    this.props.updateProgressStep(step)
+    this.props.history.push(`review`);
+  }
+
+  state = {
+    formValid: true,
   }
 
   render() {
@@ -36,13 +43,8 @@ class LoginPage extends React.Component {
               </div>
             </div>
           </div>
-
-          <ButtonBlock
-            handleClick={() => this.progressChange(2)}
-            inReview={reviewing}
-            formValid={true}
-            buttonText={"Skip for now"}
-          />
+          <Login authenticate={this.authenticate} formValidity={this.state.formValid} updateFormValidity={this.updateFormValidity}
+          progressLoginChange={() => this.progressChange(4)}/>
        </div>
       );
     }

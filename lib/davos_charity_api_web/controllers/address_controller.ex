@@ -18,7 +18,7 @@ defmodule DavosCharityApiWeb.AddressController do
     end
   end
 
-  def create(conn, %{"data" => data = %{"type" => "donor_addresses", "attributes" => _params}}) do
+  def create(conn, %{"data" => data = %{"type" => "addresses", "attributes" => _params}}) do
     data = data
     |> JaSerializer.Params.to_attributes()
 
@@ -35,7 +35,7 @@ defmodule DavosCharityApiWeb.AddressController do
     end
   end
 
-  def update(conn, %{"id" => id, "data" => data = %{"type" => "donor_addresses", "attributes" => _params}}) do
+  def update(conn, %{"id" => id, "data" => data = %{"type" => "addresses", "attributes" => _params}}) do
     data = JaSerializer.Params.to_attributes(data)
     address = Donor.get_address!(id)
 

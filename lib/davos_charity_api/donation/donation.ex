@@ -5,8 +5,13 @@ defmodule DavosCharityApi.Donation do
   alias DavosCharityApi.Donation.Payment
   alias DavosCharityApi.Donation
   alias DavosCharityApi.Fundraising.Campaign
+  alias DavosCharityApi.Donor.DonorHistory
+  alias Exiats.Owner
+  alias Ecto.Multi
 
   import Ecto.Query
+  import Exiats
+  import IEx
 
   def get_ongoing_donation!(id), do: Repo.get!(Ongoing, id)
 
@@ -53,12 +58,6 @@ defmodule DavosCharityApi.Donation do
     donation.donor
   end
 
-  def get_payment_method_for_ongoing_donation(ongoing_donation_id) do
-    donation = Donation.get_ongoing_donation!(ongoing_donation_id)
-    donation = Repo.preload(donation, :payment_method)
-    donation.payment_method
-  end
-
   def get_campaign_for_ongoing_donation(ongoing_donation_id) do
     donation = Donation.get_ongoing_donation!(ongoing_donation_id)
     donation = Repo.preload(donation, :campaign)
@@ -87,10 +86,83 @@ defmodule DavosCharityApi.Donation do
     |> Repo.all
   end
 
-  def create_payment(attrs \\ %{}) do
-    %Payment{}
-    |> Payment.changeset(attrs)
-    |> Repo.insert
+  def create_donation(attrs \\ %{}) do
+    response = Multi.new()
+    |> format_data_for_iats(attrs)
+    |> submit_data_to_iats(attrs)
+    |> create_donation_history(attrs)
+    |> create_payment(attrs)
+    |> Repo.transaction
+  end
+
+  def create_vault_donation(attrs \\ %{}) do
+    response = Multi.new()
+    |> format_data_for_iats(attrs)
+    |> submit_vault_data_to_iats(attrs)
+    |> create_donation_history(attrs)
+    |> create_payment(attrs)
+    |> Repo.transaction
+
+  end
+
+  defp format_data_for_iats(multi, attrs) do
+    Multi.run(multi, :formatted_data, fn _repo, %{} ->
+      owner = %Owner{
+          name: "Ian Knauer",
+          street: "123 Fake Street",
+          city: "Vancouver",
+          province: "BC",
+          country: "Canada",
+          postal_code: "V3H4X9"
+        }
+      {:ok, owner}
+    end)
+  end
+
+  defp submit_vault_data_to_iats(multi, attrs) do
+    Multi.run(multi, :submitted_data, fn _repo, %{formatted_data: formatted_data} ->
+      payment = Exiats.vault_sale(attrs["vault_id"], attrs["vault_key"], Float.to_string(attrs["amount"] / 100), formatted_data)
+      {:ok, payment }
+    end)
+  end
+
+  defp submit_data_to_iats(multi, attrs) do
+    Multi.run(multi, :submitted_data, fn _repo, %{formatted_data: formatted_data} ->
+      payment = Exiats.sale(Float.to_string(attrs["amount"] / 100), formatted_data, attrs["cryptogram"])
+      {:ok, payment }
+    end)
+  end
+
+  def create_payment(multi, attrs) do
+    Multi.run(multi, :created_payment, fn repo, %{submitted_data: submitted_data} ->
+      payment = %{
+        amount: to_integer(submitted_data["data"]["originalFullAmount"]),
+        frequency: "one-time",
+        reference_number: submitted_data["data"]["referenceNumber"],
+        donor_id: attrs["donor_id"],
+        campaign_id: attrs["campaign_id"]
+      }
+      new_payment = %Payment{}
+      |> Payment.changeset(payment)
+      |> repo.insert
+
+      {:ok, new_payment}
+    end)
+  end
+
+  def create_donation_history(multi, attrs) do
+    Multi.run(multi, :created_history, fn repo, %{} ->
+      history = %{
+        amount: attrs["amount"],
+        status: "success",
+        history_type: "payment",
+        frequency: "one-time",
+        donor_id: attrs["donor_id"],
+      }
+      new_history= %DonorHistory{}
+      |> DonorHistory.changeset(history)
+      |> repo.insert
+    end)
   end
 
   def get_relationship_for_ongoing_donation(ongoing_donation_id) do
@@ -109,5 +181,13 @@ defmodule DavosCharityApi.Donation do
     payment = Donation.get_payment!(payment_id)
     payment = Repo.preload(payment, :campaign)
     payment.campaign
+  end
+
+  def to_integer(value) do
+    value
+    |> Decimal.from_float()
+    |> Decimal.mult(Decimal.new(100))
+    |> Decimal.round(0)
+    |> Decimal.to_integer()
   end
 end

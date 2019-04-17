@@ -104,10 +104,3 @@
     </div>
   </div>
 </div>
-<script src="https://secure.1stpaygateway.net/restgw/cdn/cryptogram.min.js"
-id="checkout-js" type="text/javascript"
-data-transcenter="209141"
-data-processor="201173"
-data-styleembed=False
-data-cvv=False
-data-autosubmit="false"></script>

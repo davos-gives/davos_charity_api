@@ -52,6 +52,7 @@ defmodule DavosCharityApiWeb.Router do
     resources "/ongoing", Admin.OngoingDonationController, except: [:new, :edit]
     resources "/donor-history", Admin.DonorHistoryController, except: [:new, :edit]
     resources "/photos", Admin.PhotoController, except: [:new, :edit]
+    resources "/logos", Admin.LogoController, except: [:new, :edit]
     resources "/templates", Admin.TemplateController, except: [:new, :edit]
 
     get "/campaigns/:campaign_id/payments", Admin.PaymentController, :get_payments_for_campaign
@@ -59,6 +60,8 @@ defmodule DavosCharityApiWeb.Router do
 
     get "/donors/:donor_id/payments", Admin.PaymentController, :get_payments_for_donor
     get "/donors/:donor_id/ongoing-donations", Admin.OngoingDonationController, :ongoing_donations_for_donor
+    get "/donors/:donor_id/addresses", AddressController, :addresses_for_donor
+
 
     get "/donors/:donor_id/donor-history", Admin.DonorHistoryController, :history_for_donor
 
@@ -72,6 +75,7 @@ defmodule DavosCharityApiWeb.Router do
     get "/donors/me", DonorController, :show_current
 
     resources "/donors", DonorController, except: [:new, :edit]
+    resources "/payments", PaymentController, except: [:new, :edit]
     resources "/payment-methods", PaymentMethodController, except: [:new, :edit]
     resources "/addresses", AddressController, except: [:new, :edit]
     resources "/ongoing-donations", OngoingDonationController, except: [:new, :edit]
@@ -83,6 +87,8 @@ defmodule DavosCharityApiWeb.Router do
 
     get "/payments/:payment_id/donor-organization-relationship", DonorOrganizationRelationshipController, :relationship_for_payment
     get "/payments/:payment_id/campaign", CampaignController, :campaign_for_payment
+
+    get "/vaults/:vault_id/vault_cards", VaultCardController, :vault_cards_for_vault
 
     get "/donors/:donor_id/addresses", AddressController, :addresses_for_donor
     get "/donors/:donor_id/payment-methods", PaymentMethodController, :payment_methods_for_donor

@@ -95,8 +95,3 @@
     </div>
   </div>
 </div>
-<script src="https://secure.1stpaygateway.net/restgw/cdn/cryptogram.min.js"
-id="checkout-js" type="text/javascript"
-data-transcenter="[Transaction Center Id goes here]"
-data-processor="[Processor Id goes here]"
-data-type="[Operation Type goes here]"></script>

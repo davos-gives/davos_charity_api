@@ -48,7 +48,7 @@ defmodule DavosCharityApiWeb do
           IO.puts(donor_id)
 
           donor = Donor.get_donor!(donor_id)
-
+          
           params = Map.get(conn, :params)
           |> Map.put(:current_donor, donor)
 

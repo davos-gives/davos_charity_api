@@ -19,6 +19,7 @@ defmodule DavosCharityApi.Fundraising.Campaign do
     field :has_end_date, :boolean, default: false
     field :go_back_url, :string
     field :image_url, :string
+    field :logo_url, :string
     field :font, :string
     field :end_date, :string
     field :end_month, :string
@@ -47,8 +48,8 @@ defmodule DavosCharityApi.Fundraising.Campaign do
 
   def changeset(%Campaign{} = model, attrs) do
     model
-    |> cast(attrs, [:name, :type, :status, :organization_id, :description, :has_end_date, :go_back_url, :image_url, :font, :end_date, :end_month, :end_year, :primary_colour, :secondary_colour, :tertiary_colour, :quaternary_colour, :quinary_colour, :facebook_share, :twitter_share, :email_share, :linkedin_share, :published, :template_id])
-    |> cast(attrs, [:show_goal, :has_goal, :goal])
+    |> cast(attrs, [:name, :type, :status, :organization_id, :description, :has_end_date, :go_back_url, :image_url, :font, :end_date, :end_month, :end_year, :primary_colour, :secondary_colour, :tertiary_colour, :quaternary_colour, :quinary_colour, :facebook_share, :twitter_share, :email_share, :linkedin_share, :published])
+    |> cast(attrs, [:show_goal, :has_goal, :goal, :logo_url, :template_id])
     |> validate_required([])
   end
 end

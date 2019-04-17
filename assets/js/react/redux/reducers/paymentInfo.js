@@ -1,9 +1,7 @@
 import { UPDATE_PAYMENT_INFORMATION } from "../actionTypes";
 
 const initialState = {
-  number: '',
-  expiry: '',
-  cvv: '',
+  crypto: "",
 };
 
 export default function(state = initialState, action) {
@@ -12,9 +10,7 @@ export default function(state = initialState, action) {
       const { info } = action.payload;
       return {
         ...state,
-        number: info.number,
-        cvv: info.cvv,
-        expiry: info.expiry,
+        crypto: info.crypto,
       };
     }
     default:

@@ -2,7 +2,7 @@ defmodule DavosCharityApiWeb.DonorView do
   use DavosCharityApiWeb, :view
   use JaSerializer.PhoenixView
 
-  location "/donors/:id"
+  location "/api/donors/:id"
   attributes [:fname, :lname, :email]
 
   has_many :addresses,
@@ -10,13 +10,6 @@ defmodule DavosCharityApiWeb.DonorView do
   identifiers: :when_included,
   links: [
     related: "/api/donors/:id/addresses"
-  ]
-
-  has_many :payment_methods,
-  serializer: DavosCharityApiWeb.PaymentMethodView,
-  identifiers: :when_included,
-  links: [
-    related: "/api/donors/:id/payment-methods"
   ]
 
   has_many :ongoing_donations,
@@ -31,5 +24,12 @@ defmodule DavosCharityApiWeb.DonorView do
   identifiers: :when_included,
   links: [
     related: "/api/donors/:id/payments"
+  ]
+
+  has_many :vaults,
+  serializer: DavosCharityApiWeb.VaultView,
+  identifiers: :when_included,
+  links: [
+    related: "/api/donors/:id/vaults"
   ]
 end

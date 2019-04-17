@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Barks & Meows Shelter</title>
+    <title></title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
@@ -25,12 +25,4 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   </footer>
-
-  <script src="https://secure-v.goemerchant.com/restgw/cdn/cryptogram.min.js"
-  id="checkout-js" type="text/javascript"
-  data-transcenter="209141"
-  data-processor="201173"
-  data-type="Auth"
-  ></script>
-
 </html>

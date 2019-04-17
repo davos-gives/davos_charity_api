@@ -7,7 +7,11 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :davos_charity_api, DavosCharityApiWeb.Endpoint,
-  http: [port: 4000],
+  https: [
+    port: 4000,
+    keyfile: "priv/keys/dev.key",
+    certfile: "priv/keys/dev.crt"
+    ],
   debug_errors: false,
   code_reloader: true,
   check_origin: false,
@@ -20,6 +24,10 @@ config :davos_charity_api, DavosCharityApiWeb.Endpoint,
       cd: Path.expand("../assets", __DIR__)
     ]
   ]
+
+  config :exiats, :global_config,
+  merchant_key: "01249213-1680-4d4b-82fd-9bc33dd3f5b4",
+  processor_id:  "201173"
 
 # ## SSL Support
 #

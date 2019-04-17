@@ -5,16 +5,20 @@ defmodule DavosCharityApi.Donor do
   import Ecto.Query
 
   alias Comeonin.Bcrypt
+  alias Ecto.Multi
+
 
   alias DavosCharityApi.Repo
   alias DavosCharityApi.Donor
-  alias DavosCharityApi.Donor.Address
-  alias DavosCharityApi.Donor.PaymentMethod
-  alias DavosCharityApi.Donor.DonorOrganizationRelationship
-  alias DavosCharityApi.Donor.DonorHistory
+  alias DavosCharityApi.Donor.{Address, DonorOrganizationRelationship, DonorHistory, Vault, VaultCard}
+
   alias DavosCharityApi.Donation
   alias DavosCharityApi.Donation.Ongoing
   alias DavosCharityApi.Donation.Payment
+
+  import Ecto.Query
+  import Exiats
+  import IEx
 
   schema "donors" do
     field :email, :string
@@ -24,14 +28,14 @@ defmodule DavosCharityApi.Donor do
     field :password, :string, virtual: true
 
     has_many :addresses, Address
-    has_many :payment_methods, PaymentMethod
     has_many :ongoing_donations, Ongoing
     has_many :payments, Payment
     has_many :donor_organization_relationships, DonorOrganizationRelationship
+    has_many :vaults, Vault
     timestamps()
   end
 
-  def hash_password(changeset= %{valid?: false}), do: changeset
+  def hash_password(changeset=%{valid?: false}), do: changeset
 
   def hash_password(changeset) do
     hash = Bcrypt.hashpwsalt(get_field(changeset, :password))
@@ -39,17 +43,29 @@ defmodule DavosCharityApi.Donor do
   end
 
   @doc false
-  def changeset(donor, attrs) do
+  def changeset(donor, attrs = %{"password" => _}) do
     donor
     |> cast(attrs, [:fname, :lname, :email, :password])
-    |> validate_required([:fname, :lname, :email, :password])
+    |> validate_required([:fname, :lname, :email])
     |> unsafe_validate_unique([:email], DavosCharityApi.Repo)
     |> hash_password()
   end
 
+
+  def changeset(donor, attrs) do
+    donor
+    |> cast(attrs, [:fname, :lname, :email, :password])
+    |> validate_required([:fname, :lname, :email])
+    |> unsafe_validate_unique([:email], DavosCharityApi.Repo)
+  end
+
   def list_donors, do: Repo.all(Donor)
 
-  def get_donor!(id), do: Repo.get!(Donor, id)
+  def get_donor!(id) do
+    donor = Repo.get!(Donor, id)
+    donor = Repo.preload(donor, [:vaults, :addresses])
+    donor
+   end
 
   def get_donor_by_email!(email), do: Repo.get_by!(Donor, email: email)
 
@@ -85,32 +101,6 @@ defmodule DavosCharityApi.Donor do
     |> Repo.all
   end
 
-  def list_payment_methods_for_donor(donor_id) do
-    PaymentMethod
-    |> where([pm], pm.donor_id == ^donor_id)
-    |> Repo.all
-  end
-
-  def get_payment_method!(id), do: Repo.get!(PaymentMethod, id)
-
-  def get_donor_for_payment_method!(payment_method_id) do
-    payment_method = Donor.get_payment_method!(payment_method_id)
-    payment_method = Repo.preload(payment_method, :donor)
-    payment_method.donor
-  end
-
-  def create_payment_method(attrs \\ %{}) do
-    %PaymentMethod{}
-    |> PaymentMethod.changeset(attrs)
-    |> Repo.insert
-  end
-
-  def update_payment_method(%PaymentMethod{} = payment_method, attrs) do
-    payment_method
-    |> PaymentMethod.changeset(attrs)
-    |> Repo.update
-  end
-
   def get_donor_organization_relationship!(id) do
     relationship = Repo.get!(DonorOrganizationRelationship, id)
     |> Repo.preload(:payments)
@@ -134,5 +124,70 @@ defmodule DavosCharityApi.Donor do
     DonorHistory
     |> where([dh], dh.donor_id == ^donor_id)
     |> Repo.all
+  end
+
+  def initialize_and_create_vault(attrs \\ %{}) do
+    Multi.new()
+    |> send_iats_vault_creation
+    |> create_vault(attrs)
+    |> Repo.transaction
+  end
+
+  def get_vault_for_donor(donor_id) do
+    Vault
+    |> where([vault], vault.donor_id == ^donor_id)
+    |> Repo.all
+  end
+
+  def get_cards_for_vault(vault_id) do
+    VaultCard
+    |> where([card], card.vault_id == ^vault_id)
+    |> Repo.all
+  end
+
+  defp send_iats_vault_creation(multi) do
+    Multi.run(multi, :created_vault, fn _repo, %{} ->
+      vault = Exiats.create_vault_for_donor()
+      {:ok, vault}
+    end)
+  end
+
+  defp create_vault(multi, attrs) do
+    Multi.run(multi, :final, fn repo, %{created_vault: created_vault} ->
+      vault = %{
+        iats_id: created_vault["data"]["vaultKey"],
+        donor_id: attrs.donor_id
+      }
+      %Vault{}
+      |> Vault.changeset(vault)
+      |> repo.insert
+    end)
+  end
+
+  def add_credit_card_to_vault(attrs \\ %{}) do
+    Multi.new()
+    |> send_iats_vault_card_creation(attrs)
+    |> create_vault_card(attrs)
+    |> Repo.transaction
+  end
+
+  defp send_iats_vault_card_creation(multi, attrs) do
+    Multi.run(multi, :added_card, fn _repo, %{} ->
+      card = Exiats.add_card_to_vault(attrs.vault_key, attrs.cryptogram)
+      {:ok, card}
+    end)
+  end
+
+  defp create_vault_card(multi, attrs) do
+    Multi.run(multi, :final, fn repo, %{added_card: added_card} ->
+      card = %{
+        vault_id: attrs.vault_key,
+        iats_id: Integer.to_string(added_card["data"]["id"]),
+        name: attrs.name,
+      }
+      %VaultCard{}
+      |> VaultCard.changeset(card)
+      |> repo.insert
+    end)
   end
 end

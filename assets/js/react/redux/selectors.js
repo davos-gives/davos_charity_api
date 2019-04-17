@@ -9,3 +9,9 @@ export const getDonorInfo = store =>
 
 export const getPaymentInfo = store =>
   store.paymentInfo
+
+export const getStore = store =>
+  store
+
+export const getApi = store =>
+  store.api
