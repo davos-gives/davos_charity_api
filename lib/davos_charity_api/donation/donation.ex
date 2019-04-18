@@ -1,5 +1,9 @@
 defmodule DavosCharityApi.Donation do
 
+  import Ecto.Query
+  import Exiats
+  import IEx
+
   alias DavosCharityApi.Repo
   alias DavosCharityApi.Donation.Ongoing
   alias DavosCharityApi.Donation.Payment
@@ -7,18 +11,101 @@ defmodule DavosCharityApi.Donation do
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Donor.DonorHistory
   alias Exiats.Owner
-  alias Ecto.Multi
+  alias Exiats.OngoingDonation
 
-  import Ecto.Query
-  import Exiats
-  import IEx
+  alias Ecto.Multi
 
   def get_ongoing_donation!(id), do: Repo.get!(Ongoing, id)
 
   def create_ongoing_donation(attrs \\ %{}) do
-    %Ongoing{}
-    |> Ongoing.changeset(attrs)
-    |> Repo.insert
+    response = Multi.new()
+    |> format_data_for_iats(attrs)
+    |> submit_data_to_iats(attrs)
+    |> create_ongoing_donation_in_db(attrs)
+    |> create_ongoing_payment(attrs)
+    |> Repo.transaction()
+  end
+
+  def create_donation(attrs \\ %{}) do
+    response = Multi.new()
+    |> format_data_for_iats(attrs)
+    |> submit_data_to_iats(attrs)
+    |> create_donation_history(attrs)
+    |> create_payment(attrs)
+    |> Repo.transaction
+  end
+
+
+  def create_vault_donation(attrs \\ %{}) do
+    response = Multi.new()
+    |> format_data_for_iats(attrs)
+    |> submit_vault_data_to_iats(attrs)
+    |> create_donation_history(attrs)
+    |> create_payment(attrs)
+    |> Repo.transaction
+  end
+
+  def create_ongoing_vault_donation(attrs \\ %{}) do
+    response = Multi.new()
+    |> format_data_for_iats(attrs)
+    |> submit_vault_data_to_iats(attrs)
+    |> create_ongoing_donation_in_db(attrs)
+    |> create_ongoing_payment(attrs)
+    |> Repo.transaction
+  end
+
+  def create_ongoing_donation_in_db(multi, attrs) do
+    Multi.run(multi, :created_ongoing_donation, fn repo, %{submitted_data: submitted_data} ->
+      ongoingDonation = %{
+        frequency: "weekly",
+        amount: attrs["amount"],
+        donor_id: attrs["donor_id"],
+        status: "active",
+        campaign_id: attrs["campaign_id"],
+        reference_number: submitted_data["data"]["referenceNumber"],
+      }
+
+      new_ongoing = %Ongoing{}
+      |> Ongoing.changeset(ongoingDonation)
+      |> repo.insert
+
+      new_ongoing
+    end)
+  end
+
+  def create_payment(multi, attrs) do
+    Multi.run(multi, :created_payment, fn repo, %{submitted_data: submitted_data} ->
+      payment = %{
+        amount: to_integer(submitted_data["data"]["originalFullAmount"]),
+        frequency: "one-time",
+        reference_number: submitted_data["data"]["referenceNumber"],
+        donor_id: attrs["donor_id"],
+        campaign_id: attrs["campaign_id"]
+      }
+      new_payment = %Payment{}
+      |> Payment.changeset(payment)
+      |> repo.insert
+
+      {:ok, new_payment}
+    end)
+  end
+
+  def create_ongoing_payment(multi, attrs) do
+    Multi.run(multi, :created_payment, fn repo, %{submitted_data: submitted_data, created_ongoing_donation: created_ongoing_donation} ->
+      payment = %{
+        amount: to_integer(submitted_data["data"]["originalFullAmount"]),
+        frequency: "one-time",
+        reference_number: submitted_data["data"]["referenceNumber"],
+        donor_id: attrs["donor_id"],
+        campaign_id: attrs["campaign_id"],
+        ongoing_donation_id: created_ongoing_donation.id,
+      }
+      new_payment = %Payment{}
+      |> Payment.changeset(payment)
+      |> repo.insert
+
+      {:ok, new_payment}
+    end)
   end
 
   def list_ongoing_donations() do
@@ -86,25 +173,6 @@ defmodule DavosCharityApi.Donation do
     |> Repo.all
   end
 
-  def create_donation(attrs \\ %{}) do
-    response = Multi.new()
-    |> format_data_for_iats(attrs)
-    |> submit_data_to_iats(attrs)
-    |> create_donation_history(attrs)
-    |> create_payment(attrs)
-    |> Repo.transaction
-  end
-
-  def create_vault_donation(attrs \\ %{}) do
-    response = Multi.new()
-    |> format_data_for_iats(attrs)
-    |> submit_vault_data_to_iats(attrs)
-    |> create_donation_history(attrs)
-    |> create_payment(attrs)
-    |> Repo.transaction
-
-  end
-
   defp format_data_for_iats(multi, attrs) do
     Multi.run(multi, :formatted_data, fn _repo, %{} ->
       owner = %Owner{
@@ -119,34 +187,37 @@ defmodule DavosCharityApi.Donation do
     end)
   end
 
-  defp submit_vault_data_to_iats(multi, attrs) do
+  defp submit_vault_data_to_iats(multi, attrs = %{"frequency" => "one-time"}) do
     Multi.run(multi, :submitted_data, fn _repo, %{formatted_data: formatted_data} ->
       payment = Exiats.vault_sale(attrs["vault_id"], attrs["vault_key"], Float.to_string(attrs["amount"] / 100), formatted_data)
       {:ok, payment }
     end)
   end
 
-  defp submit_data_to_iats(multi, attrs) do
+  defp submit_vault_data_to_iats(multi, attrs) do
+    Multi.run(multi, :submitted_data, fn _repo, %{formatted_data: formatted_data} ->
+      ongoing = %OngoingDonation{
+        frequency: attrs["frequency"],
+      }
+      payment = Exiats.vault_sale(attrs["vault_id"], attrs["vault_key"], ongoing, Float.to_string(attrs["amount"] / 100), formatted_data)
+      {:ok, payment }
+    end)
+  end
+
+  defp submit_data_to_iats(multi, attrs = %{"frequency" => "one-time"}) do
     Multi.run(multi, :submitted_data, fn _repo, %{formatted_data: formatted_data} ->
       payment = Exiats.sale(Float.to_string(attrs["amount"] / 100), formatted_data, attrs["cryptogram"])
       {:ok, payment }
     end)
   end
 
-  def create_payment(multi, attrs) do
-    Multi.run(multi, :created_payment, fn repo, %{submitted_data: submitted_data} ->
-      payment = %{
-        amount: to_integer(submitted_data["data"]["originalFullAmount"]),
-        frequency: "one-time",
-        reference_number: submitted_data["data"]["referenceNumber"],
-        donor_id: attrs["donor_id"],
-        campaign_id: attrs["campaign_id"]
+  defp submit_data_to_iats(multi, attrs = %{"frequency" => _frequency}) do
+    Multi.run(multi, :submitted_data, fn _repo, %{formatted_data: formatted_data} ->
+      ongoing = %OngoingDonation{
+        frequency: attrs["frequency"],
       }
-      new_payment = %Payment{}
-      |> Payment.changeset(payment)
-      |> repo.insert
-
-      {:ok, new_payment}
+      payment = Exiats.sale(Float.to_string(attrs["amount"] / 100), formatted_data, ongoing, attrs["cryptogram"])
+      {:ok, payment }
     end)
   end
 

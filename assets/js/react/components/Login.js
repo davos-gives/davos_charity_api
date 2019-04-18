@@ -45,7 +45,7 @@ class Login extends React.Component {
       }));
       store.dispatch(readEndpoint("donors/me?include=addresses,vaults"))
       .then(() => {
-        store.dispatch(readEndpoint(`vaults/2/vault_cards`))
+        store.dispatch(readEndpoint(`vaults/${this.props.api.vaults.data[0].id}/vault_cards`))
         .then(() => {
           this.props.updatePersonalInformation({
             fname: this.props.api.donors.data[0].attributes.fname,

@@ -23,6 +23,7 @@ class ReviewPage extends React.Component {
 
   submitForm = () => {
     if(this.props.api.vaults) {
+      if(this.props.giftInfo.frequency == "one-time") {
       store.dispatch(setAxiosConfig({baseURL: '/api/'}));
       const payment = {
         type: "payments",
@@ -39,50 +40,112 @@ class ReviewPage extends React.Component {
       .then(() => {
         this.props.history.push(`thanks`);
       })
-    } else {
-      store.dispatch(setAxiosConfig({baseURL: '/api/'}));
-      const donor = {
-        type: 'donors',
-        attributes: {
-          fname: this.props.donorInfo.fname,
-          lname: this.props.donorInfo.lname,
-          email: this.props.donorInfo.email,
-        },
-      }
-      store.dispatch(createResource(donor))
-      .then(() => {
+      } else {
+        store.dispatch(setAxiosConfig({baseURL: '/api/'}));
         const payment = {
           type: "payments",
           attributes: {
             amount: this.props.giftInfo.amount,
-            frequency: "one-time",
-            cryptogram: this.props.paymentInfo.crypto,
+            frequency: this.props.giftInfo.frequency,
+            vault_id: this.props.api.vaults.data[0].attributes["iats-id"],
+            vault_key: this.props.api["vault-cards"].data[0].attributes["iats-id"],
             donor_id: this.props.api.donors.data[0].id,
             campaign_id: this.props.match.url.split("/")[2],
           }
         }
         store.dispatch(createResource(payment))
-       .then(() => {
-         const address = {
-           type: "addresses",
-           attributes: {
-             name: "default",
-             address_1: this.props.donorInfo.address_1,
-             city: this.props.donorInfo.city,
-             postal_code: this.props.donorInfo.postal_code,
-             country: "Canada",
-             province: this.props.donorInfo.province,
-             donor_id: this.props.api.donors.data[0].id,
+        .then(() => {
+          this.props.history.push(`thanks`);
+        })
+      }
+    } else {
+      if(this.props.giftInfo.frequency == "one-time") {
+        store.dispatch(setAxiosConfig({baseURL: '/api/'}));
+        const donor = {
+          type: 'donors',
+          attributes: {
+            fname: this.props.donorInfo.fname,
+            lname: this.props.donorInfo.lname,
+            email: this.props.donorInfo.email,
+          },
+        }
+        store.dispatch(createResource(donor))
+        .then(() => {
+          const payment = {
+            type: "payments",
+            attributes: {
+              amount: this.props.giftInfo.amount,
+              frequency: "one-time",
+              cryptogram: this.props.paymentInfo.crypto,
+              donor_id: this.props.api.donors.data[0].id,
+              campaign_id: this.props.match.url.split("/")[2],
+            }
+          }
+          store.dispatch(createResource(payment))
+         .then(() => {
+           const address = {
+             type: "addresses",
+             attributes: {
+               name: "default",
+               address_1: this.props.donorInfo.address_1,
+               city: this.props.donorInfo.city,
+               postal_code: this.props.donorInfo.postal_code,
+               country: "Canada",
+               province: this.props.donorInfo.province,
+               donor_id: this.props.api.donors.data[0].id,
+             }
            }
-         }
-         store.dispatch(createResource(address));
-       })
-       .then(() => {
-         this.props.history.push(`thanks`);
-       })
-      })
-
+           store.dispatch(createResource(address));
+         })
+         .then(() => {
+           this.props.history.push(`thanks`);
+         })
+        })
+      } else {
+        store.dispatch(setAxiosConfig({baseURL: '/api/'}));
+        const donor = {
+          type: 'donors',
+          attributes: {
+            fname: this.props.donorInfo.fname,
+            lname: this.props.donorInfo.lname,
+            email: this.props.donorInfo.email,
+          },
+        }
+        store.dispatch(createResource(donor))
+        .then(() => {
+          const payment = {
+            type: "payments",
+            attributes: {
+              amount: this.props.giftInfo.amount,
+              frequency: this.props.giftInfo.frequency,
+              cryptogram: this.props.paymentInfo.crypto,
+              donor_id: this.props.api.donors.data[0].id,
+              campaign_id: this.props.match.url.split("/")[2],
+            }
+          }
+          store.dispatch(createResource(payment))
+         .then(() => {
+           const address = {
+             type: "addresses",
+             attributes: {
+               name: "default",
+               address_1: this.props.donorInfo.address_1,
+               city: this.props.donorInfo.city,
+               postal_code: this.props.donorInfo.postal_code,
+               country: "Canada",
+               province: this.props.donorInfo.province,
+               donor_id: this.props.api.donors.data[0].id,
+             }
+           }
+           store.dispatch(createResource(address));
+         })
+         .then(() => {
+           this.props.history.push(`thanks`);
+         })
+        })
+      }
     }
+
   }
 
   linkTo(step) {
