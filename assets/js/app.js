@@ -2,6 +2,7 @@
 // The MiniCssExtractPlugin is used to separate it out into
 // its own CSS file.
 import css from "../css/app.css"
+import receipts from "../css/receipts.css";
 import 'react-select/dist/react-select.css';
 
 

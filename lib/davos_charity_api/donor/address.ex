@@ -13,13 +13,14 @@ defmodule DavosCharityApi.Donor.Address do
     field :city, :string
     field :province, :string
     field :country, :string
+    field :primary, :boolean
     belongs_to :donor, Donor
     timestamps()
   end
 
   def changeset(%Address{} = model, attrs) do
     model
-    |> cast(attrs, [:name, :address_1, :address_2, :postal_code, :city, :province, :country, :donor_id])
+    |> cast(attrs, [:name, :address_1, :address_2, :postal_code, :city, :province, :country, :donor_id, :primary])
     |> validate_required([:name, :address_1, :postal_code, :city, :province, :country, :donor_id])
   end
 end

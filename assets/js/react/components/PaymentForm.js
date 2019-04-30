@@ -33,6 +33,8 @@ class PaymentForm extends React.Component {
     this.props.progressChange();
   }
 
+
+
   // submitForm = (newLocation) => {
   //   this.props.updatePaymentInformation({
   //     number: this.state.number.value,
@@ -44,16 +46,18 @@ class PaymentForm extends React.Component {
 
   render() {
     return (
-      <div>
-      <div id="checkout-embed"></div>
-
-      <ButtonBlock
-        buttonText={"Next"}
-        goBack={this.props.goBack}
-        handleClick={this.submitForm}
-        inReview={this.props.inReview}
-        formValid={this.state.canSubmit}
-      />
+      <div class="w-full">
+        <div id="checkout-embed"></div>
+      <div class="">
+        <ButtonBlock
+          buttonText={"Next"}
+          goBack={this.props.goBack}
+          handleClick={this.submitForm}
+          inReview={this.props.inReview}
+          hasBack={true}
+          formValid={this.state.canSubmit}
+        />
+      </div>
     </div>
     )
   }

@@ -20,7 +20,7 @@ defmodule DavosCharityApi.MixProject do
   def application do
     [
       mod: {DavosCharityApi.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :pdf_generator]
     ]
   end
 
@@ -56,8 +56,10 @@ defmodule DavosCharityApi.MixProject do
       {:edeliver, ">= 1.6.0"},
       {:distillery, "~> 2.0", warn_missing: false},
       {:exiats, path: "/Users/ian_knauer/programming/davos/exiats"},
-      {:decimal, "~> 1.0"}
-
+      {:decimal, "~> 1.0"},
+      {:bamboo, "~> 1.2"},
+      {:pdf_generator, "~> 0.5.2"},
+      {:export, "~> 0.1.0"}
     ]
   end
 

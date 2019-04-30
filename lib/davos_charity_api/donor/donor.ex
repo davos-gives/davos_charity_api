@@ -23,15 +23,18 @@ defmodule DavosCharityApi.Donor do
   schema "donors" do
     field :email, :string
     field :fname, :string
-    field :password_hash, :string
     field :lname, :string
+    field :password_hash, :string
     field :password, :string, virtual: true
+    field :password_confirmation, :string, virtual: true
+    field :verified, :boolean, default: false
 
     has_many :addresses, Address
     has_many :ongoing_donations, Ongoing
     has_many :payments, Payment
     has_many :donor_organization_relationships, DonorOrganizationRelationship
     has_many :vaults, Vault
+    has_many :vault_cards, VaultCard
     timestamps()
   end
 
@@ -43,19 +46,29 @@ defmodule DavosCharityApi.Donor do
   end
 
   @doc false
+
+  def changeset(%Donor{} = donor, attrs = %{reset: _}) do
+
+    donor
+    |> cast(attrs, [:password, :password_confirmation])
+    |> validate_confirmation(:password, message: "confirmation does not match password")
+    |> hash_password()
+  end
+
   def changeset(donor, attrs = %{"password" => _}) do
     donor
-    |> cast(attrs, [:fname, :lname, :email, :password])
-    |> validate_required([:fname, :lname, :email])
+    |> cast(attrs, [:fname, :lname, :email, :password, :password_confirmation, :verified])
+    |> validate_required([:fname, :lname, :email, :password, :password_confirmation])
+    |> validate_confirmation(:password, message: "confirmation does not match password")
+    |> validate_format(:email, ~r/@/)
     |> unsafe_validate_unique([:email], DavosCharityApi.Repo)
     |> hash_password()
   end
 
-
   def changeset(donor, attrs) do
     donor
-    |> cast(attrs, [:fname, :lname, :email, :password])
-    |> validate_required([:fname, :lname, :email])
+    |> cast(attrs, [:fname, :lname, :email, :password, :verified])
+    |> validate_required([])
     |> unsafe_validate_unique([:email], DavosCharityApi.Repo)
   end
 
@@ -63,7 +76,7 @@ defmodule DavosCharityApi.Donor do
 
   def get_donor!(id) do
     donor = Repo.get!(Donor, id)
-    donor = Repo.preload(donor, [:vaults, :addresses])
+    donor = Repo.preload(donor, [:vaults, :addresses, :vault_cards])
     donor
    end
 
@@ -73,6 +86,18 @@ defmodule DavosCharityApi.Donor do
     %Donor{}
     |> Donor.changeset(attrs)
     |> Repo.insert
+  end
+
+  def update_donor(%Donor{} = donor, attrs) do
+    donor
+    |> Donor.changeset(attrs)
+    |> Repo.update
+  end
+
+  def mark_account_as_verified(%Donor{} = donor) do
+    donor
+    |> Donor.changeset(%{verified: true})
+    |> Repo.update
   end
 
   def get_address!(id), do: Repo.get!(Address, id)
@@ -123,6 +148,12 @@ defmodule DavosCharityApi.Donor do
   def list_history_for_donor(donor_id) do
     DonorHistory
     |> where([dh], dh.donor_id == ^donor_id)
+    |> Repo.all
+  end
+
+  def list_cards_for_donor(donor_id) do
+    VaultCard
+    |> where([vc], vc.donor_id == ^donor_id)
     |> Repo.all
   end
 

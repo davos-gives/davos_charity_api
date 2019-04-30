@@ -2,21 +2,24 @@ defmodule DavosCharityApiWeb.SessionController do
   use DavosCharityApiWeb, :controller
 
   alias Comeonin.Bcrypt
-
   alias DavosCharityApi.Donor
-
-  require IEx
 
   def create(conn, %{"email" => email, "password" => password}) do
     try do
       donor = Donor.get_donor_by_email!(email)
-      if Bcrypt.checkpw(password, donor.password_hash) do
-        conn
-        |> render("token.json", donor)
+      if donor.verified do
+        if Bcrypt.checkpw(password, donor.password_hash) do
+          conn
+          |> render("token.json", donor)
+        else
+          conn
+          |> put_status(:unauthorized)
+          |> render(DavosCharityApiWeb.ErrorView, "401.json-api", %{detail: "Error logging in a user with that email and password"})
+        end
       else
         conn
         |> put_status(:unauthorized)
-        |> render(DavosCharityApiWeb.ErrorView, "401.json-api", %{detail: "Error logging in a user with that email and password"})
+        |> render(DavosCharityApiWeb.ErrorView, "401.json-api", %{detail: "Account has yet to be verified, please check your email for a verification link"})
       end
     rescue
       e ->
@@ -32,13 +35,19 @@ defmodule DavosCharityApiWeb.SessionController do
     |> JaSerializer.Params.to_attributes()
     try do
       donor = Donor.get_donor_by_email!(data["email"])
-      if Bcrypt.checkpw(data["password"], donor.password_hash) do
-        conn
-        |> render("json-token.json", donor)
+      if donor.verified do
+        if Bcrypt.checkpw(data["password"], donor.password_hash) do
+          conn
+          |> render("json-token.json", donor)
+        else
+          conn
+          |> put_status(:unauthorized)
+          |> render(DavosCharityApiWeb.ErrorView, "401.json-api", %{detail: "Error logging in a user with that email and password"})
+        end
       else
         conn
         |> put_status(:unauthorized)
-        |> render(DavosCharityApiWeb.ErrorView, "401.json-api", %{detail: "Error logging in a user with that email and password"})
+        |> render(DavosCharityApiWeb.ErrorView, "401.json-api", %{detail: "Account has yet to be verified, please check your email for a verification link"})
       end
     rescue
       e ->

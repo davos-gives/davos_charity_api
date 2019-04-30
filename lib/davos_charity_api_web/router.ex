@@ -1,6 +1,11 @@
 defmodule DavosCharityApiWeb.Router do
   use DavosCharityApiWeb, :router
 
+  if Mix.env == :dev do
+   forward "/sent_emails", Bamboo.SentEmailViewerPlug
+ end
+
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -73,20 +78,26 @@ defmodule DavosCharityApiWeb.Router do
     pipe_through :api
 
     get "/donors/me", DonorController, :show_current
+    put "/verify-accounts", DonorController, :verify_email
+    put "/reset-passwords", DonorController, :send_reset_email
+
+    put "/donors/reset-passwords", DonorController, :reset_donor_password
 
     resources "/donors", DonorController, except: [:new, :edit]
+
+
     resources "/payments", PaymentController, except: [:new, :edit]
     resources "/payment-methods", PaymentMethodController, except: [:new, :edit]
     resources "/addresses", AddressController, except: [:new, :edit]
     resources "/ongoing-donations", OngoingDonationController, except: [:new, :edit]
-    resources "/campaigns", CampaignController, except: [:new, :edit]
+    resources "/campaigns", Api.CampaignController, except: [:new, :edit]
     resources "/organizations", OrganizationController, except: [:new, :edit]
     resources "/donor-organization-relationships", DonorOrganizationRelationshipController, except: [:new, :edit]
 
     post "/session", SessionController, :create
 
     get "/payments/:payment_id/donor-organization-relationship", DonorOrganizationRelationshipController, :relationship_for_payment
-    get "/payments/:payment_id/campaign", CampaignController, :campaign_for_payment
+    get "/payments/:payment_id/campaign", Api.CampaignController, :campaign_for_payment
 
     get "/vaults/:vault_id/vault_cards", VaultCardController, :vault_cards_for_vault
 
@@ -94,17 +105,19 @@ defmodule DavosCharityApiWeb.Router do
     get "/donors/:donor_id/payment-methods", PaymentMethodController, :payment_methods_for_donor
     get "/donors/:donor_id/ongoing-donations", OngoingDonationController, :ongoing_donations_for_donor
     get "/donors/:donor_id/payments", PaymentController, :payments_for_donor
+    get "/donors/:donor_id/vaults", VaultController, :vaults_for_donor
+    get "/donors/:donor_id/vault-cards", VaultCardController, :vault_cards_for_donor
 
     get "/ongoing-donations/:ongoing_donation_id/donor", DonorController, :donor_for_ongoing_donation
     get "/ongoing-donations/:ongoing_donation_id/payment-method", PaymentMethodController, :payment_method_for_ongoing_donation
-    get "/ongoing-donations/:ongoing_donation_id/campaign", CampaignController, :campaign_for_ongoing_donation
+    get "/ongoing-donations/:ongoing_donation_id/campaign", Api.CampaignController, :campaign_for_ongoing_donation
     get "/ongoing-donations/:ongoing_donation_id/donor-organization-relationship", DonorOrganizationRelationshipController, :relationship_for_ongoing_donation
 
     get "/addresses/:address_id/donor", DonorController, :donor_for_address
     get "/payment-methods/:payment_method_id/donor", DonorController, :donor_for_payment_method
 
     get "/campaigns/:campaign_id/organization", OrganizationController, :get_organization_for_campaign
-    get "/organizations/:organization_id/campaigns", CampaignController, :campaigns_for_organization
+    get "/organizations/:organization_id/campaigns", Api.CampaignController, :campaigns_for_organization
 
     get "/donor-organization-relationships/:relationship_id/donor", DonorController, :get_donor_for_relationship
     get "/donor-organization-relationships/:relationship_id/organization", OrganizationController, :get_organization_for_relationship

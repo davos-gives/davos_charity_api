@@ -13,17 +13,22 @@ class PaymentDetailsPage extends React.Component {
     this.props.history.push(`review`);
   }
 
+  goBack = () => {
+    this.props.history.goBack();
+  }
+
   render() {
       const { step, reviewing } = this.props.progressInfo;
 
       return (
         <div>
           <StepTracker />
-          <div className="flex mt-8">
+          <div className="flex mt-8 w-full">
           <PaymentForm
                paymentInfo={this.props.paymentInfo}
                inReview={reviewing}
                progressChange={() => this.progressChange(4)}
+               goBack={() => this.goBack()}
              />
           </div>
         </div>

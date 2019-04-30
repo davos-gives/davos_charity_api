@@ -67,7 +67,7 @@ defmodule DavosCharityApiWeb.OngoingDonationController do
   end
 
   def ongoing_donations_for_relationship(conn, %{"relationship_id" => relationship_id}) do
-    ongoing_donations = Donation.list_ongoing_donations_for_relationship(relationship_id)
+    ongoing_donations= Donation.list_ongoing_donations_for_relationship(relationship_id)
     render(conn, "index.json-api", data: ongoing_donations)
   end
 end

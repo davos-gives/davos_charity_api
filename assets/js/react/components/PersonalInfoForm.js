@@ -97,6 +97,10 @@ class PersonalInfoForm extends React.Component {
     this.setState({ canSubmit: true });
   }
 
+  goBack = () => {
+    this.props.goBack();
+  }
+
   render() {
 
     const provinces = [
@@ -228,6 +232,8 @@ class PersonalInfoForm extends React.Component {
        formValid={this.state.canSubmit}
        inReview={this.props.inReview}
        buttonText={"Next"}
+       hasBack={true}
+       goBack={() => this.goBack()}
      />
      </div>
    );

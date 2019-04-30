@@ -7,12 +7,16 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :davos_charity_api, DavosCharityApiWeb.Endpoint,
+  http: [
+    port: 4001
+  ],
   https: [
-    port: 4000,
-    keyfile: "priv/keys/dev.key",
-    certfile: "priv/keys/dev.crt"
-    ],
-  debug_errors: false,
+        port: 4000,
+        cipher_suite: :strong,
+        certfile: "priv/cert/selfsigned.pem",
+        keyfile: "priv/cert/selfsigned_key.pem"
+  ],
+  errors: false,
   code_reloader: true,
   check_origin: false,
   watchers: [
@@ -48,6 +52,9 @@ config :davos_charity_api, DavosCharityApiWeb.Endpoint,
 # If desired, both `http:` and `https:` keys can be
 # configured to run both http and https servers on
 # different ports.
+
+config :davos_charity_api, DavosCharityApi.Mailer,
+  adapter: Bamboo.LocalAdapter
 
 # Watch static and templates for browser reloading.
 config :davos_charity_api, DavosCharityApiWeb.Endpoint,

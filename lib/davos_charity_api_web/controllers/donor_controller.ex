@@ -4,13 +4,16 @@ defmodule DavosCharityApiWeb.DonorController do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donation
 
+  alias DavosCharityApi.Mailer
+  alias DavosCharityApi.Email
+
   import IEx
 
   plug :authenticate_donor when action in [:show_current]
 
   def show_current(conn, %{current_donor: donor}) do
     conn
-    |> render("show.json-api", data: donor, opts: [include: "addresses,vaults"])
+    |> render("show.json-api", data: donor)
   end
 
   def show(conn, %{"id" => id}) do
@@ -33,10 +36,65 @@ defmodule DavosCharityApiWeb.DonorController do
         |> put_status(:created)
         |> put_resp_header("location", Routes.address_path(conn, :show, donor))
         |> render("show.json-api", data: donor)
+        |> send_verification_email(donor)
+
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_status(:bad_request)
-        |> render(DavosCharityApiWeb.ErrorView, "400,json-api", changeset)
+        |> render(DavosCharityApiWeb.ErrorView, "400.json-api", changeset)
+    end
+  end
+
+  def send_reset_email(conn, %{"email" => email}) do
+    donor = Donor.get_donor_by_email!(email)
+    token = DavosCharityApi.Donor.Token.generate_new_account_token(donor)
+    Email.send_password_reset_email(donor, token)
+    |> Mailer.deliver_now()
+
+    conn
+    |> put_status(:no_content)
+    |> put_resp_header("content-type", "application/vnd.api+json")
+    |> send_resp(204, "")
+  end
+
+  def reset_donor_password(conn, %{"token" => token, "password" => password, "passwordConfirmation" => passwordConfirmation}) do
+
+    with {:ok, donor_id} <- DavosCharityApi.Donor.Token.verify_password_reset_token(token) do
+      donor = Donor.get_donor!(donor_id)
+
+      case Donor.update_donor(donor, %{password: password, password_confirmation: passwordConfirmation, reset: true}) do
+        {:ok, %Donor{} = donor} ->
+          conn
+          |> put_status(:no_content)
+          |> put_resp_header("content-type", "application/vnd.api+json")
+          |> send_resp(204, "")
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          conn
+          |> put_status(:bad_request)
+          |> render(DavosCharityApiWeb.ErrorView, "400.json-api", changeset)
+      end
+      render(conn, "show.json-api", data: donor)
+    else
+      _-> render(DavosCharityApiWeb.ErrorView, "400.json-api")
+    end
+  end
+
+  def send_verification_email(conn, donor) do
+    token = DavosCharityApi.Donor.Token.generate_new_account_token(donor)
+    Email.send_account_verification_email(donor, token)
+    |> Mailer.deliver_now()
+
+    conn
+  end
+
+  def verify_email(conn, %{"token" => token}) do
+    with {:ok, donor_id} <- DavosCharityApi.Donor.Token.verify_new_account_token(token),
+    %Donor{verified: false} = donor <- DavosCharityApi.Donor.get_donor!(donor_id) do
+      DavosCharityApi.Donor.mark_account_as_verified(donor)
+      render(conn, "show.json-api", data: donor)
+    else
+      _ -> render(DavosCharityApiWeb.ErrorView, "400.json-api")
     end
   end
 

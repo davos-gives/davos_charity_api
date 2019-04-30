@@ -10,8 +10,10 @@ defmodule DavosCharityApi.Donation do
   alias DavosCharityApi.Donation
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Donor.DonorHistory
+
   alias Exiats.Owner
   alias Exiats.OngoingDonation
+  alias Exiats.OngoingChanges
 
   alias Ecto.Multi
 
@@ -26,6 +28,27 @@ defmodule DavosCharityApi.Donation do
     |> Repo.transaction()
   end
 
+  def update_ongoing_donation(%Ongoing{} = ongoing, attrs = %{"status" => "cancelled"}) do
+
+    ongoing
+    |> Ongoing.changeset(attrs)
+    |> Repo.update
+  end
+
+  def update_ongoing_donation(%Ongoing{} = ongoing, attrs) do
+    ongoing
+    |> Ongoing.changeset(attrs)
+    |> Repo.update
+  end
+
+  def cancel_ongoing_donation(ongoing, attrs \\ %{}) do
+    ongoing_changes = %OngoingChanges{
+      status: "0",
+      amount: "10.00"
+    }
+    payment = Exiats.recurring_modify(attrs["reference_number"], ongoing_changes)
+  end
+
   def create_donation(attrs \\ %{}) do
     response = Multi.new()
     |> format_data_for_iats(attrs)
@@ -34,7 +57,6 @@ defmodule DavosCharityApi.Donation do
     |> create_payment(attrs)
     |> Repo.transaction
   end
-
 
   def create_vault_donation(attrs \\ %{}) do
     response = Multi.new()
@@ -123,12 +145,6 @@ defmodule DavosCharityApi.Donation do
     Ongoing
     |> where([og], og.donor_organization_relationship_id == ^relationship_id)
     |> Repo.all
-  end
-
-  def update_ongoing_donation(%Ongoing{} = ongoing, attrs) do
-    ongoing
-    |> Ongoing.changeset(attrs)
-    |> Repo.update
   end
 
   def delete_ongoing_donation(%Ongoing{} = model), do: Repo.delete(model)

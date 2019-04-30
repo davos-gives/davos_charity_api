@@ -17,6 +17,10 @@ class PersonalInfoPage extends React.Component {
     }
   }
 
+  goBack = () => {
+    this.props.history.goBack();
+  }
+
   render() {
       const { step, reviewing } = this.props.progressInfo;
 
@@ -28,6 +32,7 @@ class PersonalInfoPage extends React.Component {
               inReview={reviewing}
               donorInfo={this.props.donorInfo}
               progressChange={() => this.progressChange(3)}
+              goBack={() => this.goBack()}
             />
           </div>
         </div>

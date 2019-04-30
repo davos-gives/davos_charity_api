@@ -413,3 +413,10 @@
 b {
   font-weight: 600!important;
 }
+
+@media print {
+  #name {
+    color: red;
+  }
+
+}

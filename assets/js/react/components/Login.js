@@ -26,6 +26,10 @@ class Login extends React.Component {
     this.props.history.push(`personal-info`);
   }
 
+  goBack = () => {
+    this.props.history.goBack();
+  }
+
   login = () => {
     store.dispatch(setAxiosConfig({baseURL: '/api/'}));
     const session = {
@@ -96,13 +100,17 @@ class Login extends React.Component {
             </div>
           </div>
         </div>
-        <div className="flex float-right flex-col">
-          <a className="underline text-purple text-xs text-center" onClick={() => this.progressChange(2)}>Skip for now</a>
+        <div className="flex justify-end mr-8 mt-8">
+          <button className="underline text-purple text-xs text-center mr-10 cursor" onClick={() => this.progressChange(2)}>Skip for now</button>
+        </div>
+        <div class="-mt-8">
           <ButtonBlock
             handleClick={() => this.login()}
             inReview={reviewing}
             formValid={true}
             buttonText={"Login"}
+            hasBack={true}
+            goBack={() => this.goBack()}
           />
         </div>
 

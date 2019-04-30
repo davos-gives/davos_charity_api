@@ -5,12 +5,12 @@ defmodule DavosCharityApiWeb.OrganizationView do
   location "/organizations/:id"
   attributes [:name, :logo]
 
-  has_many :campaigns,
-    serializer: LibraryApiWeb.CampaignView,
-    identifiers: :when_included,
-    links: [
-      related: "/organizations/:id/campaigns"
-    ]
+    has_many :campaigns,
+      serializer: LibraryApiWeb.CampaignView,
+      identifiers: :when_included,
+      links: [
+        related: "/organizations/:id/campaigns"
+      ]
 
     has_many :donor_organization_relationships,
       serializer: LibraryApiWeb.DonorOrganizationRelationshipView,
