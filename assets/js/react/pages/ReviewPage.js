@@ -210,7 +210,7 @@ class ReviewPage extends React.Component {
 
               <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-full">
                 <label className="uppercase text-xs text-grey-darker block pl-4">Receipt using</label>
-                <p className="block mt-2 text-grey-darker font-semibold pl-4 cursor-pointer" onClick={() => this.linkTo('personal-info')}>{donor.address_1}, {donor.city}, {donor.province}, <span className="uppercase">{donor.postal_code}</span></p>
+                <p className="block mt-2 text-grey-darker font-semibold pl-4 cursor-pointer" onClick={() => this.linkTo('davos-personal-info')}>{donor.address_1}, {donor.city}, {donor.province}, <span className="uppercase">{donor.postal_code}</span></p>
               </div>
 
               <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-45/100">

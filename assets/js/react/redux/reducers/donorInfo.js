@@ -9,6 +9,9 @@ const initialState = {
   city: '',
   province: 'AB',
   postal_code: '',
+  address_id: '',
+  address_name: '',
+  is_primary: ''
 };
 
 export default function(state = initialState, action) {
@@ -22,9 +25,12 @@ export default function(state = initialState, action) {
         email: info.email,
         address_1: info.address_1,
         address_2: info.address_2,
+        address_name: info.address_name,
         city: info.city,
         province: info.province,
-        postal_code: info.postal_code
+        postal_code: info.postal_code,
+        address_id: info.address_id,
+        is_primary: info.is_primary,
       };
     }
     default:

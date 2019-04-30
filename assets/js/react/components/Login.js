@@ -69,6 +69,7 @@ class Login extends React.Component {
             city: this.props.api.addresses.data[0].attributes.city,
             province: this.props.api.addresses.data[0].attributes.province,
             postal_code: this.props.api.addresses.data[0].attributes["postal-code"],
+            address_id: this.props.api.addresses.data[0].id,
           })
         })
         .then(() => {
