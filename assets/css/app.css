@@ -420,3 +420,17 @@ b {
   }
 
 }
+
+#checkout-frame > input
+{
+  text-transform: capitalize;
+  color: #606f7b;
+  outline: 0;
+  padding-left: 1rem;
+  margin-top: .5rem;
+  font-weight: 600;
+  border-bottom-width: 1px;
+  border-color: #b8c2cc;
+  border-style: solid;
+  padding-bottom: .75rem;
+}

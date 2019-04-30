@@ -4,4 +4,9 @@ defmodule DavosCharityApiWeb.AddressView do
 
   location "/api/addresses/:id"
   attributes [:name, :address_1, :address_2, :postal_code, :city, :province, :country, :primary]
+
+  has_one :donor,
+    serializer: LibraryApiWeb.DonorView,
+    identifiers: :when_included
+
 end

@@ -3,8 +3,12 @@ import Select from 'react-select';
 import ButtonBlock from './ButtonBlock';
 import MyInput from './MyInput';
 import Formsy from 'formsy-react';
+import store from "../redux/store";
 import { connect } from "react-redux";
 import { updatePersonalInformation } from "../redux/actions";
+import { createResource, setAxiosConfig, readEndpoint } from "redux-json-api";
+
+
 
 class PersonalInfoForm extends React.Component {
 
@@ -13,33 +17,6 @@ class PersonalInfoForm extends React.Component {
 
     this.disableButton = this.disableButton.bind(this);
     this.enableButton = this.enableButton.bind(this);
-
-    // let personalInfo = JSON.parse(localStorage.getItem('donor'));
-
-    // if(personalInfo) {
-    //   this.state = {
-    //     province: personalInfo.province,
-    //     fname: personalInfo.fname,
-    //     lname: personalInfo.lname,
-    //     email: personalInfo.email,
-    //     street: personalInfo.street,
-    //     apt: personalInfo.apt,
-    //     city: personalInfo.city,
-    //     postal: personalInfo.postal,
-    //   }
-    // } else {
-    //   this.state = {
-    //     province: 'AB',
-    //     fname: '',
-    //     lname: '',
-    //     email: '',
-    //     street: '',
-    //     apt: '',
-    //     city: '',
-    //     postal: '',
-    //     canSubmit: false,
-    //   }
-    // }
 
     this.state = {
       fname: this.props.donorInfo.fname,
@@ -84,9 +61,16 @@ class PersonalInfoForm extends React.Component {
   }
 
   submitForm = () => {
-   this.props.updatePersonalInformation(this.state);
-   this.props.progressChange();
-
+    store.dispatch(setAxiosConfig({baseURL: '/api/'}));
+    store.dispatch(readEndpoint(`/donors/email/${this.state.email}`)).then(res => {
+      this.props.updatePersonalInformation(this.state);
+      this.props.recognizedDonor();
+    }).catch(error => {
+        if(error) {
+          this.props.updatePersonalInformation(this.state);
+          this.props.progressChange();
+        }
+    })
   }
 
   disableButton = () => {
@@ -122,13 +106,27 @@ class PersonalInfoForm extends React.Component {
     return (
       <div>
       <Formsy onChange={this.handleInputChange} onValidSubmit={this.submitForm} onValid={this.enableButton} onInvalid={this.disableButton} className="flex flex-wrap mt-4 w-4/5 mx-auto pl-8">
+
+          <MyInput
+           name="email"
+           className="block w-full mt-2 text-grey-darker font-semibold pl-4 outline-none"
+           validations="isEmail"
+           validationError="this is not a valid email"
+           required
+           wrapperDivClassName="border-b border-grey pb-3 mt-6 w-full"
+           label="email"
+           value={this.state.email}
+           errorEmpty={false}
+           placeholder={'bilbo.baggins@theonering.org'}
+          />
+
           <MyInput
            name="fname"
            className="block mt-2 capitalize text-grey-darker font-semibold pl-4 outline-none"
            validations="isAlpha,minLength:2"
            validationError="Cannot be empty"
            required
-           wrapperDivClassName="border-b border-grey pb-3 w-45/100"
+           wrapperDivClassName="border-b border-grey pb-3 mt-6 w-45/100"
            label="first name"
            errorEmpty={false}
            value={this.state.fname}
@@ -143,26 +141,12 @@ class PersonalInfoForm extends React.Component {
            validations="isAlpha,minLength:2"
            validationError="Cannot be empty"
            required
-           wrapperDivClassName="border-b border-grey pb-3 w-45/100"
+           wrapperDivClassName="border-b border-grey pb-3 mt-6 w-45/100"
            label="last name"
            errorEmpty={false}
            value={this.state.lname}
            placeholder={'Baggins'}
            />
-
-           <MyInput
-            name="email"
-            className="block w-full mt-2 text-grey-darker font-semibold pl-4 outline-none"
-            validations="isEmail"
-            validationError="this is not a valid email"
-            required
-            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-full"
-            label="email"
-            value={this.state.email}
-            errorEmpty={false}
-            placeholder={'bilbo.baggins@theonering.org'}
-           />
-
 
            <MyInput
             name="address_1"

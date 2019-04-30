@@ -13,15 +13,28 @@ defmodule DavosCharityApiWeb.DonorController do
 
   def show_current(conn, %{current_donor: donor}) do
     conn
-    |> render("show.json-api", data: donor)
+    |> render("show.json-api", data: donor, opts: [include: conn.query_params["include"]])
+
   end
 
   def show(conn, %{"id" => id}) do
     donor = Donor.get_donor!(id)
-    render(conn, "show.json-api", data: donor)
+    render(conn, "show.json-api", data: donor, opts: [include: conn.query_params["include"]])
   end
 
-  def index(conn, _params) do
+  def donor_by_email(conn, %{"email_address" => email_address}) do
+    donor = Donor.get_donor_by_email!(email_address)
+
+    conn
+    |> put_status(:no_content)
+    |> put_resp_header("content-type", "application/vnd.api+json")
+    |> send_resp(204, "")
+  end
+
+
+
+  def index(conn, params) do
+    IEx.pry
     donors = Donor.list_donors()
     render(conn, "index.json-api", data: donors)
   end
@@ -97,7 +110,6 @@ defmodule DavosCharityApiWeb.DonorController do
       _ -> render(DavosCharityApiWeb.ErrorView, "400.json-api")
     end
   end
-
 
 
   def donor_for_ongoing_donation(conn, %{"ongoing_donation_id" => ongoing_donation_id}) do

@@ -8,6 +8,7 @@ defmodule DavosCharityApiWeb.DonorView do
   has_many :addresses,
   serializer: DavosCharityApiWeb.AddressView,
   identifiers: :when_included,
+  include: false,
   links: [
     related: "/api/donors/:id/addresses"
   ]
@@ -15,6 +16,7 @@ defmodule DavosCharityApiWeb.DonorView do
   has_many :ongoing_donations,
   serializer: DavosCharityApiWeb.OngoingDonationView,
   identifiers: :when_included,
+  include: false,
   links: [
     related: "/api/donors/:id/ongoing-donations"
   ]
@@ -22,6 +24,7 @@ defmodule DavosCharityApiWeb.DonorView do
   has_many :payments,
   serializer: DavosCharityApiWeb.PaymentView,
   identifiers: :when_included,
+  include: false,
   links: [
     related: "/api/donors/:id/payments"
   ]
@@ -29,6 +32,7 @@ defmodule DavosCharityApiWeb.DonorView do
   has_many :vaults,
   serializer: DavosCharityApiWeb.VaultView,
   identifiers: :when_included,
+  include: false,
   links: [
     related: "/api/donors/:id/vaults"
   ]
@@ -36,6 +40,7 @@ defmodule DavosCharityApiWeb.DonorView do
   has_many :vault_cards,
   serializer: DavosCharityApiWeb.VaultCardView,
   identifiers: :when_included,
+  include: false,
   links: [
     related: "/api/donors/:id/vault-cards"
   ]

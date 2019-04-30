@@ -55,11 +55,20 @@ defmodule DavosCharityApi.Donor do
     |> hash_password()
   end
 
-  def changeset(donor, attrs = %{"password" => _}) do
+  def changeset(donor, attrs = %{"password" => _, "password_confirmation" => _}) do
     donor
     |> cast(attrs, [:fname, :lname, :email, :password, :password_confirmation, :verified])
     |> validate_required([:fname, :lname, :email, :password, :password_confirmation])
     |> validate_confirmation(:password, message: "confirmation does not match password")
+    |> validate_format(:email, ~r/@/)
+    |> unsafe_validate_unique([:email], DavosCharityApi.Repo)
+    |> hash_password()
+  end
+
+  def changeset(donor, attrs = %{"password" => _, }) do
+    donor
+    |> cast(attrs, [:fname, :lname, :email, :password, :verified])
+    |> validate_required([:fname, :lname, :email, :password])
     |> validate_format(:email, ~r/@/)
     |> unsafe_validate_unique([:email], DavosCharityApi.Repo)
     |> hash_password()
@@ -77,8 +86,7 @@ defmodule DavosCharityApi.Donor do
   def get_donor!(id) do
     donor = Repo.get!(Donor, id)
     donor = Repo.preload(donor, [:vaults, :addresses, :vault_cards])
-    donor
-   end
+  end
 
   def get_donor_by_email!(email), do: Repo.get_by!(Donor, email: email)
 

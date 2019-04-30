@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatPrice, shortenCreditCard } from '../helpers.js';
+import MyInput from '../components/MyInput';
 import { getPaymentInfo, getGiftInfo, getDonorInfo, getProgress, getStore, getApi } from "../redux/selectors";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -13,8 +14,19 @@ import StepTracker from "../components/StepTracker";
 
 class ReviewPage extends React.Component {
 
+  state = {
+    password: '',
+  }
+
+
   componentWillMount() {
     this.setInReviewFlag();
+  }
+
+  handlePasswordChange = (event) => {
+    this.setState({
+      password: event.currentTarget.value
+    })
   }
 
   setInReviewFlag = () => {
@@ -61,13 +73,27 @@ class ReviewPage extends React.Component {
     } else {
       if(this.props.giftInfo.frequency == "one-time") {
         store.dispatch(setAxiosConfig({baseURL: '/api/'}));
-        const donor = {
-          type: 'donors',
-          attributes: {
-            fname: this.props.donorInfo.fname,
-            lname: this.props.donorInfo.lname,
-            email: this.props.donorInfo.email,
-          },
+        if(this.state.password != "") {
+          debugger;
+          var donor = {
+            type: 'donors',
+            attributes: {
+              fname: this.props.donorInfo.fname,
+              lname: this.props.donorInfo.lname,
+              email: this.props.donorInfo.email,
+              password: this.state.password,
+            },
+          }
+        } else {
+          debugger;
+          var donor = {
+            type: 'donors',
+            attributes: {
+              fname: this.props.donorInfo.fname,
+              lname: this.props.donorInfo.lname,
+              email: this.props.donorInfo.email,
+            },
+          }
         }
         store.dispatch(createResource(donor))
         .then(() => {
@@ -196,7 +222,6 @@ class ReviewPage extends React.Component {
                 <label className="uppercase text-xs text-grey-darker block pl-4">I can be reached at</label>
                 <p className="block mt-2 text-grey-darker font-semibold pl-4 cursor-pointer" onClick={() => this.linkTo('personal-info')}>{donor.email}</p>
               </div>
-
             </form>
             </div>
           </div>
@@ -242,7 +267,7 @@ class ReviewPage extends React.Component {
 
               <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-45/100">
                 <label className="uppercase text-xs text-grey-darker block pl-4">Paying with</label>
-                <p className="block mt-2 text-grey-darker pl-4 cursor-pointer" onClick={() => this.linkTo('payment-details')}>card ending with <span className="font-semibold"></span></p>
+                <p className="block mt-2 text-grey-darker pl-4 cursor-pointer" onClick={() => this.linkTo('payment-details')}> Credit card</p>
               </div>
               <div className="w-1/10"></div>
               <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-45/100">
@@ -250,10 +275,21 @@ class ReviewPage extends React.Component {
                 <p className="block mt-2 text-grey-darker font-semibold pl-4 cursor-pointer" onClick={() => this.linkTo('personal-info')}>{donor.email}</p>
               </div>
 
+              <div className="pb-3 mt-6 w-45/100 pl-4">
+                <p class="uppercase text-purple text-xs font-bold mb-2">Add a password</p>
+                <p class="text-purple text-xs">to create a Davos account</p>
+              </div>
+              <div className="w-1/10"></div>
+              <div className="pb-3 mt-3 w-45/100">
+              <div className="bg-white pt-3 pb-3 pl-6 border-b-2">
+                <label className="uppercase text-xs font-bold text-purple block hidden" for="password">password</label>
+                <input className="block mt-4 outline-none" type="password" name="password" placeholder="*************" value={this.state.password} onChange={this.handlePasswordChange}></input>
+              </div>
+              </div>
             </form>
             </div>
           </div>
-          <div className="flex mt-8 w-full pr-8 pr-8 ml-8 pl-8 float-right">
+          <div className="flex w-full pr-8 pr-8 ml-8 pl-8 float-right">
             <div className="w-1/2"></div>
             <div className="w-1/2 ml-8">
               <div className="float-right">

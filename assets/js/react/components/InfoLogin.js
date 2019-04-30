@@ -8,7 +8,7 @@ import { updateProgressStep, updatePersonalInformation, updatePaymentInformation
 import { getApi, getProgress  } from "../redux/selectors";
 
 
-class Login extends React.Component {
+class InfoLogin extends React.Component {
 
   state = {
     username: '',
@@ -33,7 +33,7 @@ class Login extends React.Component {
 
   progressChange = step => {
     this.props.updateProgressStep(step)
-    this.props.history.push(`personal-info`);
+    this.props.history.push(`payment-details`);
   }
 
   goBack = () => {
@@ -95,31 +95,33 @@ class Login extends React.Component {
         <div>
           <div className="flex mt-4">
             <div className="w-3/5 mx-auto pl-8">
-              <div className="bg-white rounded-lg pt-3 pb-3 shadow-md pl-6">
-                <label className="uppercase text-xs font-bold text-purple block" for="username">user name</label>
-                <input className="block mt-4 outline-none w-full" type="text" name="username" placeholder="Username@email.com" value={this.state.username} onChange={this.handleInputChange}></input>
+              <div className="bg-white pt-3 pb-3 pl-2 border-b-2">
+                <label className="uppercase text-xs font-bold text-grey-darker block" for="email">Email</label>
+                <input className="block mt-4 outline-none text-purple text-lg font-extrabold" type="email" name="email" placeholder="" value={this.state.username} onChange={this.handleInputChange}></input>
               </div>
+              <p class="text-sm text-purple pl-2 mt-2">Your email address already has a <span class="font-extrabold">Davos</span> account!</p>
+              <p class="pl-2 mt-8 mb-4">Enter your password to donate with just a few clicks</p>
             </div>
           </div>
           <div className="flex mt-4">
             <div className="w-3/5 mx-auto pl-8">
-              <div className="bg-white rounded-lg pt-3 pb-3 shadow-md pl-6">
-                <label className="uppercase text-xs font-bold text-purple block" for="password">password</label>
-                <input className="block mt-4 outline-none" type="password" name="password" placeholder="*************" value={this.state.password} onChange={this.handleInputChange}></input>
-              </div>
-              <p className="ml-6 text-xs mt-4 text-grey-dark">Forgot password?</p>
+            <div className="bg-white rounded-lg pt-3 pb-3 shadow-md pl-6">
+              <label className="uppercase text-xs font-bold text-purple block" for="password">password</label>
+              <input className="block mt-4 outline-none" type="password" name="password" placeholder="*************" value={this.state.password} onChange={this.handleInputChange}></input>
             </div>
+            <p className="ml-6 text-xs mt-4 text-grey-dark">Forgot password?</p>
+          </div>
           </div>
         </div>
-        <div className="flex justify-end mr-8 mt-8">
-          <button className="underline text-purple text-xs text-center mr-10 cursor" onClick={() => this.progressChange(2)}>Skip for now</button>
+        <div className="flex justify-end mr-2 mt-8">
+          <button className="underline text-purple text-xs text-center mr-10 cursor" onClick={() => this.progressChange(3)}>Skip for now</button>
         </div>
         <div class="-mt-8">
           <ButtonBlock
             handleClick={() => this.login()}
             inReview={reviewing}
             formValid={true}
-            buttonText={"Login with Davos"}
+            buttonText={"Next"}
             hasBack={true}
             goBack={() => this.goBack()}
           />
@@ -135,4 +137,4 @@ class Login extends React.Component {
 
 export default withRouter(connect(
  state => ({ api: getApi(state), progressInfo: getProgress(state)}), {updateProgressStep, updatePersonalInformation},
-)(Login));
+)(InfoLogin));

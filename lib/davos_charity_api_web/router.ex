@@ -78,6 +78,7 @@ defmodule DavosCharityApiWeb.Router do
     pipe_through :api
 
     get "/donors/me", DonorController, :show_current
+    get "/donors/email/:email_address", DonorController, :donor_by_email
     put "/verify-accounts", DonorController, :verify_email
     put "/reset-passwords", DonorController, :send_reset_email
 
