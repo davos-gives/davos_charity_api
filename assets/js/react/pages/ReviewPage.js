@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatPrice, shortenCreditCard } from '../helpers.js';
 import MyInput from '../components/MyInput';
-import { getPaymentInfo, getGiftInfo, getDonorInfo, getProgress, getStore, getApi } from "../redux/selectors";
+import { getPaymentInfo, getGiftInfo, getDonorInfo, getProgress, getStore, getApi, getActiveVaultCard, getActiveSavedAddress } from "../redux/selectors";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { updateProgressStep } from "../redux/actions";
@@ -182,6 +182,8 @@ class ReviewPage extends React.Component {
       const donation = this.props.giftInfo;
       const donor = this.props.donorInfo;
       const payment = this.props.paymentInfo;
+      const card = this.props.vaultCard;
+      const address = this.props.savedAddress;
       const api = this.props.api
 
       if(api.vaults) {
@@ -210,12 +212,12 @@ class ReviewPage extends React.Component {
 
               <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-full">
                 <label className="uppercase text-xs text-grey-darker block pl-4">Receipt using</label>
-                <p className="block mt-2 text-grey-darker font-semibold pl-4 cursor-pointer" onClick={() => this.linkTo('davos-personal-info')}>{donor.address_1}, {donor.city}, {donor.province}, <span className="uppercase">{donor.postal_code}</span></p>
+                <p className="block mt-2 text-grey-darker font-semibold pl-4 cursor-pointer" onClick={() => this.linkTo('davos-personal-info')}>{address.address_1}, {address.city}, {address.province}, <span className="uppercase">{address.postal_code}</span></p>
               </div>
 
               <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-45/100">
                 <label className="uppercase text-xs text-grey-darker block pl-4">Paying with</label>
-                <p className="block mt-2 text-grey-darker pl-4 cursor-pointer" onClick={() => this.linkTo('payment-details')}>{api["vault-cards"].data[0].attributes["card-type"]} card ending with <span className="font-semibold">{api["vault-cards"].data[0].attributes["last-four-digits"]}</span></p>
+                <p className="block mt-2 text-grey-darker pl-4 cursor-pointer" onClick={() => this.linkTo('davos-payment-details')}>{card.cardType} card ending with <span className="font-semibold">{card.lastFourDigits}</span></p>
               </div>
               <div className="w-1/10"></div>
               <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-45/100">
@@ -304,5 +306,5 @@ class ReviewPage extends React.Component {
   }
 }
 export default withRouter(connect(
- state => ({ donorInfo: getDonorInfo(state), giftInfo: getGiftInfo(state), progressInfo: getProgress(state), paymentInfo: getPaymentInfo(state), store: getStore(state), api: getApi(state) }), {updateProgressStep, updateReviewingStatus},
+ state => ({ donorInfo: getDonorInfo(state), giftInfo: getGiftInfo(state), progressInfo: getProgress(state), paymentInfo: getPaymentInfo(state), store: getStore(state), api: getApi(state), vaultCard: getActiveVaultCard(state), savedAddress: getActiveSavedAddress(state) }), {updateProgressStep, updateReviewingStatus},
 )(ReviewPage));

@@ -15,3 +15,9 @@ export const getStore = store =>
 
 export const getApi = store =>
   store.api
+
+export const getActiveVaultCard = store =>
+  store.activeVaultCard
+
+export const getActiveSavedAddress = store =>
+  store.activeSavedAddress

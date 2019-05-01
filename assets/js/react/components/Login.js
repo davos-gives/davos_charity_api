@@ -4,8 +4,8 @@ import store from "../redux/store";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { createResource, setAxiosConfig, readEndpoint } from "redux-json-api";
-import { updateProgressStep, updatePersonalInformation, updatePaymentInformation } from "../redux/actions";
-import { getApi, getProgress  } from "../redux/selectors";
+import { updateProgressStep, updatePersonalInformation, updatePaymentInformation, updateActiveVaultCardInformation, updateSavedAddressInformation} from "../redux/actions";
+import { getApi, getProgress } from "../redux/selectors";
 
 
 class Login extends React.Component {
@@ -61,15 +61,42 @@ class Login extends React.Component {
       .then(() => {
         store.dispatch(readEndpoint(`vaults/${this.props.api.vaults.data[0].id}/vault_cards`))
         .then(() => {
+
+          let primaryCard = this.props.api["vault-cards"]["data"].find(function(element) {
+            return element.attributes.primary == true;
+          });
+
+          this.props.updateActiveVaultCardInformation({
+            id: primaryCard.id,
+            cardType: primaryCard.attributes["card-type"],
+            iatsId: primaryCard.attributes["iats-id"],
+            lastFourDigits: primaryCard.attributes["last-four-digits"],
+            name: primaryCard.attributes.name,
+            primary: primaryCard.attributes.primary
+          })
+        })
+        .then(() => {
           this.props.updatePersonalInformation({
             fname: this.props.api.donors.data[0].attributes.fname,
             lname: this.props.api.donors.data[0].attributes.lname,
             email: this.props.api.donors.data[0].attributes.email,
-            address_1: this.props.api.addresses.data[0].attributes["address-1"],
-            city: this.props.api.addresses.data[0].attributes.city,
-            province: this.props.api.addresses.data[0].attributes.province,
-            postal_code: this.props.api.addresses.data[0].attributes["postal-code"],
-            address_id: this.props.api.addresses.data[0].id,
+          })
+        })
+        .then(() => {
+
+          let primaryAddress = this.props.api["addresses"]["data"].find(function(element) {
+            return element.attributes.primary == true;
+          });
+
+          this.props.updateSavedAddressInformation({
+            address_1: primaryAddress.attributes["address-1"],
+            address_2: primaryAddress.attributes["address-2"],
+            city: primaryAddress.attributes["city"],
+            province: primaryAddress.attributes["province"],
+            postal_code: primaryAddress.attributes["postal-code"],
+            id: primaryAddress.id,
+            name: primaryAddress.attributes['name'],
+            country: primaryAddress.attributes["country"]
           })
         })
         .then(() => {
@@ -80,7 +107,6 @@ class Login extends React.Component {
     })
   }
 
-
   handleInputChange = (event) => {
     this.setState({
       [event.currentTarget.name]: event.currentTarget.value
@@ -88,9 +114,7 @@ class Login extends React.Component {
   }
 
   render() {
-
     const { step, reviewing } = this.props.progressInfo;
-
     return (
       <div>
         <div>
@@ -135,5 +159,5 @@ class Login extends React.Component {
 }
 
 export default withRouter(connect(
- state => ({ api: getApi(state), progressInfo: getProgress(state)}), {updateProgressStep, updatePersonalInformation},
+ state => ({ api: getApi(state), progressInfo: getProgress(state)}), {updateProgressStep, updatePersonalInformation, updateActiveVaultCardInformation, updateSavedAddressInformation},
 )(Login));

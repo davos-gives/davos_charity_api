@@ -7,6 +7,8 @@ import {
   UPDATE_PERSONAL_INFORMATION,
   UPDATE_PAYMENT_INFORMATION,
   UPDATE_REVIEWING_STATUS,
+  UPDATE_ACTIVE_VAULT_CARD_INFORMATION,
+  UPDATE_SAVED_ADDRESS_INFORMATION,
 } from "./actionTypes";
 
 export const updateGiftType = frequency => ({
@@ -53,6 +55,21 @@ export const updatePersonalInformation = info => ({
 
 export const updatePaymentInformation = info => ({
   type: UPDATE_PAYMENT_INFORMATION,
+  payload: {
+    info
+  }
+})
+
+export const updateSavedAddressInformation = info => ({
+  type: UPDATE_SAVED_ADDRESS_INFORMATION,
+  payload: {
+    info
+  }
+})
+
+
+export const updateActiveVaultCardInformation = info => ({
+  type: UPDATE_ACTIVE_VAULT_CARD_INFORMATION,
   payload: {
     info
   }
