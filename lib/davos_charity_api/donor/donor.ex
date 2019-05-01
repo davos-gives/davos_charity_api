@@ -116,7 +116,7 @@ defmodule DavosCharityApi.Donor do
     address.donor
   end
 
-  def create_address(attrs \\ %{}) do
+  def create_address(attrs \\ %{}) do    
     %Address{}
     |> Address.changeset(attrs)
     |> Repo.insert

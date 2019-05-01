@@ -4,7 +4,9 @@ defmodule DavosCharityApiWeb.AddressController do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donor.Address
 
-  plug :authenticate_donor when action in [:show]
+  alias IEx
+
+  plug :authenticate_donor when action in [:show, :create]
 
   def show(conn, %{:current_donor => current_donor, "id" => id}) do
     address = Donor.get_address!(id)
@@ -15,6 +17,24 @@ defmodule DavosCharityApiWeb.AddressController do
         |> render("show.json-api", data: address)
       true ->
         access_error conn
+    end
+  end
+
+  def create(conn, %{:current_donor => current_donor, "data" => data = %{"type" => "addresses", "attributes" => _params}}) do
+    data = data
+    |> JaSerializer.Params.to_attributes()
+    |> Map.put("donor_id", current_donor.id)
+
+    case Donor.create_address(data) do
+      {:ok, %Address{} = address} ->
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.address_path(conn, :show, address))
+        |> render("show.json-api", data: address)
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_status(:bad_request)
+        |> render(DavosCharityApiWeb.ErrorView, "400,json-api", changeset)
     end
   end
 

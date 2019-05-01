@@ -18,11 +18,6 @@ class DavosAddressCreationPage extends React.Component {
     }
   }
 
-  recognizedDonor = () => {
-    console.log('running recognizedDonor')
-    this.props.history.push('personal-info-login')
-  }
-
   goBack = () => {
     this.props.history.goBack();
   }
@@ -38,7 +33,6 @@ class DavosAddressCreationPage extends React.Component {
               inReview={reviewing}
               donorInfo={this.props.donorInfo}
               progressChange={() => this.progressChange(3)}
-              recognizedDonor={() => this.recognizedDonor()}
               goBack={() => this.goBack()}
             />
           </div>

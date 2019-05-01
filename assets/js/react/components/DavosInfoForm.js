@@ -6,8 +6,9 @@ import MyCheckbox from './MyCheckbox';
 import Formsy from 'formsy-react';
 import store from "../redux/store";
 import { connect } from "react-redux";
-import { updatePersonalInformation } from "../redux/actions";
+import { updatePersonalInformation, updateSavedAddressInformation } from "../redux/actions";
 import { createResource, setAxiosConfig, readEndpoint } from "redux-json-api";
+import { getApi } from "../redux/selectors";
 
 
 
@@ -20,10 +21,14 @@ class DavosInfoForm extends React.Component {
     this.enableButton = this.enableButton.bind(this);
 
     this.state = {
-      fname: this.props.donorInfo.fname,
-      lname: this.props.donorInfo.lname,
-      email: this.props.donorInfo.email,
-      province: "AB"
+      address_1: '',
+      address_2: '',
+      city: '',
+      postal_code: '',
+      province: 'AB',
+      country: "Canada",
+      canSubmit: '',
+      name: ''
     }
   }
 
@@ -33,7 +38,9 @@ class DavosInfoForm extends React.Component {
   city: '',
   postal_code: '',
   province: 'AB',
+  country: "Canada",
   canSubmit: '',
+  name: ''
 }
 
 
@@ -54,7 +61,41 @@ class DavosInfoForm extends React.Component {
   }
 
   submitForm = () => {
-    this.props.updatePersonalInformation(this.state);
+
+    store.dispatch(setAxiosConfig({
+      baseURL: '/api',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.api.session.data[0].attributes.token,
+      }
+    }));
+
+    const address = {
+      type: "addresses",
+      attributes: {
+        address_1: this.state.address_1,
+        address_2: this.state.address_2,
+        city: this.state.city,
+        country: this.state.country,
+        postal_code: this.state.postal_code,
+        province: this.state.province,
+        name: this.state.name
+
+      }
+    }
+      store.dispatch(createResource(address))
+      .then((newAddress) => {
+        this.props.updateSavedAddressInformation({
+          address_1: newAddress.data.attributes["address-1"],
+          address_2: newAddress.data.attributes["address-2"],
+          address_name: newAddress.data.attributes.name,
+          city: newAddress.data.attributes.city,
+          province: newAddress.data.attributes.province,
+          postal_code: newAddress.data.attributes["postal-code"],
+          id: newAddress.data.id,
+          name: newAddress.data.attributes["name"],
+          primary: newAddress.data.attributes["primary"]
+        })
+      })
     this.props.progressChange();
 
   }
@@ -95,13 +136,13 @@ class DavosInfoForm extends React.Component {
       <Formsy onChange={this.handleInputChange} onValidSubmit={this.submitForm} onValid={this.enableButton} onInvalid={this.disableButton} className="flex flex-wrap mt-4 w-4/5 mx-auto pl-8">
 
           <MyInput
-           name="address_name"
+           name="name"
            className="block mt-2 text-grey-darker font-semibold pl-4 outline-none w-full"
            validations="minLength:2"
            required
            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-full"
            label="Address name"
-           value={this.state.address_name}
+           value={this.state.name}
            errorEmpty={false}
            placeholder={"Home"}
           />
@@ -191,4 +232,4 @@ class DavosInfoForm extends React.Component {
   }
 }
 
-export default connect(null, {updatePersonalInformation})(DavosInfoForm);
+export default connect(state => ({api: getApi(state)}), {updatePersonalInformation, updateSavedAddressInformation})(DavosInfoForm);
