@@ -8,6 +8,7 @@ import PersonalInfoPage from "./pages/PersonalInfoPage";
 import DavosAdressPage from "./pages/DavosAddressPage";
 import PersonalInfoLoginPage from "./pages/PersonalInfoLoginPage";
 import DavosAddressCreationPage from "./pages/DavosAddressCreationPage";
+import DavosPaymentCreationPage from "./pages/DavosPaymentCreationPage";
 import ReviewPage from "./pages/ReviewPage";
 import ThanksPage from "./pages/ThanksPage";
 
@@ -25,6 +26,7 @@ class Payments extends React.Component {
         <Route path={`${match.url}/davos-personal-info`} render={DavosAdressPage} />
         <Route path={`${match.url}/personal-info-login`} render={PersonalInfoLoginPage} />
         <Route path={`${match.url}/add-davos-address`} render={DavosAddressCreationPage} />
+        <Route path={`${match.url}/add-davos-card`} render={DavosPaymentCreationPage} />
         <Route path={`${match.url}/davos-payment-details`} render={DavosPaymentDetailsPage} />
         <Route path={`${match.url}/payment-details`} render={PaymentDetailsPage} />
         <Route path={`${match.url}/review`} render={ReviewPage} />

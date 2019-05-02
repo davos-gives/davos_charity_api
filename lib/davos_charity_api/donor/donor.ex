@@ -116,7 +116,7 @@ defmodule DavosCharityApi.Donor do
     address.donor
   end
 
-  def create_address(attrs \\ %{}) do    
+  def create_address(attrs \\ %{}) do
     %Address{}
     |> Address.changeset(attrs)
     |> Repo.insert
@@ -206,27 +206,43 @@ defmodule DavosCharityApi.Donor do
   def add_credit_card_to_vault(attrs \\ %{}) do
     Multi.new()
     |> send_iats_vault_card_creation(attrs)
+    |> get_iats_vault_card_information(attrs)
     |> create_vault_card(attrs)
     |> Repo.transaction
   end
 
   defp send_iats_vault_card_creation(multi, attrs) do
     Multi.run(multi, :added_card, fn _repo, %{} ->
-      card = Exiats.add_card_to_vault(attrs.vault_key, attrs.cryptogram)
+      card = Exiats.add_card_to_vault(attrs["vault_key"], attrs["crypto"])
+      {:ok, card}
+    end)
+  end
+
+  defp get_iats_vault_card_information(multi, attrs) do
+    Multi.run(multi, :added_card_info, fn _repo, %{added_card: added_card} ->
+      card = Exiats.get_vault_card(attrs["vault_key"], Integer.to_string(added_card["data"]["id"]))
       {:ok, card}
     end)
   end
 
   defp create_vault_card(multi, attrs) do
-    Multi.run(multi, :final, fn repo, %{added_card: added_card} ->
+    Multi.run(multi, :final, fn repo, %{added_card_info: added_card_info} ->
       card = %{
-        vault_id: attrs.vault_key,
-        iats_id: Integer.to_string(added_card["data"]["id"]),
-        name: attrs.name,
+        donor_id: attrs["donor_id"],
+        vault_id: attrs["vault_id"],
+        name: attrs["name"],
+        card_type: added_card_info["cardType"],
+        last_four_digits: added_card_info["cardNoLast4"],
+        iats_id: Integer.to_string(added_card_info["id"]),
+        expiry_month: added_card_info["cardExpMM"],
+        expiry_year: added_card_info["cardExpYY"]
       }
-      %VaultCard{}
+
+      newVaultCard = %VaultCard{}
       |> VaultCard.changeset(card)
       |> repo.insert
+
+      {:ok, newVaultCard}
     end)
   end
 end

@@ -94,6 +94,7 @@ defmodule DavosCharityApiWeb.Router do
     resources "/campaigns", Api.CampaignController, except: [:new, :edit]
     resources "/organizations", OrganizationController, except: [:new, :edit]
     resources "/donor-organization-relationships", DonorOrganizationRelationshipController, except: [:new, :edit]
+    resources "/vault-cards", VaultCardController, except: [:new, :edit]
 
     post "/session", SessionController, :create
 

@@ -97,12 +97,11 @@
     </div>
   </div>
 </div>
-<script src="https://secure-v.goemerchant.com//restgw/cdn/cryptogram.min.js"
+<!-- <script src="https://secure-v.goemerchant.com//restgw/cdn/cryptogram.min.js"
 id="checkout-js" type="text/javascript"
 data-transcenter="209141"
 data-processor="201173"
 data-styleembed=TRUE
 data-cvv=TRUE
 data-autosubmit="TRUE"
-data-type="Sale"
-></script>
+></script> -->

@@ -36,8 +36,8 @@ class DavosPaymentDetailsPage extends React.Component {
     }
   }
 
-  addAddress = () => {
-    this.props.history.push('add-davos-address')
+  addCard = () => {
+    this.props.history.push('add-davos-card')
   }
 
   goBack = () => {
@@ -55,7 +55,7 @@ class DavosPaymentDetailsPage extends React.Component {
           <div className="flex mt-8 flex-col">
             {cards.map(card => <SavedCard key={card.id} card={card} donor={this.props.donorInfo} />)}
             <div class="shadow-lg rounded-lg flex flex-col my-4 px-8 py-4 w-3/4 mx-auto group cursor-pointer">
-              <p class="text-grey-darker font-lg text-center" onClick={() => this.addAddress()}>Add New Card</p>
+              <p class="text-grey-darker font-lg text-center" onClick={() => this.addCard()}>Add New Card</p>
             </div>
           </div>
           <ButtonBlock
