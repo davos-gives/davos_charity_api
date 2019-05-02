@@ -19,7 +19,7 @@ defmodule DavosCharityApiWeb.Admin.SignatureController do
     data = data
     |> JaSerializer.Params.to_attributes
 
-    case Fundraising.create_signatures(data) do
+    case Fundraising.create_signature(data) do
       {:ok, %Signature{} = signature} ->
         conn
         |> put_status(:created)
