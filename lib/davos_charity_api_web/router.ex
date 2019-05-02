@@ -56,6 +56,7 @@ defmodule DavosCharityApiWeb.Router do
     resources "/ongoing", Admin.OngoingDonationController, except: [:new, :edit]
     resources "/donor-history", Admin.DonorHistoryController, except: [:new, :edit]
     resources "/photos", Admin.PhotoController, except: [:new, :edit]
+    resources "/photos", Admin.SignatureController, except: [:new, :edit]
     resources "/logos", Admin.LogoController, except: [:new, :edit]
     resources "/templates", Admin.TemplateController, except: [:new, :edit]
 

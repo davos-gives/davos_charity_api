@@ -8,6 +8,7 @@ defmodule DavosCharityApi.Fundraising do
   alias DavosCharityApi.Fundraising.ReceiptTemplate
   alias DavosCharityApi.Fundraising.Photo
   alias DavosCharityApi.Fundraising.Logo
+  alias DavosCharityApi.Fundraising.Signature
   alias DavosCharityApi.Fundraising
   alias DavosCharityApi.Organization
 
@@ -27,9 +28,14 @@ defmodule DavosCharityApi.Fundraising do
 
   def get_logo!(id), do: Repo.get(Logo, id)
 
+  def get_signature!(id), do: Repo.get(Signature, id)
+
   def list_photos, do: Repo.all(Photo)
 
   def list_logos, do: Repo.all(Logo)
+
+  def list_signatures, do: Repo.all(Signature)
+
 
   def create_photo(attrs \\ %{}) do
     %Photo{}
@@ -40,6 +46,12 @@ defmodule DavosCharityApi.Fundraising do
   def create_logo(attrs \\ %{}) do
     %Logo{}
     |> Logo.changeset(attrs)
+    |> Repo.insert
+  end
+
+  def create_signature(attrs \\ %{}) do
+    %Signature{}
+    |> Signature.changeset(attrs)
     |> Repo.insert
   end
 
