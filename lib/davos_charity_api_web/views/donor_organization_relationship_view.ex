@@ -4,7 +4,7 @@ defmodule DavosCharityApiWeb.DonorOrganizationRelationshipView do
 
   require IEx
 
-  location "/donor-organization-relationships/:id"
+  location "/api/donor-organization-relationships/:id"
   attributes [:yearly_donations, :lifetime_donations, :created_at]
 
   def attributes(model, conn) do

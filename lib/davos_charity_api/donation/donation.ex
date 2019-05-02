@@ -29,7 +29,6 @@ defmodule DavosCharityApi.Donation do
   end
 
   def update_ongoing_donation(%Ongoing{} = ongoing, attrs = %{"status" => "cancelled"}) do
-
     ongoing
     |> Ongoing.changeset(attrs)
     |> Repo.update

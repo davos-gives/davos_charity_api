@@ -85,7 +85,7 @@ defmodule DavosCharityApi.Donor do
 
   def get_donor!(id) do
     donor = Repo.get!(Donor, id)
-    donor = Repo.preload(donor, [:vaults, :addresses, :vault_cards])
+    donor = Repo.preload(donor, [:vaults, :addresses, :vault_cards, :ongoing_donations])
   end
 
   def get_donor_by_email!(email), do: Repo.get_by!(Donor, email: email)

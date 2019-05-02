@@ -44,4 +44,14 @@ defmodule DavosCharityApiWeb.DonorView do
   links: [
     related: "/api/donors/:id/vault-cards"
   ]
+
+  has_many :donor_organization_relationships,
+    serializer: LibraryApiWeb.DonorOrganizationRelationshipView,
+    identifier: :when_included,
+    include: false,
+    links: [
+      related: "/api/donors/:id/relationships"
+    ]
+
+
 end

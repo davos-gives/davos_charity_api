@@ -39,7 +39,6 @@ defmodule DavosCharityApiWeb.Router do
     get "/campaigns/:campaign_id/*anything", CampaignController, :show
 
     get "/receipt_templates/:receipt_template_id", ReceiptTemplateController, :show
-    get "/receipt_templates/:receipt_template_id/*anything", ReceiptTemplateController, :show
   end
 
   scope "/api/public", DavosCharityApiWeb do

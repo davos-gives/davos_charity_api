@@ -21,7 +21,7 @@
     </address>
     <div id="powered-by" class="text-grey-receipts pt-4"><span>Powered by <img src="<%= Routes.static_path(@conn, "/images/davos-logo.png") %>" class="w-16 "/></div>
   </aside>
-  <table id="total">
+  <table id="total" class="w-full">
     <tbody>
       <tr>
         <td class="name"><span class="uppercase font-thin text-xs text-white">Charitable Regis #</span></td>
@@ -68,7 +68,7 @@
         </div>
       </address>
 
-      <img src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="w-24 mt-10"/>
+      <img src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="h-24 mt-10"/>
 
     </aside>
 </div>

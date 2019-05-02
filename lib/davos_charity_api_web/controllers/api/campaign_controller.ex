@@ -14,7 +14,7 @@ defmodule DavosCharityApiWeb.Api.CampaignController do
 
   def show(conn, %{"campaign_id" => campaign_id}) do
     campaign = Fundraising.get_campaign!(campaign_id)
-    render(conn, Integer.to_string(campaign.template_id) <> ".html", campaign: campaign)
+    render("show.json-api", data: campaign)
   end
 
   def create(conn, %{"data" => data = %{"type" => "campaigns", "attributes" => _params}}) do

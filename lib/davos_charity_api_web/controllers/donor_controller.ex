@@ -19,7 +19,7 @@ defmodule DavosCharityApiWeb.DonorController do
 
   def show(conn, %{"id" => id}) do
     donor = Donor.get_donor!(id)
-    render(conn, "show.json-api", data: donor, opts: [include: conn.query_params["include"]])
+    render(conn, "show.json-api", data: donor)
   end
 
   def donor_by_email(conn, %{"email_address" => email_address}) do
