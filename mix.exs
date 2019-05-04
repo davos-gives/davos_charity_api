@@ -58,7 +58,6 @@ defmodule DavosCharityApi.MixProject do
       {:exiats, github: "davos-gives/Exiats", branch: "master"},
       {:decimal, "~> 1.0"},
       {:bamboo, "~> 1.2"},
-      {:pdf_generator, "~> 0.5.2"},
       {:export, "~> 0.1.0"}
     ]
   end
