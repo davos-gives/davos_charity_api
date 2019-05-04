@@ -55,7 +55,7 @@ defmodule DavosCharityApi.MixProject do
       {:timex, "~> 3.1"},
       {:edeliver, ">= 1.6.0"},
       {:distillery, "~> 2.0", warn_missing: false},
-      {:exiats, path: "/Users/ian_knauer/programming/davos/exiats"},
+      {:exiats, github: "davos-gives/Exiats", branch: "master"},
       {:decimal, "~> 1.0"},
       {:bamboo, "~> 1.2"},
       {:pdf_generator, "~> 0.5.2"},
