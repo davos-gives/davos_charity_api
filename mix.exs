@@ -20,7 +20,7 @@ defmodule DavosCharityApi.MixProject do
   def application do
     [
       mod: {DavosCharityApi.Application, []},
-      extra_applications: [:logger, :runtime_tools, :pdf_generator]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 

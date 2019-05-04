@@ -28,10 +28,6 @@ config :mime, :types, %{
   "application/json" => ["json"]
 }
 
-
-config :pdf_generator,
-    use_chrome: true
-
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
