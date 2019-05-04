@@ -1,15 +1,15 @@
 <div class="receipts">
   <aside class="">
     <address id="from">
-      <h1 class="text-orange capitalize my-12 font-black" id="header"><%= @template.header %></h1>
+      <h1 class="primary-text capitalize my-12 font-black" id="header"><%= @template.header %></h1>
       <p class="text-grey-receipts leading-normal" id="description"><%= @template.description %></p>
-      <img src="<%= Routes.static_path(@conn, "/images/signature.png") %>" class="w-32" />
+      <img id="signature" src="<%= Routes.static_path(@conn, "/images/signature.png") %>" class="w-32" />
       <p class="text-grey-receipts leading-normal text-sm italic">CEO, Barks & Meows Shelter</p>
     </address>
   </aside>
 
   <dl id="informations">
-    <img src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="w-32"/>
+    <img id="logo" src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="w-32 mt-4"/>
   </dl>
 
 
@@ -21,41 +21,41 @@
     </address>
     <div id="powered-by" class="text-grey-receipts pt-4"><span>Powered by <img src="<%= Routes.static_path(@conn, "/images/davos-logo.png") %>" class="w-16 "/></div>
   </aside>
-  <table id="total" class="w-full">
+  <table id="total" class="w-full tertiary-background-color tertiary-border-color">
     <tbody>
       <tr>
-        <td class="name"><span class="uppercase font-thin text-xs text-white">Charitable Regis #</span></td>
-        <td><span class="font-bold text-sm text-white">#119219814 RR 0001<span></td>
+        <td class="name"><span class="uppercase font-thin text-xs quaternary-text">Charitable Regis #</span></td>
+        <td><span class="font-bold text-sm quaternary-text">#119219814 RR 0001<span></td>
         <td class="name"><span class="uppercase font-thin text-xs text-white">Name</span></td>
-        <td><span class="font-bold text-sm text-white">Ian Knauer<span></td>
+        <td><span class="font-bold text-sm quaternary-text">Ian Knauer<span></td>
       </tr>
       <tr>
-        <td><span class="uppercase font-thin text-xs text-white">Receipt #</span></td><td><span class="font-bold text-sm text-white">#100500<span></td>
-        <td><span class="uppercase font-thin text-xs text-white">Street and Suite</span></td><td><span class="font-bold text-sm text-white">1120 thomson road<span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Receipt #</span></td><td><span class="font-bold text-sm quaternary-text">#100500<span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Street and Suite</span></td><td><span class="font-bold text-sm quaternary-text">1120 thomson road<span></td>
       </tr>
       <tr>
-        <td><span class="uppercase font-thin text-xs text-white">Date of issue</span></td><td><span class="font-bold text-sm text-white">26-12-2017</span></td>
-        <td><span class="uppercase font-thin text-xs text-white">City, Province</span></td><td><span class="font-bold text-sm text-white">Anmore, BC<span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Date of issue</span></td><td><span class="font-bold text-sm quaternary-text">26-12-2017</span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">City, Province</span></td><td><span class="font-bold text-sm quaternary-text">Anmore, BC<span></td>
       </tr>
       <tr>
         <td class="lined">
-          <span class="uppercase font-thin text-xs text-white">Place of Issue</span></td><td class="lined"><span class="font-bold text-sm text-white">Vancouver, Canada<span>
+          <span class="uppercase font-thin text-xs quaternary-text">Place of Issue</span></td><td class="lined"><span class="font-bold text-sm quaternary-text">Vancouver, Canada<span>
         </td>
         <td class="lined">
-          <span class="uppercase font-thin text-xs text-white">Country</span></td><td class="lined"><span class="font-bold text-sm text-white">Canada<span>
+          <span class="uppercase font-thin text-xs quaternary-text">Country</span></td><td class="lined"><span class="font-bold text-sm quaternary-text">Canada<span>
         </td>
       </tr>
       <tr>
-        <td><span class="uppercase font-thin text-xs text-white">Received on</span></td><td><span class="font-bold text-sm text-white">26-12-2017<span></td>
-        <td><span class="uppercase font-thin text-xs text-white">Amount Received</span></td><td><span class="font-bold text-sm text-white">$200.00<span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Received on</span></td><td><span class="font-bold text-sm quaternary-text">26-12-2017<span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Amount Received</span></td><td><span class="font-bold text-sm quaternary-text">$200.00<span></td>
       </tr>
       <tr>
-        <td><span class="uppercase font-thin text-xs text-white">Received the Sum of</span></td><td><span class="font-bold text-sm text-white">$200.00<span></td>
-        <td><span class="uppercase font-thin text-xs text-white">Value of advantage</span></td><td><span class="font-bold text-sm text-white">$0.00<span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Received the Sum of</span></td><td><span class="font-bold text-sm quaternary-text">$200.00<span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Value of advantage</span></td><td><span class="font-bold text-sm quaternary-text">$0.00<span></td>
       </tr>
       <tr>
         <td></td><td></td>
-        <td><span class="uppercase font-thin text-xs text-white">Eligible amount of gift for tax purposes</span></td><td> <span class="font-bold text-sm text-white">$200</span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Eligible amount of gift for tax purposes</span></td><td> <span class="font-bold text-sm quaternary-text">$200</span></td>
       </tr>
     </tbody>
   </table>
@@ -68,7 +68,7 @@
         </div>
       </address>
 
-      <img src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="h-24 mt-10"/>
+      <img id="logo2" src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="h-24 w-auto mt-10"/>
 
     </aside>
 </div>

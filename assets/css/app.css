@@ -352,6 +352,10 @@
   background-color: var(--primary);
 }
 
+.primary-border-color {
+  border-color: var(--primary);
+}
+
 .primary-text {
   color: var(--primary);
 }
@@ -364,12 +368,20 @@
   background-color: var(--secondary);
 }
 
+.secondary-border-color {
+  border-color: var(--secondary);
+}
+
 .secondary-text {
   color: var(--secondary);
 }
 
 .tertiary-background-color {
   background-color: var(--tertiary);
+}
+
+.tertiary-border-color {
+  border-color: var(--tertiary);
 }
 
 .tertiary-text {
@@ -380,12 +392,20 @@
   background-color: var(--quaternary);
 }
 
+.quaternary-border-color {
+  border-color: var(--quaternary);
+}
+
 .quaternary-text {
   color: var(--quaternary);
 }
 
 .quinary-background-color {
   background-color: var(--quinary);
+}
+
+.quinary-border-color {
+  border-color: var(--quinary);
 }
 
 .quinary-text {

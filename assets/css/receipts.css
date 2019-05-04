@@ -14,7 +14,6 @@
 
 .receipts{
   margin:0 5%;
-  color: #14213d;
   font-family: Source Sans Pro;
   font-size: 11pt;
   line-height: 1.6; }
@@ -93,8 +92,6 @@
       .receipts table th:last-of-type, .receipts table td:last-of-type {
         text-align: left; }
     .receipts table#total {
-      background: #BB8B0E;
-      border-color: #BB8B0E;
       border-style: solid;
       border-width: 1cm 3cm;
       bottom: 0;
