@@ -7,6 +7,7 @@ defmodule DavosCharityApi.Donation.Ongoing do
   alias DavosCharityApi.Donation.Ongoing
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Donor.DonorOrganizationRelationship
+  alias DavosCharityApi.Donor.VaultCard
 
   schema "donation_ongoing" do
     field :frequency, :string
@@ -17,6 +18,7 @@ defmodule DavosCharityApi.Donation.Ongoing do
     belongs_to :donor, Donor
     belongs_to :campaign, Campaign
     belongs_to :payment_method, PaymentMethod
+    belongs_to :vault_card, VaultCard
     belongs_to :donor_organization_relationship, DonorOrganizationRelationship
 
     timestamps()

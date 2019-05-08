@@ -115,6 +115,8 @@ defmodule DavosCharityApiWeb.Router do
     get "/ongoing-donations/:ongoing_donation_id/campaign", Api.CampaignController, :campaign_for_ongoing_donation
     get "/ongoing-donations/:ongoing_donation_id/donor-organization-relationship", DonorOrganizationRelationshipController, :relationship_for_ongoing_donation
 
+    get "/ongoing-donations/:ongoing_donation_id/vault-card", VaultCardController, :vault_card_for_ongoing_donation
+
     get "/addresses/:address_id/donor", DonorController, :donor_for_address
     get "/payment-methods/:payment_method_id/donor", DonorController, :donor_for_payment_method
 

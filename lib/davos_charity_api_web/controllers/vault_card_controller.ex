@@ -5,6 +5,7 @@ defmodule DavosCharityApiWeb.VaultCardController do
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donor.VaultCard
+  alias DavosCharityApi.Donation
 
   import IEx
 
@@ -17,12 +18,17 @@ defmodule DavosCharityApiWeb.VaultCardController do
 
   def vault_cards_for_vault(conn, %{"vault_id" => vault_id}) do
     vault_cards = Donor.get_cards_for_vault(vault_id)
-    render(conn, "show.json-api", data: vault_cards)
+    render(conn, "index.json-api", data: vault_cards)
   end
 
   def vault_cards_for_donor(conn, %{"donor_id" => donor_id}) do
     vault_cards = Donor.list_cards_for_donor(donor_id)
-    render(conn, "show.json-api", data: vault_cards)
+    render(conn, "index.json-api", data: vault_cards)
+  end
+
+  def vault_card_for_ongoing_donation(conn, %{"ongoing_donation_id" => ongoing_donation_id}) do
+    vault_card = Donation.get_card_for_ongoing_donation(ongoing_donation_id)
+    render(conn, "show.json-api", data: vault_card)
   end
 
   def create(conn, %{:current_donor => current_donor, "data" => data = %{"type" => "vault-cards", "attributes" => _params}}) do

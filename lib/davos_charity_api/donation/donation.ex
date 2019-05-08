@@ -10,6 +10,7 @@ defmodule DavosCharityApi.Donation do
   alias DavosCharityApi.Donation
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Donor.DonorHistory
+  alias DavosCharityApi.Donor.VaultCard
 
   alias Exiats.Owner
   alias Exiats.OngoingDonation
@@ -164,6 +165,12 @@ defmodule DavosCharityApi.Donation do
     donation = Donation.get_ongoing_donation!(ongoing_donation_id)
     donation = Repo.preload(donation, :campaign)
     donation.campaign
+  end
+
+  def get_card_for_ongoing_donation(ongoing_donation_id) do
+    donation = Donation.get_ongoing_donation!(ongoing_donation_id)
+    donation = Repo.preload(donation, :vault_card)
+    donation.vault_card
   end
 
   def get_payment!(id), do: Repo.get!(Payment, id)
