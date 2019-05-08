@@ -7,6 +7,9 @@ defmodule DavosCharityApiWeb.AddressView do
 
   has_one :donor,
     serializer: LibraryApiWeb.DonorView,
-    identifiers: :when_included
+    identifiers: :when_included,
+    links: [
+      related: "/api/addresses/:id/donor"
+    ]
 
 end

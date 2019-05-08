@@ -13,6 +13,9 @@ defmodule DavosCharityApi.Organization do
   schema "organizations" do
     field :name, :string
     field :logo, :string
+    field :facebook_handle, :string
+    field :twitter_handle, :string
+    field :instagram_handle, :string
 
     has_many :campaigns, Campaign
     has_many :donor_organization_relationships, DonorOrganizationRelationship

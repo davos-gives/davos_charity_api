@@ -81,7 +81,21 @@ defmodule DavosCharityApi.Donor do
     |> unsafe_validate_unique([:email], DavosCharityApi.Repo)
   end
 
-  def list_donors, do: Repo.all(Donor)
+  def list_donors do
+    Donor
+    |> order_by(desc: :updated_at)
+    |> Repo.all
+  end
+
+  def search_donors(search_term) do
+    search_term = String.downcase(search_term)
+
+    Donor
+    |> where([a], like(fragment("lower(?)", a.fname), ^"%#{search_term}%"))
+    |> or_where([a], like(fragment("lower(?)", a.lname), ^"%#{search_term}%"))
+    |> order_by(desc: :updated_at)
+    |> Repo.all
+  end
 
   def get_donor!(id) do
     donor = Repo.get!(Donor, id)
@@ -108,8 +122,11 @@ defmodule DavosCharityApi.Donor do
     |> Repo.update
   end
 
-  def get_address!(id), do: Repo.get!(Address, id)
-
+  def get_address!(id) do
+    Address
+    |> Repo.get!(id)
+    |> Repo.preload(:donor)
+  end
   def get_donor_for_address!(address_id) do
     address = Donor.get_address!(address_id)
     address = Repo.preload(address, :donor)
@@ -127,6 +144,8 @@ defmodule DavosCharityApi.Donor do
     |> Address.changeset(attrs)
     |> Repo.update
   end
+
+  def delete_address(%Address{} = model), do: Repo.delete(model)
 
   def list_addresses_for_donor(donor_id) do
     Address

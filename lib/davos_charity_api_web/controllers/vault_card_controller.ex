@@ -8,8 +8,12 @@ defmodule DavosCharityApiWeb.VaultCardController do
 
   import IEx
 
-  plug :authenticate_donor when action in [:show, :create]
+  plug :authenticate_donor when action in [:show, :create, :index]
 
+  def index(conn, %{:current_donor => current_donor}) do
+    cards = Donor.list_cards_for_donor(current_donor.id)
+    render(conn, "index.json-api", data: cards)
+  end
 
   def vault_cards_for_vault(conn, %{"vault_id" => vault_id}) do
     vault_cards = Donor.get_cards_for_vault(vault_id)

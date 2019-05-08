@@ -4,6 +4,9 @@ defmodule DavosCharityApiWeb.Admin.DonorController do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donation
 
+  alias DavosCharityApi.Repo
+
+
   plug :authenticate_donor when action in [:show_current]
 
   def show_current(conn, %{current_donor: donor}) do
@@ -14,6 +17,11 @@ defmodule DavosCharityApiWeb.Admin.DonorController do
   def show(conn, %{"id" => id}) do
     donor = Donor.get_donor!(id)
     render(conn, "show.json-api", data: donor)
+  end
+
+  def index(conn, %{"filter" => %{"query" => search_term}}) do
+    donors = Donor.search_donors(search_term)
+    render(conn, "index.json-api", data: donors)
   end
 
   def index(conn, _params) do

@@ -23,6 +23,8 @@ window.Components = {
 }
 
 window.addEventListener('message', function(event) {
+  console.log(event);
+
   if(event.data.source == "receipt") {
     event.data.changes.forEach(function(element) {
       if(element.key == "header") {

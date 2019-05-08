@@ -6,7 +6,7 @@ defmodule DavosCharityApiWeb.AddressController do
 
   alias IEx
 
-  plug :authenticate_donor when action in [:show, :create]
+  plug :authenticate_donor when action in [:show, :create, :index, :delete]
 
   def show(conn, %{:current_donor => current_donor, "id" => id}) do
     address = Donor.get_address!(id)
@@ -20,10 +20,16 @@ defmodule DavosCharityApiWeb.AddressController do
     end
   end
 
+  def index(conn, %{:current_donor => current_donor}) do
+    addresses = Donor.list_addresses_for_donor(current_donor.id)
+    render(conn, "index.json-api", data: addresses)
+  end
+
   def create(conn, %{:current_donor => current_donor, "data" => data = %{"type" => "addresses", "attributes" => _params}}) do
     data = data
     |> JaSerializer.Params.to_attributes()
     |> Map.put("donor_id", current_donor.id)
+    |> Map.put("country", "Canada")
 
     case Donor.create_address(data) do
       {:ok, %Address{} = address} ->
@@ -34,7 +40,7 @@ defmodule DavosCharityApiWeb.AddressController do
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_status(:bad_request)
-        |> render(DavosCharityApiWeb.ErrorView, "400,json-api", changeset)
+        |> render(DavosCharityApiWeb.ErrorView, "400.json-api", changeset)
     end
   end
 
@@ -51,7 +57,7 @@ defmodule DavosCharityApiWeb.AddressController do
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_status(:bad_request)
-        |> render(DavosCharityApiWeb.ErrorView, "400,json-api", changeset)
+        |> render(DavosCharityApiWeb.ErrorView, "400.json-api", changeset)
     end
   end
 
@@ -67,6 +73,19 @@ defmodule DavosCharityApiWeb.AddressController do
         conn
         |> put_status(:unprocessable_entity)
         |> render(DavosCharityApiWeb.ErrorView, "400.json-api", changeset)
+    end
+  end
+
+  def delete(conn, %{:current_donor => current_donor, "id" => id}) do
+
+    address = Donor.get_address!(id)
+    cond do
+      address.donor_id == current_donor.id ->
+        with {:ok, %Address{}} <- Donor.delete_address(address) do
+          send_resp(conn, :no_content, "")
+        end
+    true ->
+      access_error conn
     end
   end
 

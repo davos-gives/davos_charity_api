@@ -67,7 +67,6 @@ defmodule DavosCharityApiWeb.Router do
     get "/donors/:donor_id/ongoing-donations", Admin.OngoingDonationController, :ongoing_donations_for_donor
     get "/donors/:donor_id/addresses", AddressController, :addresses_for_donor
 
-
     get "/donors/:donor_id/donor-history", Admin.DonorHistoryController, :history_for_donor
 
     get "/payments/:payment_id/donor", Admin.DonorController, :get_donor_for_payment
@@ -79,6 +78,7 @@ defmodule DavosCharityApiWeb.Router do
 
     get "/donors/me", DonorController, :show_current
     get "/donors/email/:email_address", DonorController, :donor_by_email
+    get "/donors/reset-password", DonorController, :send_reset_email
     put "/verify-accounts", DonorController, :verify_email
     put "/reset-passwords", DonorController, :send_reset_email
 

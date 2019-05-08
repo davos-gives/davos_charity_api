@@ -59,7 +59,8 @@ defmodule DavosCharityApi.MixProject do
       {:decimal, "~> 1.0"},
       {:bamboo, "~> 1.2"},
       {:pdf_generator, "~> 0.5.2"},
-      {:export, "~> 0.1.0"}
+      {:export, "~> 0.1.0"},
+      {:scrivener_ecto, "~> 2.0"}
     ]
   end
 

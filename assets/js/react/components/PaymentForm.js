@@ -46,19 +46,26 @@ class PaymentForm extends React.Component {
 
   render() {
     return (
-      <div class="w-full">
-        <div id="checkout-embed"></div>
-      <div class="">
-        <ButtonBlock
-          buttonText={"Next"}
-          goBack={this.props.goBack}
-          handleClick={this.submitForm}
-          inReview={this.props.inReview}
-          hasBack={true}
-          formValid={this.state.canSubmit}
-        />
+      <div class="w-full flex flex-col relative">
+        <div class="w-4/5 mx-auto pl-8">
+          <p class="w-full mx-auto uppercase text-xs text-grey-darker block pl-4 mt-8">Credit Card Number</p>
+          <div id="checkout-embed" class=""></div>
+          <div class="w-4/5 mx-auto flex flex-wrap justify-start expiry-label">
+            <p class="w-1/3 uppercase text-xs text-grey-darker block">Expires</p>
+            <p class="w-1/3 uppercase text-xs text-grey-darker block ml-2">CVV</p>
+          </div>
+        </div>
+        <div class="">
+          <ButtonBlock
+            buttonText={"Next"}
+            goBack={this.props.goBack}
+            handleClick={this.submitForm}
+            inReview={this.props.inReview}
+            hasBack={true}
+            formValid={this.state.canSubmit}
+          />
+        </div>
       </div>
-    </div>
     )
   }
 
@@ -68,12 +75,12 @@ class PaymentForm extends React.Component {
   componentDidMount() {
     const script = document.createElement("script");
     script.src = "https://secure-v.goemerchant.com/restgw/cdn/cryptogram.min.js";
-    script.id = "checkout.js";
-    script.dataTranscenter = "209141";
-    script.dataProcessor = "201173";
-    script.dataStyleembed = "false";
-    script.dataCvv = true;
-    script.dataAutosubmit = "true";
+    script.id = "checkout-js";
+    script.setAttribute("data-transcenter", "209141");
+    script.setAttribute("data-processor", "201173");
+    script.setAttribute("data-cvv", "TRUE");
+    script.setAttribute("data-autosubmit", "TRUE");
+    script.setAttribute("data-styleEmbed", "FALSE");
     document.body.appendChild(script);
     window.addEventListener('message', this.handleFrameTasks);
   }
