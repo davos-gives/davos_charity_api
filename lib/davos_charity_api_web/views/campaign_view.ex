@@ -16,7 +16,11 @@ defmodule DavosCharityApiWeb.CampaignView do
   end
 
   def amount_raised(conn) do
-    15000
+    conn.assigns.campaign.total_donations
+  end
+
+  def number_of_donors(conn) do
+    conn.assigns.campaign.number_of_donors
   end
 
   def defaulted_goal(conn) do
@@ -25,6 +29,10 @@ defmodule DavosCharityApiWeb.CampaignView do
 
   def show_goal(conn) do
     conn.assigns.campaign.show_goal || "hidden"
+  end
+
+  def percent_loaded(conn) do
+    conn.assigns.campaign.total_donations / conn.assigns.campaign.goal
   end
 
   def defaulted_image(conn) do

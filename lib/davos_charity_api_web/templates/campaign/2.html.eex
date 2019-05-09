@@ -41,10 +41,10 @@
             of <span class="text-3xl quaternary-text" id="goal"><%= cents_to_dollars(defaulted_goal(@conn)) %></span>
           </p>
           <div class="w-4/5 bg-white h-2 rounded-lg mx-8 mb-4 flex justify-end sm:justify-start">
-            <div class="w-12 secondary-background-color h-2 rounded-lg"></div>
+            <div class="secondary-background-color h-2 rounded-lg" style="width: <%= percent_loaded(@conn)%>%"></div>
           </div>
           <p class="font-bold quaternary-text px-4 pb-8 text-right sm:text-center">
-            Raised by 215 people
+            Raised by <%= number_of_donors(@conn) %> people
           </p>
         </div>
         </div>

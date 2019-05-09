@@ -25,7 +25,7 @@ defmodule DavosCharityApi.Donor.VaultCard do
 
   def changeset(%VaultCard{} = model, attrs) do
     model
-    |> cast(attrs, [:iats_id, :name, :vault_id, :donor_id, :primary, :expiry_month, :expiry_year, :card_type, :last_four_digits, :ongoing_donation_id])
-    |> validate_required([:iats_id, :name, :vault_id, :donor_id])
+    |> cast(attrs, [:iats_id, :name, :vault_id, :donor_id, :primary, :expiry_month, :expiry_year, :card_type, :last_four_digits])
+    |> validate_required([])
   end
 end
