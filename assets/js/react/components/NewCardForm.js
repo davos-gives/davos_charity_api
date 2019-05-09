@@ -96,7 +96,7 @@ class NewCardForm extends React.Component {
           />
         </Formsy>
 
-        <div id="checkout-embed" class="h-24"></div>
+        <div id="checkout-embed" className="new-card"></div>
       <div class="-mt-8">
         <ButtonBlock
           buttonText={"Next"}

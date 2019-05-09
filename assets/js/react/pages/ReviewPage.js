@@ -43,7 +43,7 @@ class ReviewPage extends React.Component {
           amount: this.props.giftInfo.amount,
           frequency: "one-time",
           vault_id: this.props.api.vaults.data[0].attributes["iats-id"],
-          vault_key: this.props.api["vault-cards"].data[0].attributes["iats-id"],
+          vault_key: this.props.vaultCard.iatsId,
           donor_id: this.props.api.donors.data[0].id,
           campaign_id: this.props.match.url.split("/")[2],
         }
@@ -54,13 +54,15 @@ class ReviewPage extends React.Component {
       })
       } else {
         store.dispatch(setAxiosConfig({baseURL: '/api/'}));
+
         const payment = {
           type: "payments",
           attributes: {
             amount: this.props.giftInfo.amount,
             frequency: this.props.giftInfo.frequency,
             vault_id: this.props.api.vaults.data[0].attributes["iats-id"],
-            vault_key: this.props.api["vault-cards"].data[0].attributes["iats-id"],
+            vault_card_id: this.props.vaultCard.id,
+            vault_key: this.props.vaultCard.iatsId,
             donor_id: this.props.api.donors.data[0].id,
             campaign_id: this.props.match.url.split("/")[2],
           }

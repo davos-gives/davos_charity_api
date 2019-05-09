@@ -568,3 +568,7 @@ b {
   top: 130px;
   left: 110px;
 }
+
+.new-card {
+  min-height: 125px!important;
+}

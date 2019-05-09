@@ -38,7 +38,7 @@ defmodule DavosCharityApiWeb.OngoingDonationController do
     ongoing_donation = Donation.get_ongoing_donation!(id)
 
     case Donation.update_ongoing_donation(ongoing_donation, data) do
-      {:ok, %Ongoing{} = ongoing} ->
+      {:ok, %{updated_donation: {:ok, %Ongoing{} = ongoing}}} ->
         conn
         |> render("show.json-api", data: ongoing)
       {:error, %Ecto.Changeset{} = changeset} ->

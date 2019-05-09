@@ -204,11 +204,7 @@ defmodule DavosCharityApi.Donor do
     |> Repo.all
   end
 
-  def get_vault_card!(id) do
-    VaultCard
-    |> Repo.get!(id)
-    |> Repo.preload(:donor)
-  end
+  def get_vault_card!(id), do: Repo.get!(VaultCard, id)
 
   defp send_iats_vault_creation(multi) do
     Multi.run(multi, :created_vault, fn _repo, %{} ->
@@ -270,7 +266,7 @@ defmodule DavosCharityApi.Donor do
 
       new_card = card
       |> VaultCard.changeset(attrs)
-      |> Repo.update
+      |> repo.update
 
       {:ok, new_card}
     end)
