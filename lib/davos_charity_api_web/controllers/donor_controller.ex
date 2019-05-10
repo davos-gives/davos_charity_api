@@ -32,7 +32,6 @@ defmodule DavosCharityApiWeb.DonorController do
   end
 
   def index(conn, params) do
-    IEx.pry
     donors = Donor.list_donors()
     render(conn, "index.json-api", data: donors)
   end

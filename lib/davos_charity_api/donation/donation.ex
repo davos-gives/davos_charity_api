@@ -3,6 +3,7 @@ defmodule DavosCharityApi.Donation do
   import Ecto.Query
   import Exiats
   import IEx
+  import Timex
 
   alias DavosCharityApi.Repo
   alias DavosCharityApi.Donation.Ongoing
@@ -232,6 +233,54 @@ defmodule DavosCharityApi.Donation do
   def list_payments_for_relationship(relationship_id) do
     Payment
     |> where([pm], pm.donor_organization_relationship_id == ^relationship_id)
+    |> Repo.all
+  end
+
+  def search_payments(duration) do
+
+    today = Timex.now("America/Vancouver")
+
+    query = cond do
+      duration == "today" ->
+        from p in Payment, where: p.inserted_at >= ^Timex.beginning_of_day(today)
+      duration == "this week" ->
+        from p in Payment, where: p.inserted_at >= ^Timex.beginning_of_week(today)
+      duration == "this month" ->
+        from p in Payment, where: p.inserted_at >= ^Timex.beginning_of_month(today)
+      duration == "this year" ->
+        from p in Payment, where: p.inserted_at >= ^Timex.beginning_of_year(today)
+    end
+
+    query
+    |> Repo.all
+  end
+
+  def search_payments(duration, campaign_id) do
+
+    today = Timex.now("America/Vancouver")
+
+    query = cond do
+      duration == "today" ->
+        from p in Payment,
+          where: p.inserted_at >= ^Timex.beginning_of_day(today),
+          where: p.campaign_id == ^campaign_id
+      duration == "this week" ->
+        from p in Payment,
+          where: p.inserted_at >= ^Timex.beginning_of_week(today),
+          where: p.campaign_id == ^campaign_id
+
+      duration == "this month" ->
+        from p in Payment,
+          where: p.inserted_at >= ^Timex.beginning_of_month(today),
+          where: p.campaign_id == ^campaign_id
+      duration == "this year" ->
+        from p in Payment,
+          where: p.inserted_at >= ^Timex.beginning_of_year(today),
+          where: p.campaign_id == ^campaign_id
+    end
+
+
+    query
     |> Repo.all
   end
 

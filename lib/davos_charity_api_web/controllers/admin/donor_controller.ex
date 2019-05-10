@@ -24,6 +24,18 @@ defmodule DavosCharityApiWeb.Admin.DonorController do
     render(conn, "index.json-api", data: donors)
   end
 
+  def index(conn, %{"filter" => %{"range" => duration, "campaign" => campaign_id}}) do
+
+    donors = Donor.filter_donors(duration, campaign_id)
+    render(conn, "index.json-api", data: donors)
+  end
+
+  def index(conn, %{"filter" => %{"range" => duration}}) do
+
+    donors = Donor.filter_donors(duration)
+    render(conn, "index.json-api", data: donors)
+  end
+
   def index(conn, _params) do
     donors = Donor.list_donors()
     render(conn, "index.json-api", data: donors)

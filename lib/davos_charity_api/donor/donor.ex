@@ -97,6 +97,63 @@ defmodule DavosCharityApi.Donor do
     |> Repo.all
   end
 
+  def filter_donors(duration) do
+    today = Timex.now("America/Vancouver")
+
+    query = cond do
+      duration == "today" ->
+        from p in Donor, where: p.inserted_at >= ^Timex.beginning_of_day(today)
+      duration == "this week" ->
+        from p in Donor, where: p.inserted_at >= ^Timex.beginning_of_week(today)
+      duration == "this month" ->
+        from p in Donor, where: p.inserted_at >= ^Timex.beginning_of_month(today)
+      duration == "this year" ->
+        from p in Donor, where: p.inserted_at >= ^Timex.beginning_of_year(today)
+    end
+
+    query
+    |> Repo.all
+  end
+
+  def filter_donors(duration, campaign_id) do
+    today = Timex.now("America/Vancouver")
+
+    # query = from d in Donor,
+    #   join: p in assoc(d, :payments),
+    #   where: p.campaign_id == ^campaign_id,
+    #   preload: [payments: p]
+
+    query = cond do
+      duration == "today" ->
+        from d in Donor,
+          join: p in assoc(d, :payments),
+          where: p.campaign_id == ^campaign_id,
+          where: p.inserted_at >= ^Timex.beginning_of_day(today),
+          preload: [payments: p]
+      duration == "this week" ->
+        from d in Donor,
+          join: p in assoc(d, :payments),
+          where: p.campaign_id == ^campaign_id,
+          where: p.inserted_at >= ^Timex.beginning_of_week(today),
+          preload: [payments: p]
+      duration == "this month" ->
+        from d in Donor,
+          join: p in assoc(d, :payments),
+          where: p.campaign_id == ^campaign_id,
+          where: p.inserted_at >= ^Timex.beginning_of_month(today),
+          preload: [payments: p]
+      duration == "this year" ->
+        from d in Donor,
+          join: p in assoc(d, :payments),
+          where: p.campaign_id == ^campaign_id,
+          where: p.inserted_at >= ^Timex.beginning_of_year(today),
+          preload: [payments: p]
+    end
+
+    query
+    |> Repo.all
+  end
+
   def get_donor!(id) do
     donor = Repo.get!(Donor, id)
     donor = Repo.preload(donor, [:vaults, :addresses, :vault_cards, :ongoing_donations])
