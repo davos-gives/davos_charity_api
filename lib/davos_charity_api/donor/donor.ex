@@ -97,6 +97,12 @@ defmodule DavosCharityApi.Donor do
     |> Repo.all
   end
 
+  def find_donors_by_ids(ids) do
+    Donor
+    |> where([d], d.id in ^ids)
+    |> Repo.all
+  end
+
   def filter_donors(duration) do
     today = Timex.now("America/Vancouver")
 

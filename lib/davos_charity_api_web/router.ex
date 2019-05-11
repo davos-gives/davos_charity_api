@@ -39,6 +39,7 @@ defmodule DavosCharityApiWeb.Router do
     get "/campaigns/:campaign_id/*anything", CampaignController, :show
 
     get "/receipt_templates/:receipt_template_id", ReceiptTemplateController, :show
+    get "/export", Admin.ExportController,:get_csv_for_export
   end
 
   scope "/api/public", DavosCharityApiWeb do
@@ -59,6 +60,8 @@ defmodule DavosCharityApiWeb.Router do
     resources "/signatures", Admin.SignatureController, except: [:new, :edit]
     resources "/logos", Admin.LogoController, except: [:new, :edit]
     resources "/templates", Admin.TemplateController, except: [:new, :edit]
+
+    get "/exports", Admin.ExportController,:get_csv_for_export
 
     get "/campaigns/:campaign_id/payments", Admin.PaymentController, :get_payments_for_campaign
     get "/campaigns/:campaign_id/template", Admin.TemplateController, :template_for_campaign

@@ -236,6 +236,12 @@ defmodule DavosCharityApi.Donation do
     |> Repo.all
   end
 
+  def find_payments_by_ids(ids) do
+    Payment
+    |> where([d], d.id in ^ids)
+    |> Repo.all
+  end
+
   def search_payments(duration) do
 
     today = Timex.now("America/Vancouver")

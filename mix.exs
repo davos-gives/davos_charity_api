@@ -61,7 +61,9 @@ defmodule DavosCharityApi.MixProject do
       {:pdf_generator, "~> 0.5.2"},
       {:export, "~> 0.1.0"},
       {:scrivener_ecto, "~> 2.0"},
-      {:decoratex, "~> 1.2.0"}
+      {:decoratex, "~> 1.2.0"},
+      {:csv, "~> 2.3"},
+      {:nimble_csv, "~> 0.6.0"}
     ]
   end
 
