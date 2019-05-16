@@ -9,9 +9,13 @@ defmodule DavosCharityApi.Donation do
   alias DavosCharityApi.Donation.Ongoing
   alias DavosCharityApi.Donation.Payment
   alias DavosCharityApi.Donation
+  alias DavosCharityApi.Donor
+  alias DavosCharityApi.Address
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Donor.DonorHistory
   alias DavosCharityApi.Donor.VaultCard
+  alias DavosCharityApi.Receipt
+  alias DavosCharityApi.ReceiptStack
 
   alias Exiats.Owner
   alias Exiats.OngoingDonation
@@ -148,15 +152,46 @@ defmodule DavosCharityApi.Donation do
       |> Payment.changeset(payment)
       |> repo.insert
 
+      donor = Donor.get_donor!(attrs["donor_id"])
+      address = Donor.get_address!(attrs["address_id"])
+
+      {status, temp_payment} = new_payment
+
+      receipt_attrs = %{
+        "charitable_registration_number" => "819747080RR0001",
+        "payment_date" => DateTime.utc_now,
+        "payment_amount" => to_integer(submitted_data["data"]["originalFullAmount"]),
+        "fname" => donor.fname,
+        "lname" => donor.lname,
+        "address_1" => address.address_1,
+        "address_2" => address.address_2,
+        "postal_code" => address.postal_code,
+        "country" => address.country,
+        "city" => address.city,
+        "province" => address.province,
+        "country" => "Canada",
+        "advantage_value" => 0,
+        "amount_eligable_for_tax_purposes" => to_integer(submitted_data["data"]["originalFullAmount"]),
+        "donor_id" => donor.id,
+        "payment_id" => temp_payment.id,
+      }
+      Receipt.create_receipt_and_update_stack(receipt_attrs)
+
       {:ok, new_payment}
     end)
+  end
+
+  def create_receipt(attrs \\ %{}) do
+    %Receipt{}
+    |> Receipt.changeset(attrs)
+    |> Repo.insert()
   end
 
   def create_ongoing_payment(multi, attrs) do
     Multi.run(multi, :created_payment, fn repo, %{submitted_data: submitted_data, created_ongoing_donation: created_ongoing_donation} ->
       payment = %{
         amount: to_integer(submitted_data["data"]["originalFullAmount"]),
-        frequency: "one-time",
+        frequency: "recurring",
         reference_number: submitted_data["data"]["referenceNumber"],
         donor_id: attrs["donor_id"],
         campaign_id: attrs["campaign_id"],
@@ -284,8 +319,6 @@ defmodule DavosCharityApi.Donation do
           where: p.inserted_at >= ^Timex.beginning_of_year(today),
           where: p.campaign_id == ^campaign_id
     end
-
-
     query
     |> Repo.all
   end

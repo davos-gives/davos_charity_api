@@ -8,6 +8,7 @@ defmodule DavosCharityApi.Donation.Payment do
   alias DavosCharityApi.Fundraising.Form
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Donor.DonorOrganizationRelationship
+  alias DavosCharityApi.Receipt
 
   schema "donation_payments" do
     field :amount, :integer
@@ -20,6 +21,7 @@ defmodule DavosCharityApi.Donation.Payment do
     belongs_to :campaign, Campaign
     belongs_to :donor_organization_relationship, DonorOrganizationRelationship
     belongs_to :form, Form
+    has_many :receipts, Receipt
     timestamps()
   end
 

@@ -4,6 +4,7 @@ defmodule DavosCharityApiWeb.PaymentController do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donation
   alias DavosCharityApi.Donation.Payment
+  alias DavosCharityApi.Receipt
 
   alias IEx
 
@@ -14,6 +15,11 @@ defmodule DavosCharityApiWeb.PaymentController do
     case Donation.create_vault_donation(data) do
 
       {:ok, %{created_payment: {:ok, %Payment{} = payment}}} ->
+
+        receipt = List.first(Receipt.get_receipt_for_payment!(payment.id))
+
+        Receipt.build_receipt_pdf(receipt.id)
+
         conn
         |> put_status(:created)
         |> put_resp_header("location", Routes.address_path(conn, :show, payment))

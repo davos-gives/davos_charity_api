@@ -24,41 +24,41 @@ window.Components = {
 
 window.addEventListener('message', function(event) {
 
-//   if(event.data.source == "receipt") {
-//     event.data.changes.forEach(function(element) {
-//       if(element.key == "header") {
-//         $('#header').text(element.value);
-//       } else if (element.key == 'primaryColour') {
-//         var html = document.getElementsByTagName('html')[0];
-//         html.style.cssText += `--primary: ${element.value}`;
-//       } else if(element.key == 'secondaryColour') {
-//           var html = document.getElementsByTagName('html')[0];
-//           html.style.cssText += `--secondary: ${element.value}`;
-//       } else if(element.key == 'tertiaryColour') {
-//           var html = document.getElementsByTagName('html')[0];
-//           html.style.cssText += `--tertiary: ${element.value}`;
-//       } else if(element.key == 'quaternaryColour') {
-//           var html = document.getElementsByTagName('html')[0];
-//           html.style.cssText += `--quaternary: ${element.value}`;
-//       } else if(element.key == 'quniaryColour') {
-//           var html = document.getElementsByTagName('html')[0];
-//           html.style.cssText += `--quinary: ${element.value}`;
-//       } else if(element.key == "description"){
-//         if (!element.value) {
-//           $(`#${element.key}`).html('');
-//         } else {
-//           $(`#${element.key}`).html(element.value);
-//         }
-//       } else if(element.key == "logoUrl") {
-//         $('#logo').attr('src', element.value);
-//         $('#logo2').attr('src', element.value);
-//       } else if(element.key == "signatureUrl") {
-//         $('#signature').attr('src', element.value);
-//       }
-//     })
-//   } else {
-//
-//   }
+  if(event.data.source == "receipt") {
+    event.data.changes.forEach(function(element) {
+      if(element.key == "header") {
+        $('#header').text(element.value);
+      } else if (element.key == 'primaryColour') {
+        var html = document.getElementsByTagName('html')[0];
+        html.style.cssText += `--primary: ${element.value}`;
+      } else if(element.key == 'secondaryColour') {
+          var html = document.getElementsByTagName('html')[0];
+          html.style.cssText += `--secondary: ${element.value}`;
+      } else if(element.key == 'tertiaryColour') {
+          var html = document.getElementsByTagName('html')[0];
+          html.style.cssText += `--tertiary: ${element.value}`;
+      } else if(element.key == 'quaternaryColour') {
+          var html = document.getElementsByTagName('html')[0];
+          html.style.cssText += `--quaternary: ${element.value}`;
+      } else if(element.key == 'quniaryColour') {
+          var html = document.getElementsByTagName('html')[0];
+          html.style.cssText += `--quinary: ${element.value}`;
+      } else if(element.key == "description"){
+        if (!element.value) {
+          $(`#${element.key}`).html('');
+        } else {
+          $(`#${element.key}`).html(element.value);
+        }
+      } else if(element.key == "logoUrl") {
+        $('#logo').attr('src', element.value);
+        $('#logo2').attr('src', element.value);
+      } else if(element.key == "signatureUrl") {
+        $('#signature').attr('src', element.value);
+      }
+    })
+  } else {
+
+  }
 })
 
 function formatCurrency(value) {

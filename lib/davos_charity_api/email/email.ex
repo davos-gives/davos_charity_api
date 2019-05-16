@@ -20,7 +20,6 @@ defmodule DavosCharityApi.Email do
       from: "info@davos.gives",
       subject: "Reset your Davos account password.",
       html_body: "Hey #{donor.fname} #{donor.lname},<br /><br /><strong>It looks like you've requested a link to reset your password.</strong> Please click on the <a href="<>"http://localhost:4200/password-reset?token=#{token}"<>" target=`_blank`>link here</a> to reset your password. This link will expire in 15 minuites.",
-      text_body: ""
     )
   end
 

@@ -7,6 +7,8 @@ defmodule DavosCharityApiWeb.DonorController do
   alias DavosCharityApi.Mailer
   alias DavosCharityApi.Email
 
+  import Bamboo.SendGridHelper
+
   import IEx
 
   plug :authenticate_donor when action in [:show_current]

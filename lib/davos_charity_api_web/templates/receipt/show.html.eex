@@ -1,0 +1,74 @@
+<div class="receipts">
+  <aside class="">
+    <address id="from">
+      <h1 class="primary-text capitalize my-12 font-black" id="header"><%= @template.header %></h1>
+      <p class="text-grey-receipts leading-normal" id="description"><%= @template.description %></p>
+      <img id="signature" src="<%= Routes.static_path(@conn, "/images/signature.png") %>" class="w-32" />
+      <p class="text-grey-receipts leading-normal text-sm italic">CEO, Barks & Meows Shelter</p>
+    </address>
+  </aside>
+
+  <dl id="informations">
+    <img id="logo" src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="w-32 mt-4"/>
+  </dl>
+
+
+  <aside class="form-header">
+    <address id="from">
+      <div class="text-grey-receipts">
+        <p>Official Receipt as below:</p>
+      </div>
+    </address>
+    <div id="powered-by" class="text-grey-receipts pt-4"><span>Powered by <img src="<%= Routes.static_path(@conn, "/images/davos-logo.png") %>" class="w-16 "/></div>
+  </aside>
+  <table id="total" class="w-full tertiary-background-color tertiary-border-color">
+    <tbody>
+      <tr>
+        <td class="name"><span class="uppercase font-thin text-xs quaternary-text">Charitable Regis #</span></td>
+        <td><span class="font-bold text-sm quaternary-text"><%= @receipt.charitable_registration_number %><span></td>
+        <td class="name"><span class="uppercase font-thin text-xs text-white">Name</span></td>
+        <td><span class="font-bold text-sm quaternary-text capitalize"><%= @receipt.fname %> <%= @receipt.lname %><span></td>
+      </tr>
+      <tr>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Receipt #</span></td><td><span class="font-bold text-sm quaternary-text">#<%= @receipt.receipt_number %><span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Street and Suite</span></td><td><span class="font-bold text-sm quaternary-text capitalize"><%= @receipt.address_2 %> <%= @receipt.address_1 %><span></td>
+      </tr>
+      <tr>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Date of issue</span></td><td><span class="font-bold text-sm quaternary-text">26-12-2017</span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">City, Province</span></td><td><span class="font-bold text-sm quaternary-text capitalize"><%= @receipt.city %>, <%= @receipt.province %><span></td>
+      </tr>
+      <tr>
+        <td class="lined">
+          <span class="uppercase font-thin text-xs quaternary-text">Place of Issue</span></td><td class="lined"><span class="font-bold text-sm quaternary-text">Vancouver, Canada<span>
+        </td>
+        <td class="lined">
+          <span class="uppercase font-thin text-xs quaternary-text">Country</span></td><td class="lined"><span class="font-bold text-sm quaternary-text">Canada<span>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Received on</span></td><td><span class="font-bold text-sm quaternary-text">26-12-2017<span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Amount Received</span></td><td><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@receipt.payment_amount) %><span></td>
+      </tr>
+      <tr>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Received the Sum of</span></td><td><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@receipt.payment_amount) %><span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Value of advantage</span></td><td><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@receipt.advantage_value) %><span></td>
+      </tr>
+      <tr>
+        <td></td><td></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Eligible amount of gift for tax purposes</span></td><td> <span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@receipt.amount_eligable_for_tax_purposes) %></span></td>
+      </tr>
+    </tbody>
+  </table>
+    <p class="text-xs text-center text-grey-receipts">this is an official receipt for income tax purposes. Canada Revenue Agency Canada Revenue Agency www.cra-arc.gc.ca/charitiesandgiving</p>
+    <div>
+    <aside class="footer">
+      <address id="from">
+        <div class="text-grey-receipts">
+          <p>(000) 000 0000<br />contact@yourmail.org<br />www.yourwebsite.org</p>
+        </div>
+      </address>
+
+      <img id="logo2" src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="h-24 w-auto mt-10"/>
+
+    </aside>
+</div>

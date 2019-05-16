@@ -39,6 +39,7 @@ defmodule DavosCharityApiWeb.Router do
     get "/campaigns/:campaign_id/*anything", CampaignController, :show
 
     get "/receipt_templates/:receipt_template_id", ReceiptTemplateController, :show
+    get "/receipts/:receipt_id", ReceiptController, :show
     get "/export", Admin.ExportController,:get_csv_for_export
   end
 
@@ -54,7 +55,7 @@ defmodule DavosCharityApiWeb.Router do
     resources "/donors", Admin.DonorController, except: [:new, :edit]
     resources "/payments", Admin.PaymentController, except: [:new, :edit]
     resources "/campaigns", Admin.CampaignController, except: [:new, :edit]
-    resources "/ongoing", Admin.OngoingDonationController, except: [:new, :edit]
+    resources "/ongoing-donations", Admin.OngoingDonationController, except: [:new, :edit]
     resources "/donor-history", Admin.DonorHistoryController, except: [:new, :edit]
     resources "/photos", Admin.PhotoController, except: [:new, :edit]
     resources "/signatures", Admin.SignatureController, except: [:new, :edit]
@@ -74,6 +75,10 @@ defmodule DavosCharityApiWeb.Router do
 
     get "/payments/:payment_id/donor", Admin.DonorController, :get_donor_for_payment
     get "/payments/:payment_id/campaign", Admin.CampaignController, :campaign_for_payment
+
+    get "/ongoing-donations/:ongoing_donation_id/donor", Admin.DonorController, :donor_for_ongoing_donation
+    get "/ongoing-donations/:ongoing_donation_id/payment-method", AdminPaymentMethodController, :payment_method_for_ongoing_donation
+    get "/ongoing-donations/:ongoing_donation_id/campaign", Admin.CampaignController, :campaign_for_ongoing_donation
   end
 
   scope "/api", DavosCharityApiWeb do
