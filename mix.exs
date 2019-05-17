@@ -63,7 +63,13 @@ defmodule DavosCharityApi.MixProject do
       {:scrivener_ecto, "~> 2.0"},
       {:decoratex, "~> 1.2.0"},
       {:csv, "~> 2.3"},
-      {:nimble_csv, "~> 0.6.0"}
+      {:nimble_csv, "~> 0.6.0"},
+      {:arc, "~> 0.11.0"},
+      {:ex_aws, "~> 2.0"},
+      {:hackney, "~> 1.6"},
+      {:sweet_xml, "~> 0.6"},
+      {:arc_ecto, "~> 0.11.1"},
+      {:ex_aws_s3, "~> 2.0"},      
     ]
   end
 

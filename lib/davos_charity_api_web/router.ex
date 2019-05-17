@@ -11,7 +11,7 @@ defmodule DavosCharityApiWeb.Router do
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
-    plug :put_secure_browser_headers, %{"content-security-policy" => "frame-ancestors http://localhost:4200"}
+    plug :put_secure_browser_headers, %{"content-security-policy" => "frame-ancestors http://localhost:4300"}
   end
 
   pipeline :api do
@@ -61,6 +61,8 @@ defmodule DavosCharityApiWeb.Router do
     resources "/signatures", Admin.SignatureController, except: [:new, :edit]
     resources "/logos", Admin.LogoController, except: [:new, :edit]
     resources "/templates", Admin.TemplateController, except: [:new, :edit]
+    resources "/receipts", Admin.ReceiptController, except: [:new, :edit]
+    resources "/receipt-templates", Admin.ReceiptTemplateController, except: [:new, :edit]
 
     get "/exports", Admin.ExportController,:get_csv_for_export
 
@@ -74,6 +76,7 @@ defmodule DavosCharityApiWeb.Router do
     get "/donors/:donor_id/donor-history", Admin.DonorHistoryController, :history_for_donor
 
     get "/payments/:payment_id/donor", Admin.DonorController, :get_donor_for_payment
+    get "/payments/:payment_id/receipt", Admin.Api.ReceiptController, :get_receipt_for_payment
     get "/payments/:payment_id/campaign", Admin.CampaignController, :campaign_for_payment
 
     get "/ongoing-donations/:ongoing_donation_id/donor", Admin.DonorController, :donor_for_ongoing_donation
@@ -108,6 +111,7 @@ defmodule DavosCharityApiWeb.Router do
 
     get "/payments/:payment_id/donor-organization-relationship", DonorOrganizationRelationshipController, :relationship_for_payment
     get "/payments/:payment_id/campaign", Api.CampaignController, :campaign_for_payment
+    get "/payments/:payment_id/receipt", Api.ReceiptController, :get_receipt_for_payment
 
     get "/vaults/:vault_id/vault_cards", VaultCardController, :vault_cards_for_vault
 

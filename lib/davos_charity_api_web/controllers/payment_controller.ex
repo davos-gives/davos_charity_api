@@ -16,9 +16,14 @@ defmodule DavosCharityApiWeb.PaymentController do
 
       {:ok, %{created_payment: {:ok, %Payment{} = payment}}} ->
 
-        receipt = List.first(Receipt.get_receipt_for_payment!(payment.id))
 
-        Receipt.build_receipt_pdf(receipt.id)
+        Task.Supervisor.async_nolink(DavosCharityApi.TaskSupervisor, fn ->
+          receipt = List.first(Receipt.get_receipt_for_payment!(payment.id))
+          Receipt.build_receipt_pdf(receipt.id)
+
+          {:ok, file_binary} = File.read("temp/#{receipt.id}.pdf")
+          ExAws.S3.put_object("receipts", "#{receipt.receipt_number}.pdf", file_binary, [acl: :public_read]) |> ExAws.request()
+        end)
 
         conn
         |> put_status(:created)

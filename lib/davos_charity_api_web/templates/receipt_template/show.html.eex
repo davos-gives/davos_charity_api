@@ -3,13 +3,13 @@
     <address id="from">
       <h1 class="primary-text capitalize my-12 font-black" id="header"><%= @template.header %></h1>
       <p class="text-grey-receipts leading-normal" id="description"><%= @template.description %></p>
-      <img id="signature" src="<%= Routes.static_path(@conn, "/images/signature.png") %>" class="w-32" />
-      <p class="text-grey-receipts leading-normal text-sm italic">CEO, Barks & Meows Shelter</p>
+      <img id="signature" src="<%= @template.signature %>" class="w-32" />
+      <p class="text-grey-receipts leading-normal text-sm italic">Wayne Hartrick, President</p>
     </address>
   </aside>
 
   <dl id="informations">
-    <img id="logo" src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="w-32 mt-4"/>
+    <img id="logo" src="<%= @template.logo %>" class="w-32 mt-4"/>
   </dl>
 
 
@@ -68,7 +68,6 @@
         </div>
       </address>
 
-      <img id="logo2" src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="h-24 w-auto mt-10"/>
-
+      <img id="logo2" src="<%= @template.logo %>" class="h-24 w-auto mt-10"/>
     </aside>
 </div>

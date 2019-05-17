@@ -57,6 +57,7 @@ defmodule DavosCharityApi.Receipt do
 
       attrs = attrs
       |> Map.put("receipt_number", receipt_number)
+      |> Map.put("url", "https://davos-assets.sfo2.cdn.digitaloceanspaces.com/receipts/#{receipt_number}.pdf")
 
       new_receipt = %Receipt{}
       |> Receipt.changeset(attrs)
@@ -79,6 +80,21 @@ defmodule DavosCharityApi.Receipt do
     Receipt
     |> Repo.get!(id)
   end
+
+  def list_receipts(), do: Repo.all(Receipt)
+
+  def search_receipts(search_term) do
+    search_term = String.downcase(search_term)
+
+    Receipt
+    |> where([a], like(fragment("lower(?)", a.fname), ^"%#{search_term}%"))
+    |> or_where([a], like(fragment("lower(?)", a.lname), ^"%#{search_term}%"))
+    |> or_where([a], a.receipt_number == ^search_term)
+    |> or_where([a], a.payment_amount == ^search_term * 100)
+    |> order_by(desc: :inserted_at)
+    |> Repo.all
+  end
+
 
   def get_receipt_for_payment!(id) do
     payment = Donation.get_payment!(id)

@@ -60,6 +60,12 @@ defmodule DavosCharityApi.Fundraising do
 
   def get_receipt_template!(id), do: Repo.get!(ReceiptTemplate, id)
 
+  def update_receipt_template(%ReceiptTemplate{} = receipt_template, attrs) do
+    receipt_template
+    |> ReceiptTemplate.changeset(attrs)
+    |> Repo.update
+  end
+
   def list_campaigns, do: Repo.all(Campaign)
 
   def get_campaign!(id) do
