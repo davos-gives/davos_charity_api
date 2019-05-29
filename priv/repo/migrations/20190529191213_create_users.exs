@@ -1,14 +1,13 @@
-defmodule DavosCharityApi.Repo.Migrations.CreateDonors do
+defmodule DavosCharityApi.Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def change do
-    create table(:donors) do
+    create table(:users) do
       add :fname, :string
       add :lname, :string
       add :email, :string
       add :password_hash, :string
       timestamps()
     end
-
   end
 end

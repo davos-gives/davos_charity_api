@@ -5,7 +5,6 @@ defmodule DavosCharityApiWeb.Router do
    forward "/sent_emails", Bamboo.SentEmailViewerPlug
  end
 
-
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -84,6 +83,10 @@ defmodule DavosCharityApiWeb.Router do
     get "/ongoing-donations/:ongoing_donation_id/donor", Admin.DonorController, :donor_for_ongoing_donation
     get "/ongoing-donations/:ongoing_donation_id/payment-method", AdminPaymentMethodController, :payment_method_for_ongoing_donation
     get "/ongoing-donations/:ongoing_donation_id/campaign", Admin.CampaignController, :campaign_for_ongoing_donation
+
+    post "/session", Admin.SessionController, :create
+    get "/users/me", Admin.UserController, :show_current
+
   end
 
   scope "/api", DavosCharityApiWeb do

@@ -1,0 +1,20 @@
+defmodule DavosCharityApi.Organization.Management do
+
+  import Ecto.Changeset
+  import Ecto.Query
+
+  alias DavosCharityApi.Repo
+
+  alias DavosCharityApi.Organization
+  alias DavosCharityApi.Organization.User
+
+  def get_user_by_email!(email), do: Repo.get_by!(User, email: email)
+
+  def get_user!(id), do: Repo.get!(User, id)
+
+  def create_user(attrs \\ %{}) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert
+  end
+end

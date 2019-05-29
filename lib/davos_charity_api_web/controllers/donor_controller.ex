@@ -16,7 +16,6 @@ defmodule DavosCharityApiWeb.DonorController do
   def show_current(conn, %{current_donor: donor}) do
     conn
     |> render("show.json-api", data: donor, opts: [include: conn.query_params["include"]])
-
   end
 
   def show(conn, %{"id" => id}) do

@@ -4,6 +4,7 @@ defmodule DavosCharityApi.Organization do
   alias DavosCharityApi.Repo
 
   alias DavosCharityApi.Organization
+  alias DavosCharityApi.Organization.User
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Donor.DonorOrganizationRelationship
   alias DavosCharityApi.Donor
