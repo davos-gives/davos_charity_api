@@ -63,6 +63,7 @@ defmodule DavosCharityApiWeb.Router do
     resources "/templates", Admin.TemplateController, except: [:new, :edit]
     resources "/receipts", Admin.ReceiptController, except: [:new, :edit]
     resources "/receipt-templates", Admin.ReceiptTemplateController, except: [:new, :edit]
+    resources "/tags", Admin.TagController, except: [:new, :edit]
 
     get "/exports", Admin.ExportController,:get_csv_for_export
 
@@ -72,6 +73,7 @@ defmodule DavosCharityApiWeb.Router do
     get "/donors/:donor_id/payments", Admin.PaymentController, :get_payments_for_donor
     get "/donors/:donor_id/ongoing-donations", Admin.OngoingDonationController, :ongoing_donations_for_donor
     get "/donors/:donor_id/addresses", AddressController, :addresses_for_donor
+    get "/donors/:donor_id/tags", Admin.TagController, :tags_for_donor
 
     get "/donors/:donor_id/donor-history", Admin.DonorHistoryController, :history_for_donor
 

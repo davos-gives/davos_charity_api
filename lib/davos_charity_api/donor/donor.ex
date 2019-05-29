@@ -10,7 +10,7 @@ defmodule DavosCharityApi.Donor do
 
   alias DavosCharityApi.Repo
   alias DavosCharityApi.Donor
-  alias DavosCharityApi.Donor.{Address, DonorOrganizationRelationship, DonorHistory, Vault, VaultCard}
+  alias DavosCharityApi.Donor.{Address, DonorOrganizationRelationship, DonorHistory, Vault, VaultCard, Tag}
 
   alias DavosCharityApi.Donation
   alias DavosCharityApi.Donation.Ongoing
@@ -35,6 +35,8 @@ defmodule DavosCharityApi.Donor do
     has_many :donor_organization_relationships, DonorOrganizationRelationship
     has_many :vaults, Vault
     has_many :vault_cards, VaultCard
+
+    many_to_many :tags, Tag, join_through: "donor_tags", on_replace: :mark_as_invalid
     timestamps()
   end
 
@@ -77,8 +79,24 @@ defmodule DavosCharityApi.Donor do
   def changeset(donor, attrs) do
     donor
     |> cast(attrs, [:fname, :lname, :email, :password, :verified])
-    |> validate_required([])
-    |> unsafe_validate_unique([:email], DavosCharityApi.Repo)
+  end
+
+  def changeset_add_tags(donor, attrs) do
+    IEx.pry()
+    donor
+    |> cast(attrs, [:fname, :lname, :email, :password, :verified])
+    |> put_assoc(:tags, parse_tags(attrs))
+  end
+
+  defp parse_tags(params) do
+    (params["tags"] || "")
+    |> Enum.map(&get_or_insert_tag/1)
+  end
+
+  defp get_or_insert_tag(name) do
+    IEx.pry
+
+    tag = Repo.insert!(%Tag{name: name}, on_conflict: :nothing)
   end
 
   def list_donors do
@@ -124,11 +142,6 @@ defmodule DavosCharityApi.Donor do
   def filter_donors(duration, campaign_id) do
     today = Timex.now("America/Vancouver")
 
-    # query = from d in Donor,
-    #   join: p in assoc(d, :payments),
-    #   where: p.campaign_id == ^campaign_id,
-    #   preload: [payments: p]
-
     query = cond do
       duration == "today" ->
         from d in Donor,
@@ -162,7 +175,7 @@ defmodule DavosCharityApi.Donor do
 
   def get_donor!(id) do
     donor = Repo.get!(Donor, id)
-    donor = Repo.preload(donor, [:vaults, :addresses, :vault_cards, :ongoing_donations])
+    donor = Repo.preload(donor, [:vaults, :addresses, :vault_cards, :ongoing_donations, :tags])
   end
 
   def get_donor_by_email!(email), do: Repo.get_by!(Donor, email: email)
@@ -173,9 +186,41 @@ defmodule DavosCharityApi.Donor do
     |> Repo.insert
   end
 
+  def create_tag(attrs \\ %{}, donor) do
+    tag = %Tag{}
+    |> Tag.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:donors, [donor])
+    |> Repo.insert
+  end
+
+  def update_tag(%Tag{} = tag, donor) do
+    new_tag = tag
+    |> Tag.changeset(%{})
+    |> Ecto.Changeset.put_assoc(:donors, [donor | tag.donors])
+    |> Repo.update
+
+    IEx.pry
+
+  end
+
+  def get_tag_by_name!(name), do: Repo.get_by(Tag, name: name) |> Repo.preload([:donors])
+
+  def remove_tag(attrs \\ %{}) do
+    "donor_tags"
+    |> where(donor_id: ^String.to_integer(attrs["donor_id"]))
+    |> where(tag_id: ^String.to_integer(attrs["id"]))
+    |> Repo.delete_all
+  end
+
   def update_donor(%Donor{} = donor, attrs) do
     donor
     |> Donor.changeset(attrs)
+    |> Repo.update
+  end
+
+  def update_donor_with_tags(%Donor{} = donor, attrs) do
+    donor
+    |> Donor.changeset_add_tags(attrs)
     |> Repo.update
   end
 
@@ -215,6 +260,12 @@ defmodule DavosCharityApi.Donor do
     Address
     |> where([a], a.donor_id == ^donor_id)
     |> Repo.all
+  end
+
+  def list_tags_for_donor(donor_id) do
+    donor = Donor.get_donor!(donor_id)
+    donor = Repo.preload(donor, :tags)
+    donor.tags
   end
 
   def get_donor_organization_relationship!(id) do

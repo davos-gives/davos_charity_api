@@ -2,7 +2,7 @@
   <aside class="">
     <address id="from">
       <h1 class="primary-text capitalize my-12 font-black" id="header"><%= @template.header %></h1>
-      <p class="text-grey-receipts leading-normal" id="description"><%= @template.description %></p>
+      <p class="text-grey-receipts leading-normal" id="description"><%= raw @template.description %></p>
       <img id="signature" src="<%= @template.signature %>" class="w-32" />
       <p class="text-grey-receipts leading-normal text-sm italic">Wayne Hartrick, President</p>
     </address>

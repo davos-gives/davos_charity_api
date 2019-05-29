@@ -32,4 +32,11 @@ defmodule DavosCharityApiWeb.Admin.DonorView do
   links: [
     related: "/api/admin/donors/:id/donor-history"
   ]
+
+  has_many :tags,
+  serializer: DavosCharityApiWeb.Admin.TagView,
+  identifiers: :when_included,
+  links: [
+    related: "/api/admin/donors/:id/tags"
+  ]
 end

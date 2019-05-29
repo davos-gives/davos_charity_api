@@ -41,6 +41,21 @@ defmodule DavosCharityApiWeb.Admin.DonorController do
     render(conn, "index.json-api", data: donors)
   end
 
+  def update(conn, %{"id" => id, "data" => data = %{"type" => "donors", "attributes" => _params}}) do
+    data = JaSerializer.Params.to_attributes(data)
+    donor = Donor.get_donor!(id)
+
+    case Donor.update_donor_with_tags(donor, data) do
+      {:ok, %Donor{} = donor} ->
+        conn
+        |> render("show.json-api", data: donor)
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render(DavosCharityApiWeb.ErrorView, "400.json-api", changeset)
+    end
+  end
+
   def donor_for_ongoing_donation(conn, %{"ongoing_donation_id" => ongoing_donation_id}) do
     donor = Donation.get_donor_for_ongoing_donation!(ongoing_donation_id)
     render(conn, "show.json-api", data: donor)
