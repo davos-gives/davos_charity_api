@@ -1,26 +1,24 @@
 defmodule DavosCharityApiWeb.Admin.CommentController do
   use DavosCharityApiWeb, :controller
 
-  alias DavosCharityApi.Fundraising
-  alias DavosCharityApi.Fundraising.Signature
+  alias DavosCharityApi.Donor
+  alias DavosCharityApi.Organization.{Management, Comment}
+
+  import IEx
 
   plug :authenticate_user when action in [:create]
 
-  def show(conn, %{"id" => id}) do
-    logo = Fundraising.get_signature!(id)
-    render(conn, "show.json-api", data: logo)
-  end
-
-  def create(conn, %{"data" => data = %{"type" => "signatures", "attributes" => _params}}) do
+  def create(conn, %{:current_user => current_user, "data" => data = %{"type" => "comments", "attributes" => _params}}) do
     data = data
     |> JaSerializer.Params.to_attributes
+    |> Map.put("user_id", current_user.id)
 
-    case Fundraising.create_signature(data) do
-      {:ok, %Signature{} = signature} ->
+    case Management.create_comment(data) do
+      {:ok, %Comment{} = comment} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", Routes.signature_path(conn, :show, signature))
-        |> render("show.json-api", data: signature)
+        |> put_resp_header("location", Routes.comment_path(conn, :show, comment))
+        |> render("show.json-api", data: comment)
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_status(:bad_request)

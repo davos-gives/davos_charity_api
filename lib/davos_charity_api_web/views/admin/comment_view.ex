@@ -3,7 +3,7 @@ defmodule DavosCharityApiWeb.Admin.CommentView do
   use JaSerializer.PhoenixView
 
   location "/api/admin/comments/:id"
-  attributes [:body]
+  attributes [:body, :inserted_at]
 
   has_one :donor,
     serializer: LibraryApiWeb.Admin.DonorView,

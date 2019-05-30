@@ -270,7 +270,7 @@ defmodule DavosCharityApi.Donor do
 
   def list_comments_for_donor(donor_id) do
     donor = Donor.get_donor!(donor_id)
-    donor = Repo.preload(donor, :comments)
+    donor = Repo.preload(donor, [comments: (from c in Comment, order_by: [desc: :inserted_at])])
     donor.comments
   end
 

@@ -91,6 +91,9 @@ defmodule DavosCharityApiWeb.Router do
 
     get "/users/:user_id/organization", Admin.OrganizationController, :organization_for_user
 
+    get "/comments/:comment_id/user", Admin.UserController, :user_for_comment
+
+
   end
 
   scope "/api", DavosCharityApiWeb do
