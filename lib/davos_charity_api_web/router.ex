@@ -87,6 +87,8 @@ defmodule DavosCharityApiWeb.Router do
     post "/session", Admin.SessionController, :create
     get "/users/me", Admin.UserController, :show_current
 
+    get "users/:user_id/organization", Admin.OrganizationController, :organization_for_user
+
   end
 
   scope "/api", DavosCharityApiWeb do

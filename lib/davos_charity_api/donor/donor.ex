@@ -198,9 +198,6 @@ defmodule DavosCharityApi.Donor do
     |> Tag.changeset(%{})
     |> Ecto.Changeset.put_assoc(:donors, [donor | tag.donors])
     |> Repo.update
-
-    IEx.pry
-
   end
 
   def get_tag_by_name!(name), do: Repo.get_by(Tag, name: name) |> Repo.preload([:donors])

@@ -8,7 +8,7 @@ defmodule DavosCharityApiWeb.Admin.UserController do
 
   def show_current(conn, %{current_user: user}) do
     conn
-    |> render("show.json-api", data: user)
+    |> render("show.json-api", data: user, opts: [include: "organizations"])
   end
 
   def show(conn, %{"id" => id}) do

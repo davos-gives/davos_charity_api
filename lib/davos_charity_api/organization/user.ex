@@ -23,6 +23,8 @@ defmodule DavosCharityApi.Organization.User do
     field :password_hash, :string
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
+
+    belongs_to :organization, Organization
     timestamps()
   end
 

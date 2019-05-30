@@ -6,8 +6,6 @@ defmodule DavosCharityApiWeb.Admin.SessionController do
   alias DavosCharityApi.Organization.Management
 
   def create(conn, %{"email" => email, "password" => password}) do
-
-
     try do
       user = Management.get_user_by_email!(email)
 
