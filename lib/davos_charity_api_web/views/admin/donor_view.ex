@@ -39,4 +39,11 @@ defmodule DavosCharityApiWeb.Admin.DonorView do
   links: [
     related: "/api/admin/donors/:id/tags"
   ]
+
+  has_many :comments,
+  serializer: DavosCharityApiWeb.Admin.CommentView,
+  identifiers: :when_included,
+  links: [
+    related: "/api/admin/donors/:id/comments"
+  ]
 end

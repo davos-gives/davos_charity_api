@@ -16,6 +16,8 @@ defmodule DavosCharityApi.Donor do
   alias DavosCharityApi.Donation.Ongoing
   alias DavosCharityApi.Donation.Payment
 
+  alias DavosCharityApi.Organization.Comment
+
   import Ecto.Query
   import Exiats
   import IEx
@@ -35,6 +37,7 @@ defmodule DavosCharityApi.Donor do
     has_many :donor_organization_relationships, DonorOrganizationRelationship
     has_many :vaults, Vault
     has_many :vault_cards, VaultCard
+    has_many :comments, Comment
 
     many_to_many :tags, Tag, join_through: "donor_tags", on_replace: :mark_as_invalid
     timestamps()
@@ -263,6 +266,12 @@ defmodule DavosCharityApi.Donor do
     donor = Donor.get_donor!(donor_id)
     donor = Repo.preload(donor, :tags)
     donor.tags
+  end
+
+  def list_comments_for_donor(donor_id) do
+    donor = Donor.get_donor!(donor_id)
+    donor = Repo.preload(donor, :comments)
+    donor.comments
   end
 
   def get_donor_organization_relationship!(id) do

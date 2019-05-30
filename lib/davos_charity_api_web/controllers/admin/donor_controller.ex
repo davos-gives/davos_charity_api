@@ -6,7 +6,6 @@ defmodule DavosCharityApiWeb.Admin.DonorController do
 
   alias DavosCharityApi.Repo
 
-
   plug :authenticate_donor when action in [:show_current]
 
   def show_current(conn, %{current_donor: donor}) do

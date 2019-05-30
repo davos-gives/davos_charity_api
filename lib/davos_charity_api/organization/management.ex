@@ -6,8 +6,7 @@ defmodule DavosCharityApi.Organization.Management do
   alias DavosCharityApi.Repo
 
   alias DavosCharityApi.Organization
-  alias DavosCharityApi.Organization.User
-  alias DavosCharityApi.Organization.Management
+  alias DavosCharityApi.Organization.{User, Management, Comment}
 
   def get_user_by_email!(email), do: Repo.get_by!(User, email: email)
 
@@ -27,5 +26,11 @@ defmodule DavosCharityApi.Organization.Management do
     donor = Management.get_user!(user_id)
     donor = Repo.preload(donor, :organization)
     donor.organization
+  end
+
+  def create_comment(attrs \\ %{}) do
+    %Comment{}
+    |> Comment.changeset(attrs)
+    |> Repo.insert
   end
 end
