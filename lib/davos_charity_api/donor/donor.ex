@@ -10,11 +10,13 @@ defmodule DavosCharityApi.Donor do
 
   alias DavosCharityApi.Repo
   alias DavosCharityApi.Donor
-  alias DavosCharityApi.Donor.{Address, DonorOrganizationRelationship, DonorHistory, Vault, VaultCard}
+  alias DavosCharityApi.Donor.{Address, DonorOrganizationRelationship, DonorHistory, Vault, VaultCard, Tag}
 
   alias DavosCharityApi.Donation
   alias DavosCharityApi.Donation.Ongoing
   alias DavosCharityApi.Donation.Payment
+
+  alias DavosCharityApi.Organization.Comment
 
   import Ecto.Query
   import Exiats
@@ -35,6 +37,9 @@ defmodule DavosCharityApi.Donor do
     has_many :donor_organization_relationships, DonorOrganizationRelationship
     has_many :vaults, Vault
     has_many :vault_cards, VaultCard
+    has_many :comments, Comment
+
+    many_to_many :tags, Tag, join_through: "donor_tags", on_replace: :mark_as_invalid
     timestamps()
   end
 
@@ -77,15 +82,103 @@ defmodule DavosCharityApi.Donor do
   def changeset(donor, attrs) do
     donor
     |> cast(attrs, [:fname, :lname, :email, :password, :verified])
-    |> validate_required([])
-    |> unsafe_validate_unique([:email], DavosCharityApi.Repo)
   end
 
-  def list_donors, do: Repo.all(Donor)
+  def changeset_add_tags(donor, attrs) do
+    IEx.pry()
+    donor
+    |> cast(attrs, [:fname, :lname, :email, :password, :verified])
+    |> put_assoc(:tags, parse_tags(attrs))
+  end
+
+  defp parse_tags(params) do
+    (params["tags"] || "")
+    |> Enum.map(&get_or_insert_tag/1)
+  end
+
+  defp get_or_insert_tag(name) do
+    IEx.pry
+
+    tag = Repo.insert!(%Tag{name: name}, on_conflict: :nothing)
+  end
+
+  def list_donors do
+    Donor
+    |> order_by(desc: :updated_at)
+    |> Repo.all
+  end
+
+  def search_donors(search_term) do
+    search_term = String.downcase(search_term)
+
+    Donor
+    |> where([a], like(fragment("lower(?)", a.fname), ^"%#{search_term}%"))
+    |> or_where([a], like(fragment("lower(?)", a.lname), ^"%#{search_term}%"))
+    |> order_by(desc: :updated_at)
+    |> Repo.all
+  end
+
+  def find_donors_by_ids(ids) do
+    Donor
+    |> where([d], d.id in ^ids)
+    |> Repo.all
+  end
+
+  def filter_donors(duration) do
+    today = Timex.now("America/Vancouver")
+
+    query = cond do
+      duration == "today" ->
+        from p in Donor, where: p.inserted_at >= ^Timex.beginning_of_day(today)
+      duration == "this week" ->
+        from p in Donor, where: p.inserted_at >= ^Timex.beginning_of_week(today)
+      duration == "this month" ->
+        from p in Donor, where: p.inserted_at >= ^Timex.beginning_of_month(today)
+      duration == "this year" ->
+        from p in Donor, where: p.inserted_at >= ^Timex.beginning_of_year(today)
+    end
+
+    query
+    |> Repo.all
+  end
+
+  def filter_donors(duration, campaign_id) do
+    today = Timex.now("America/Vancouver")
+
+    query = cond do
+      duration == "today" ->
+        from d in Donor,
+          join: p in assoc(d, :payments),
+          where: p.campaign_id == ^campaign_id,
+          where: p.inserted_at >= ^Timex.beginning_of_day(today),
+          preload: [payments: p]
+      duration == "this week" ->
+        from d in Donor,
+          join: p in assoc(d, :payments),
+          where: p.campaign_id == ^campaign_id,
+          where: p.inserted_at >= ^Timex.beginning_of_week(today),
+          preload: [payments: p]
+      duration == "this month" ->
+        from d in Donor,
+          join: p in assoc(d, :payments),
+          where: p.campaign_id == ^campaign_id,
+          where: p.inserted_at >= ^Timex.beginning_of_month(today),
+          preload: [payments: p]
+      duration == "this year" ->
+        from d in Donor,
+          join: p in assoc(d, :payments),
+          where: p.campaign_id == ^campaign_id,
+          where: p.inserted_at >= ^Timex.beginning_of_year(today),
+          preload: [payments: p]
+    end
+
+    query
+    |> Repo.all
+  end
 
   def get_donor!(id) do
     donor = Repo.get!(Donor, id)
-    donor = Repo.preload(donor, [:vaults, :addresses, :vault_cards, :ongoing_donations])
+    donor = Repo.preload(donor, [:vaults, :addresses, :vault_cards, :ongoing_donations, :tags])
   end
 
   def get_donor_by_email!(email), do: Repo.get_by!(Donor, email: email)
@@ -96,9 +189,38 @@ defmodule DavosCharityApi.Donor do
     |> Repo.insert
   end
 
+  def create_tag(attrs \\ %{}, donor) do
+    tag = %Tag{}
+    |> Tag.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:donors, [donor])
+    |> Repo.insert
+  end
+
+  def update_tag(%Tag{} = tag, donor) do
+    new_tag = tag
+    |> Tag.changeset(%{})
+    |> Ecto.Changeset.put_assoc(:donors, [donor | tag.donors])
+    |> Repo.update
+  end
+
+  def get_tag_by_name!(name), do: Repo.get_by(Tag, name: name) |> Repo.preload([:donors])
+
+  def remove_tag(attrs \\ %{}) do
+    "donor_tags"
+    |> where(donor_id: ^String.to_integer(attrs["donor_id"]))
+    |> where(tag_id: ^String.to_integer(attrs["id"]))
+    |> Repo.delete_all
+  end
+
   def update_donor(%Donor{} = donor, attrs) do
     donor
     |> Donor.changeset(attrs)
+    |> Repo.update
+  end
+
+  def update_donor_with_tags(%Donor{} = donor, attrs) do
+    donor
+    |> Donor.changeset_add_tags(attrs)
     |> Repo.update
   end
 
@@ -108,7 +230,11 @@ defmodule DavosCharityApi.Donor do
     |> Repo.update
   end
 
-  def get_address!(id), do: Repo.get!(Address, id)
+  def get_address!(id) do
+    Address
+    |> Repo.get!(id)
+    |> Repo.preload(:donor)
+  end
 
   def get_donor_for_address!(address_id) do
     address = Donor.get_address!(address_id)
@@ -128,10 +254,24 @@ defmodule DavosCharityApi.Donor do
     |> Repo.update
   end
 
+  def delete_address(%Address{} = model), do: Repo.delete(model)
+
   def list_addresses_for_donor(donor_id) do
     Address
     |> where([a], a.donor_id == ^donor_id)
     |> Repo.all
+  end
+
+  def list_tags_for_donor(donor_id) do
+    donor = Donor.get_donor!(donor_id)
+    donor = Repo.preload(donor, :tags)
+    donor.tags
+  end
+
+  def list_comments_for_donor(donor_id) do
+    donor = Donor.get_donor!(donor_id)
+    donor = Repo.preload(donor, [comments: (from c in Comment, order_by: [desc: :inserted_at])])
+    donor.comments
   end
 
   def get_donor_organization_relationship!(id) do
@@ -173,9 +313,9 @@ defmodule DavosCharityApi.Donor do
   end
 
   def get_vault_for_donor(donor_id) do
-    Vault
-    |> where([vault], vault.donor_id == ^donor_id)
-    |> Repo.all
+    donor = Donor.get_donor!(donor_id)
+    donor = Repo.preload(donor, :vaults)
+    donor.vaults
   end
 
   def get_cards_for_vault(vault_id) do
@@ -183,6 +323,8 @@ defmodule DavosCharityApi.Donor do
     |> where([card], card.vault_id == ^vault_id)
     |> Repo.all
   end
+
+  def get_vault_card!(id), do: Repo.get!(VaultCard, id)
 
   defp send_iats_vault_creation(multi) do
     Multi.run(multi, :created_vault, fn _repo, %{} ->
@@ -211,9 +353,57 @@ defmodule DavosCharityApi.Donor do
     |> Repo.transaction
   end
 
+  def update_vault_card(%VaultCard{} = vault_card, attrs \\ %{}) do
+    Multi.new()
+    |> send_iats_vault_card_update(vault_card, attrs)
+    |> locally_update_vault_card(vault_card, attrs)
+    |> Repo.transaction
+  end
+
+  def delete_vault_card(%VaultCard{} = vault_card, vault_id) do
+    Multi.new()
+    |> send_iats_vault_card_deletion(vault_card, vault_id)
+    |> locally_delete_vault_card(vault_card)
+    |> Repo.transaction
+  end
+
+  defp send_iats_vault_card_update(multi, vault_card, attrs) do
+    Multi.run(multi, :updated_card, fn _repo, %{} ->
+      card = Exiats.update_card_in_vault(attrs["vault_ids"], vault_card.iats_id, attrs["expiry_month"], attrs["expiry_year"])
+      {:ok, card}
+    end)
+  end
+
+  defp send_iats_vault_card_deletion(multi, vault_card, attrs) do
+    Multi.run(multi, :updated_card, fn _repo, %{} ->
+      card = Exiats.remove_card_from_vault(attrs, vault_card.iats_id)
+      {:ok, card}
+    end)
+  end
+
+  defp locally_update_vault_card(multi, card, attrs) do
+    Multi.run(multi, :added_card, fn repo, %{updated_card: updated_card} ->
+
+      new_card = card
+      |> VaultCard.changeset(attrs)
+      |> repo.update
+
+      {:ok, new_card}
+    end)
+  end
+
+  defp locally_delete_vault_card(multi, card) do
+    Multi.run(multi, :added_card, fn repo, %{updated_card: updated_card} ->
+
+      new_card = card
+      |> Repo.delete
+      {:ok, new_card}
+    end)
+  end
+
   defp send_iats_vault_card_creation(multi, attrs) do
     Multi.run(multi, :added_card, fn _repo, %{} ->
-      card = Exiats.add_card_to_vault(attrs["vault_key"], attrs["crypto"])
+      card = Exiats.add_card_to_vault(attrs["vault_key"], attrs["cryptogram"])
       {:ok, card}
     end)
   end

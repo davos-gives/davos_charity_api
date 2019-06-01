@@ -43,8 +43,9 @@ class ReviewPage extends React.Component {
           amount: this.props.giftInfo.amount,
           frequency: "one-time",
           vault_id: this.props.api.vaults.data[0].attributes["iats-id"],
-          vault_key: this.props.api["vault-cards"].data[0].attributes["iats-id"],
+          vault_key: this.props.vaultCard.iatsId,
           donor_id: this.props.api.donors.data[0].id,
+          address_id: this.props.savedAddress.id,
           campaign_id: this.props.match.url.split("/")[2],
         }
       }
@@ -54,13 +55,15 @@ class ReviewPage extends React.Component {
       })
       } else {
         store.dispatch(setAxiosConfig({baseURL: '/api/'}));
+
         const payment = {
           type: "payments",
           attributes: {
             amount: this.props.giftInfo.amount,
             frequency: this.props.giftInfo.frequency,
             vault_id: this.props.api.vaults.data[0].attributes["iats-id"],
-            vault_key: this.props.api["vault-cards"].data[0].attributes["iats-id"],
+            vault_card_id: this.props.vaultCard.id,
+            vault_key: this.props.vaultCard.iatsId,
             donor_id: this.props.api.donors.data[0].id,
             campaign_id: this.props.match.url.split("/")[2],
           }
@@ -74,7 +77,6 @@ class ReviewPage extends React.Component {
       if(this.props.giftInfo.frequency == "one-time") {
         store.dispatch(setAxiosConfig({baseURL: '/api/'}));
         if(this.state.password != "") {
-          debugger;
           var donor = {
             type: 'donors',
             attributes: {
@@ -85,7 +87,6 @@ class ReviewPage extends React.Component {
             },
           }
         } else {
-          debugger;
           var donor = {
             type: 'donors',
             attributes: {
@@ -97,6 +98,20 @@ class ReviewPage extends React.Component {
         }
         store.dispatch(createResource(donor))
         .then(() => {
+          const address = {
+            type: "addresses",
+            attributes: {
+              name: "default",
+              address_1: this.props.donorInfo.address_1,
+              city: this.props.donorInfo.city,
+              postal_code: this.props.donorInfo.postal_code,
+              country: "Canada",
+              province: this.props.donorInfo.province,
+              donor_id: this.props.api.donors.data[0].id,
+            }
+          }
+        store.dispatch(createResource(address))
+        .then(() => {
           const payment = {
             type: "payments",
             attributes: {
@@ -104,24 +119,11 @@ class ReviewPage extends React.Component {
               frequency: "one-time",
               cryptogram: this.props.paymentInfo.crypto,
               donor_id: this.props.api.donors.data[0].id,
+              address_id: this.props.api.addresses.data[0].id,
               campaign_id: this.props.match.url.split("/")[2],
             }
           }
           store.dispatch(createResource(payment))
-         .then(() => {
-           const address = {
-             type: "addresses",
-             attributes: {
-               name: "default",
-               address_1: this.props.donorInfo.address_1,
-               city: this.props.donorInfo.city,
-               postal_code: this.props.donorInfo.postal_code,
-               country: "Canada",
-               province: this.props.donorInfo.province,
-               donor_id: this.props.api.donors.data[0].id,
-             }
-           }
-           store.dispatch(createResource(address));
          })
          .then(() => {
            this.props.history.push(`thanks`);

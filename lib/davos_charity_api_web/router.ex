@@ -5,13 +5,12 @@ defmodule DavosCharityApiWeb.Router do
    forward "/sent_emails", Bamboo.SentEmailViewerPlug
  end
 
-
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
-    plug :put_secure_browser_headers, %{"content-security-policy" => "frame-ancestors http://localhost:4200"}
+    plug :put_secure_browser_headers, %{"content-security-policy" => "frame-ancestors http://localhost:4300"}
   end
 
   pipeline :api do
@@ -39,6 +38,8 @@ defmodule DavosCharityApiWeb.Router do
     get "/campaigns/:campaign_id/*anything", CampaignController, :show
 
     get "/receipt_templates/:receipt_template_id", ReceiptTemplateController, :show
+    get "/receipts/:receipt_id", ReceiptController, :show
+    get "/export", Admin.ExportController,:get_csv_for_export
   end
 
   scope "/api/public", DavosCharityApiWeb do
@@ -53,12 +54,18 @@ defmodule DavosCharityApiWeb.Router do
     resources "/donors", Admin.DonorController, except: [:new, :edit]
     resources "/payments", Admin.PaymentController, except: [:new, :edit]
     resources "/campaigns", Admin.CampaignController, except: [:new, :edit]
-    resources "/ongoing", Admin.OngoingDonationController, except: [:new, :edit]
+    resources "/ongoing-donations", Admin.OngoingDonationController, except: [:new, :edit]
     resources "/donor-history", Admin.DonorHistoryController, except: [:new, :edit]
     resources "/photos", Admin.PhotoController, except: [:new, :edit]
     resources "/signatures", Admin.SignatureController, except: [:new, :edit]
     resources "/logos", Admin.LogoController, except: [:new, :edit]
     resources "/templates", Admin.TemplateController, except: [:new, :edit]
+    resources "/receipts", Admin.ReceiptController, except: [:new, :edit]
+    resources "/receipt-templates", Admin.ReceiptTemplateController, except: [:new, :edit]
+    resources "/tags", Admin.TagController, except: [:new, :edit]
+    resources "/comments", Admin.CommentController, expect: [:new, :edit]
+
+    get "/exports", Admin.ExportController,:get_csv_for_export
 
     get "/campaigns/:campaign_id/payments", Admin.PaymentController, :get_payments_for_campaign
     get "/campaigns/:campaign_id/template", Admin.TemplateController, :template_for_campaign
@@ -66,12 +73,27 @@ defmodule DavosCharityApiWeb.Router do
     get "/donors/:donor_id/payments", Admin.PaymentController, :get_payments_for_donor
     get "/donors/:donor_id/ongoing-donations", Admin.OngoingDonationController, :ongoing_donations_for_donor
     get "/donors/:donor_id/addresses", AddressController, :addresses_for_donor
-
+    get "/donors/:donor_id/tags", Admin.TagController, :tags_for_donor
+    get "/donors/:donor_id/comments", Admin.CommentController, :comments_for_donor
 
     get "/donors/:donor_id/donor-history", Admin.DonorHistoryController, :history_for_donor
 
     get "/payments/:payment_id/donor", Admin.DonorController, :get_donor_for_payment
+    get "/payments/:payment_id/receipt", Admin.Api.ReceiptController, :get_receipt_for_payment
     get "/payments/:payment_id/campaign", Admin.CampaignController, :campaign_for_payment
+
+    get "/ongoing-donations/:ongoing_donation_id/donor", Admin.DonorController, :donor_for_ongoing_donation
+    get "/ongoing-donations/:ongoing_donation_id/payment-method", AdminPaymentMethodController, :payment_method_for_ongoing_donation
+    get "/ongoing-donations/:ongoing_donation_id/campaign", Admin.CampaignController, :campaign_for_ongoing_donation
+
+    post "/session", Admin.SessionController, :create
+    get "/users/me", Admin.UserController, :show_current
+
+    get "/users/:user_id/organization", Admin.OrganizationController, :organization_for_user
+
+    get "/comments/:comment_id/user", Admin.UserController, :user_for_comment
+
+
   end
 
   scope "/api", DavosCharityApiWeb do
@@ -79,6 +101,7 @@ defmodule DavosCharityApiWeb.Router do
 
     get "/donors/me", DonorController, :show_current
     get "/donors/email/:email_address", DonorController, :donor_by_email
+    get "/donors/reset-password", DonorController, :send_reset_email
     put "/verify-accounts", DonorController, :verify_email
     put "/reset-passwords", DonorController, :send_reset_email
 
@@ -100,6 +123,7 @@ defmodule DavosCharityApiWeb.Router do
 
     get "/payments/:payment_id/donor-organization-relationship", DonorOrganizationRelationshipController, :relationship_for_payment
     get "/payments/:payment_id/campaign", Api.CampaignController, :campaign_for_payment
+    get "/payments/:payment_id/receipt", Api.ReceiptController, :get_receipt_for_payment
 
     get "/vaults/:vault_id/vault_cards", VaultCardController, :vault_cards_for_vault
 
@@ -114,6 +138,8 @@ defmodule DavosCharityApiWeb.Router do
     get "/ongoing-donations/:ongoing_donation_id/payment-method", PaymentMethodController, :payment_method_for_ongoing_donation
     get "/ongoing-donations/:ongoing_donation_id/campaign", Api.CampaignController, :campaign_for_ongoing_donation
     get "/ongoing-donations/:ongoing_donation_id/donor-organization-relationship", DonorOrganizationRelationshipController, :relationship_for_ongoing_donation
+
+    get "/ongoing-donations/:ongoing_donation_id/vault-card", VaultCardController, :vault_card_for_ongoing_donation
 
     get "/addresses/:address_id/donor", DonorController, :donor_for_address
     get "/payment-methods/:payment_method_id/donor", DonorController, :donor_for_payment_method

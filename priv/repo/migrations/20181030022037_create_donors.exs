@@ -6,7 +6,7 @@ defmodule DavosCharityApi.Repo.Migrations.CreateDonors do
       add :fname, :string
       add :lname, :string
       add :email, :string
-
+      add :password_hash, :string
       timestamps()
     end
 

@@ -53,8 +53,8 @@ config :davos_charity_api, DavosCharityApiWeb.Endpoint,
 # configured to run both http and https servers on
 # different ports.
 
-config :davos_charity_api, DavosCharityApi.Mailer,
-  adapter: Bamboo.LocalAdapter
+# config :davos_charity_api, DavosCharityApi.Mailer,
+#   adapter: Bamboo.LocalAdapter
 
 # Watch static and templates for browser reloading.
 config :davos_charity_api, DavosCharityApiWeb.Endpoint,
@@ -83,6 +83,7 @@ config :davos_charity_api, DavosCharityApi.Repo,
   password: "postgres",
   database: "davos_charity_api_dev",
   hostname: "localhost",
-  pool_size: 10
+  pool_size: 10,
+  timeout: 30_000
 
 import_config "dev.secret.exs"

@@ -3,20 +3,13 @@ defmodule DavosCharityApiWeb.Admin.DonorView do
   use JaSerializer.PhoenixView
 
   location "/api/admin/donors/:id"
-  attributes [:fname, :lname, :email]
+  attributes [:fname, :lname, :email, :inserted_at, :updated_at]
 
   has_many :addresses,
   serializer: DavosCharityApiWeb.Admin.AddressView,
   identifiers: :when_included,
   links: [
     related: "/api/admin/donors/:id/addresses"
-  ]
-
-  has_many :payment_methods,
-  serializer: DavosCharityApiWeb.Admin.PaymentMethodView,
-  identifiers: :when_included,
-  links: [
-    related: "/api/admin/donors/:id/payment-methods"
   ]
 
   has_many :ongoing_donations,
@@ -38,5 +31,19 @@ defmodule DavosCharityApiWeb.Admin.DonorView do
   identifiers: :when_included,
   links: [
     related: "/api/admin/donors/:id/donor-history"
+  ]
+
+  has_many :tags,
+  serializer: DavosCharityApiWeb.Admin.TagView,
+  identifiers: :when_included,
+  links: [
+    related: "/api/admin/donors/:id/tags"
+  ]
+
+  has_many :comments,
+  serializer: DavosCharityApiWeb.Admin.CommentView,
+  identifiers: :when_included,
+  links: [
+    related: "/api/admin/donors/:id/comments"
   ]
 end

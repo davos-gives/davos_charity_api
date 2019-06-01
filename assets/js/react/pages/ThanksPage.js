@@ -12,7 +12,7 @@ class ThanksPage extends React.Component {
           <h1 className="text-grey-darker text-center">Thank you for your donation!</h1>
           <p className="text-grey-darker text-center text-lg font-thin mt-4">Check your email for your receipt and a verification email if you created an account.</p>
           <div className="mx-auto w-32 mt-8">
-            <a href="https://my.davos.gives/">
+            <a href="http://localhost:4200">
               <button className="rounded-full border border-purple-darkest border-solid py-4 px-8 rounded-full mr-8 font-bold text-grey-darker mx-auto">Manage</button>
             </a>
           </div>

@@ -1,13 +1,20 @@
 defmodule DavosCharityApi.Fundraising.Campaign do
   use Ecto.Schema
+  use Decoratex.Schema
+
   import Ecto.Changeset
 
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Fundraising.Form
   alias DavosCharityApi.Fundraising.Template
   alias DavosCharityApi.Donation.Payment
+  alias DavosCharityApi.Fundraising
   alias DavosCharityApi.Organization
 
+  decorations do
+    decorate_field :total_donations, :integer, &Fundraising.get_total_donations/1
+    decorate_field :number_of_donors, :integer, &Fundraising.get_number_of_donors/1
+  end
 
   schema "charity_fundraising_campaigns" do
     field :name, :string
@@ -44,6 +51,7 @@ defmodule DavosCharityApi.Fundraising.Campaign do
     has_many :forms, Form
     has_many :payments, Payment
     timestamps()
+    decorations()
   end
 
   def changeset(%Campaign{} = model, attrs) do

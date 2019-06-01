@@ -4,6 +4,7 @@ defmodule DavosCharityApi.Organization do
   alias DavosCharityApi.Repo
 
   alias DavosCharityApi.Organization
+  alias DavosCharityApi.Organization.User
   alias DavosCharityApi.Fundraising.Campaign
   alias DavosCharityApi.Donor.DonorOrganizationRelationship
   alias DavosCharityApi.Donor
@@ -13,6 +14,9 @@ defmodule DavosCharityApi.Organization do
   schema "organizations" do
     field :name, :string
     field :logo, :string
+    field :facebook_handle, :string
+    field :twitter_handle, :string
+    field :instagram_handle, :string
 
     has_many :campaigns, Campaign
     has_many :donor_organization_relationships, DonorOrganizationRelationship

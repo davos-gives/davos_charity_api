@@ -2,8 +2,6 @@ defmodule DavosCharityApiWeb.Admin.PaymentView do
   use DavosCharityApiWeb, :view
   use JaSerializer.PhoenixView
 
-  require IEx
-
   location "/admin/payments/:id"
   attributes [:amount, :created_at, :frequency]
 

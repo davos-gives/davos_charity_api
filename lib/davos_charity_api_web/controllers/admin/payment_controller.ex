@@ -8,7 +8,19 @@ defmodule DavosCharityApiWeb.Admin.PaymentController do
     render(conn, "show.json-api", data: donor)
   end
 
+  def index(conn, %{"filter" => %{"range" => duration, "campaign" => campaign_id}}) do
+    payments = Donation.search_payments(duration, campaign_id)
+    render(conn, "index.json-api", data: payments)
+  end
+
+  def index(conn, %{"filter" => %{"range" => duration}}) do
+
+    payments = Donation.search_payments(duration)
+    render(conn, "index.json-api", data: payments)
+  end
+
   def index(conn, _params) do
+
     payments = Donation.list_payments()
     render(conn, "index.json-api", data: payments)
   end

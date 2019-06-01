@@ -5,6 +5,7 @@ defmodule DavosCharityApi.Donor.VaultCard do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donor.VaultCard
   alias DavosCharityApi.Donor.Vault
+  alias DavosCharityApi.Donation.Ongoing
 
   schema "donor_vault_card" do
     field :iats_id, :string
@@ -16,6 +17,8 @@ defmodule DavosCharityApi.Donor.VaultCard do
     field :expiry_year, :string
     belongs_to :vault, Vault
     belongs_to :donor, Donor
+    has_many :ongoing_donations, Ongoing
+
 
     timestamps()
   end
@@ -23,6 +26,6 @@ defmodule DavosCharityApi.Donor.VaultCard do
   def changeset(%VaultCard{} = model, attrs) do
     model
     |> cast(attrs, [:iats_id, :name, :vault_id, :donor_id, :primary, :expiry_month, :expiry_year, :card_type, :last_four_digits])
-    |> validate_required([:iats_id, :name, :vault_id, :donor_id])
+    |> validate_required([])
   end
 end

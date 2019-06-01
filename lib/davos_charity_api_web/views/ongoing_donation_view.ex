@@ -18,6 +18,13 @@ defmodule DavosCharityApiWeb.OngoingDonationView do
       related: "/api/ongoing-donations/:id/donor"
     ]
 
+  has_one :vault_card,
+    serializer: LibraryApiWeb.VaultCardView,
+    identifiers: :when_included,
+    links: [
+      related: "/api/ongoing-donations/:id/vault-card"
+    ]
+
     has_one :payment_method,
     serializer: DavosCharityApiWeb.PaymentMethodView,
     identifiers: :when_included,

@@ -434,11 +434,21 @@ b {
   font-weight: 600!important;
 }
 
+
+/*  Form overwrites */
+
+.form-group {
+}
+
 @media print {
   #name {
     color: red;
   }
 
+}
+
+#cardNumber {
+  display: none;
 }
 
 #checkout-frame > input
@@ -453,4 +463,112 @@ b {
   border-color: #b8c2cc;
   border-style: solid;
   padding-bottom: .75rem;
+}
+
+#checkout-embed {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 150px;
+  margin-top: -10px;
+
+}
+
+#checkout-embed #mask {
+  width: 100%;
+  margin: 0 auto;
+  color: #606f7b;
+  padding-left: 1rem;
+  outline: 0;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  display: block;
+  font-size: 100;
+  line-height: 1.15;
+  padding-bottom: 0.75rem;
+  margin-top: 1.rem;
+  border-bottom-width: 1px;
+  border-color: #b8c2cc;
+  margin-bottom: 40px;
+  height: 40px;
+
+}
+
+#checkout-embed #securityCode {
+  width: 25%;
+  color: #606f7b;
+  padding-left: 1rem;
+  outline: 0;
+  margin-top: 0.5rem;
+  margin-left: 30px;
+  font-weight: 600;
+  display: block;
+  font-size: 100;
+  line-height: 1.15;
+  padding-bottom: 0.75rem;
+  margin-top: 1.rem;
+  border-bottom-width: 1px;
+  border-color: #b8c2cc;
+  height: 40px;
+}
+
+#checkout-embed #cardExpMonth {
+  width: 15%;
+  color: #606f7b;
+  padding-left: 1rem;
+  outline: 0;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  display: block;
+  font-size: 100;
+  line-height: 1.15;
+  padding-bottom: 0.75rem;
+  padding-top: 10px;
+  margin-top: 1rem;
+  border-bottom-width: 1px;
+  border-color: #b8c2cc;
+  background: #fff;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url(/images/ChevronDownGrey.svg) 96% / 15% no-repeat #fff;
+  height: 40px;
+}
+
+#checkout-embed #cardExpYear {
+  width: 15%;
+  color: #606f7b;
+  padding-left: 1rem;
+  outline: 0;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  display: block;
+  font-size: 100;
+  line-height: 1.15;
+  padding-bottom: 0.75rem;
+  padding-top: 10px;
+  margin-top: 1rem;
+  border-bottom-width: 1px;
+  border-color: #b8c2cc;
+  background: #fff;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url(/images/ChevronDownGrey.svg) 96% / 15% no-repeat #fff;
+  height: 40px;
+}
+
+#checkout-frame {
+  display: none;
+}
+
+.expiry-label {
+  position: absolute;
+  top: 130px;
+  left: 110px;
+}
+
+.new-card {
+  min-height: 125px!important;
 }

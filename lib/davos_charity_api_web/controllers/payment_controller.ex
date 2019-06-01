@@ -4,6 +4,7 @@ defmodule DavosCharityApiWeb.PaymentController do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donation
   alias DavosCharityApi.Donation.Payment
+  alias DavosCharityApi.Receipt
 
   alias IEx
 
@@ -14,6 +15,16 @@ defmodule DavosCharityApiWeb.PaymentController do
     case Donation.create_vault_donation(data) do
 
       {:ok, %{created_payment: {:ok, %Payment{} = payment}}} ->
+
+
+        Task.Supervisor.async_nolink(DavosCharityApi.TaskSupervisor, fn ->
+          receipt = List.first(Receipt.get_receipt_for_payment!(payment.id))
+          Receipt.build_receipt_pdf(receipt.id)
+
+          {:ok, file_binary} = File.read("temp/#{receipt.id}.pdf")
+          ExAws.S3.put_object("receipts", "#{receipt.receipt_number}.pdf", file_binary, [acl: :public_read]) |> ExAws.request()
+        end)
+
         conn
         |> put_status(:created)
         |> put_resp_header("location", Routes.address_path(conn, :show, payment))
@@ -79,7 +90,6 @@ defmodule DavosCharityApiWeb.PaymentController do
         |> render(DavosCharityApiWeb.ErrorView, "400,json-api", changeset)
     end
   end
-
 
   def payments_for_donor(conn, %{"donor_id" => donor_id}) do
     payments = Donation.list_payments_for_donor(donor_id)

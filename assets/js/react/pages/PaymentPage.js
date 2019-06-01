@@ -24,7 +24,7 @@ class PaymentPage extends React.Component {
       const { step, reviewing } = this.props.progressInfo;
 
       return (
-        <div>
+        <div class="flex flex-col">
           <StepTracker />
           <div className="flex justify-around w-full mx-auto mt-8">
             <GiftAmountDisplay
@@ -45,6 +45,8 @@ class PaymentPage extends React.Component {
               setAmount={amount}
               custom={custom}
             />
+            </div>
+          <div className="w-full pr-5 mt-2">
             <ButtonBlock
               handleClick={() => this.progressChange(1)}
               inReview={reviewing}

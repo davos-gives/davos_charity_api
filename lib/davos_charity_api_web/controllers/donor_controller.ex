@@ -7,6 +7,8 @@ defmodule DavosCharityApiWeb.DonorController do
   alias DavosCharityApi.Mailer
   alias DavosCharityApi.Email
 
+  import Bamboo.SendGridHelper
+
   import IEx
 
   plug :authenticate_donor when action in [:show_current]
@@ -14,7 +16,6 @@ defmodule DavosCharityApiWeb.DonorController do
   def show_current(conn, %{current_donor: donor}) do
     conn
     |> render("show.json-api", data: donor, opts: [include: conn.query_params["include"]])
-
   end
 
   def show(conn, %{"id" => id}) do
@@ -31,10 +32,7 @@ defmodule DavosCharityApiWeb.DonorController do
     |> send_resp(204, "")
   end
 
-
-
   def index(conn, params) do
-    IEx.pry
     donors = Donor.list_donors()
     render(conn, "index.json-api", data: donors)
   end
@@ -69,6 +67,7 @@ defmodule DavosCharityApiWeb.DonorController do
     |> put_resp_header("content-type", "application/vnd.api+json")
     |> send_resp(204, "")
   end
+
 
   def reset_donor_password(conn, %{"token" => token, "password" => password, "passwordConfirmation" => passwordConfirmation}) do
 
@@ -110,7 +109,6 @@ defmodule DavosCharityApiWeb.DonorController do
       _ -> render(DavosCharityApiWeb.ErrorView, "400.json-api")
     end
   end
-
 
   def donor_for_ongoing_donation(conn, %{"ongoing_donation_id" => ongoing_donation_id}) do
     donor = Donation.get_donor_for_ongoing_donation!(ongoing_donation_id)

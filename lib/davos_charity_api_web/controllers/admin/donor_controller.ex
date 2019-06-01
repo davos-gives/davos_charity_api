@@ -4,6 +4,8 @@ defmodule DavosCharityApiWeb.Admin.DonorController do
   alias DavosCharityApi.Donor
   alias DavosCharityApi.Donation
 
+  alias DavosCharityApi.Repo
+
   plug :authenticate_donor when action in [:show_current]
 
   def show_current(conn, %{current_donor: donor}) do
@@ -16,9 +18,41 @@ defmodule DavosCharityApiWeb.Admin.DonorController do
     render(conn, "show.json-api", data: donor)
   end
 
+  def index(conn, %{"filter" => %{"query" => search_term}}) do
+    donors = Donor.search_donors(search_term)
+    render(conn, "index.json-api", data: donors)
+  end
+
+  def index(conn, %{"filter" => %{"range" => duration, "campaign" => campaign_id}}) do
+
+    donors = Donor.filter_donors(duration, campaign_id)
+    render(conn, "index.json-api", data: donors)
+  end
+
+  def index(conn, %{"filter" => %{"range" => duration}}) do
+
+    donors = Donor.filter_donors(duration)
+    render(conn, "index.json-api", data: donors)
+  end
+
   def index(conn, _params) do
     donors = Donor.list_donors()
     render(conn, "index.json-api", data: donors)
+  end
+
+  def update(conn, %{"id" => id, "data" => data = %{"type" => "donors", "attributes" => _params}}) do
+    data = JaSerializer.Params.to_attributes(data)
+    donor = Donor.get_donor!(id)
+
+    case Donor.update_donor_with_tags(donor, data) do
+      {:ok, %Donor{} = donor} ->
+        conn
+        |> render("show.json-api", data: donor)
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render(DavosCharityApiWeb.ErrorView, "400.json-api", changeset)
+    end
   end
 
   def donor_for_ongoing_donation(conn, %{"ongoing_donation_id" => ongoing_donation_id}) do

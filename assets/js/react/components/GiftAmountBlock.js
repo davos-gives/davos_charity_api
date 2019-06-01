@@ -12,47 +12,47 @@ class GiftAmountBlock extends React.Component {
   render() {
       return (
         <div>
-        <div className={cx("flex mt-8 w-5/6 sm:w-full sm:justify-between", this.props.currentGiftType != 'one-time' &&  'float-right')}>
-          <GiftAmountSelect
-            amount={500}
-            setAmount={this.props.setAmount}
-            custom={this.props.custom}
-            currentGiftType={this.props.currentGiftType}
-          />
-          <GiftAmountSelect
-            amount={1000}
-            setAmount={this.props.setAmount}
-            custom={this.props.custom}
-            currentGiftType={this.props.currentGiftType}
-          />
-          <GiftAmountSelect
-            amount={3000}
-            setAmount={this.props.setAmount}
-            custom={this.props.custom}
-            currentGiftType={this.props.currentGiftType}
-          />
+          <div className={cx("flex mt-8 w-5/6 sm:w-full sm:justify-between", this.props.currentGiftType != 'one-time' &&  'float-right')}>
+            <GiftAmountSelect
+              amount={500}
+              setAmount={this.props.setAmount}
+              custom={this.props.custom}
+              currentGiftType={this.props.currentGiftType}
+            />
+            <GiftAmountSelect
+              amount={1000}
+              setAmount={this.props.setAmount}
+              custom={this.props.custom}
+              currentGiftType={this.props.currentGiftType}
+            />
+            <GiftAmountSelect
+              amount={3000}
+              setAmount={this.props.setAmount}
+              custom={this.props.custom}
+              currentGiftType={this.props.currentGiftType}
+            />
+          </div>
+          <div className={cx("flex mt-8 w-5/6 sm:w-full sm:justify-between", this.props.currentGiftType != 'one-time' &&  'float-right')}>
+            <GiftAmountSelect
+              amount={5000}
+              setAmount={this.props.setAmount}
+              custom={this.props.custom}
+              currentGiftType={this.props.currentGiftType}
+            />
+            <GiftAmountSelect
+              amount={10000}
+              setAmount={this.props.setAmount}
+              custom={this.props.custom}
+              currentGiftType={this.props.currentGiftType}
+            />
+            <GiftAmountSelect
+              isCustom={true}
+              setAmount={this.props.amount}
+              custom={this.props.custom}
+              currentGiftType={this.props.currentGiftType}
+            />
+          </div>
         </div>
-        <div className={cx("flex mt-8 w-5/6 sm:w-full sm:justify-between", this.props.currentGiftType != 'one-time' &&  'float-right')}>
-          <GiftAmountSelect
-            amount={5000}
-            setAmount={this.props.setAmount}
-            custom={this.props.custom}
-            currentGiftType={this.props.currentGiftType}
-          />
-          <GiftAmountSelect
-            amount={10000}
-            setAmount={this.props.setAmount}
-            custom={this.props.custom}
-            currentGiftType={this.props.currentGiftType}
-          />
-          <GiftAmountSelect
-            isCustom={true}
-            setAmount={this.props.amount}
-            custom={this.props.custom}
-            currentGiftType={this.props.currentGiftType}
-          />
-        </div>
-      </div>
       )
   }
 }

@@ -40,6 +40,10 @@ class Login extends React.Component {
     this.props.history.goBack();
   }
 
+  resetPassword = () => {
+    this.props.history.push(`reset-password`);
+  }
+
   login = () => {
     store.dispatch(setAxiosConfig({baseURL: '/api/'}));
     const session = {
@@ -132,7 +136,7 @@ class Login extends React.Component {
                 <label className="uppercase text-xs font-bold text-purple block" for="password">password</label>
                 <input className="block mt-4 outline-none" type="password" name="password" placeholder="*************" value={this.state.password} onChange={this.handleInputChange}></input>
               </div>
-              <p className="ml-6 text-xs mt-4 text-grey-dark">Forgot password?</p>
+              <p className="ml-6 text-xs mt-4 text-grey-dark cursor-pointer" onClick={() => this.resetPassword()}>Forgot password?</p>
             </div>
           </div>
         </div>

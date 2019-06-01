@@ -10,9 +10,12 @@ defmodule DavosCharityApi.Fundraising do
   alias DavosCharityApi.Fundraising.Logo
   alias DavosCharityApi.Fundraising.Signature
   alias DavosCharityApi.Fundraising
+  alias DavosCharityApi.Donation.Payment
   alias DavosCharityApi.Organization
 
   import Ecto.Query
+
+  import IEx
 
   def create_form(attrs \\ %{}) do
     %Form{}
@@ -57,9 +60,20 @@ defmodule DavosCharityApi.Fundraising do
 
   def get_receipt_template!(id), do: Repo.get!(ReceiptTemplate, id)
 
+  def update_receipt_template(%ReceiptTemplate{} = receipt_template, attrs) do
+    receipt_template
+    |> ReceiptTemplate.changeset(attrs)
+    |> Repo.update
+  end
+
   def list_campaigns, do: Repo.all(Campaign)
 
-  def get_campaign!(id), do: Repo.get!(Campaign, id)
+  def get_campaign!(id) do
+    Campaign
+    |> Repo.get!(id)
+    |> Repo.preload(:payments)
+    |> Decoratex.decorate([:total_donations, :number_of_donors])
+    end
 
   def create_campaign(attrs \\ %{}) do
     %Campaign{}
@@ -95,5 +109,19 @@ defmodule DavosCharityApi.Fundraising do
     campaign = Fundraising.get_campaign!(campaign_id)
     campaign = Repo.preload(campaign, :template)
     campaign.template.id
+  end
+
+  def get_total_donations(%Campaign{} = campaign) do
+    Payment
+    |> where([p], p.campaign_id == ^campaign.id)
+    |> select([p], sum(p.amount))
+    |> Repo.one
+  end
+
+  def get_number_of_donors(%Campaign{} = campaign) do
+    Payment
+    |> where([p], p.campaign_id == ^campaign.id)
+    |> select([p], count(p.id))
+    |> Repo.one
   end
 end
