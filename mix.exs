@@ -4,7 +4,7 @@ defmodule DavosCharityApi.MixProject do
   def project do
     [
       app: :davos_charity_api,
-      version: "0.1.10",
+      version: "0.1.12",
       elixir: "~> 1.8.1",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -20,7 +20,7 @@ defmodule DavosCharityApi.MixProject do
   def application do
     [
       mod: {DavosCharityApi.Application, []},
-      extra_applications: [:logger, :runtime_tools, :pdf_generator]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 
@@ -68,7 +68,7 @@ defmodule DavosCharityApi.MixProject do
       {:hackney, "~> 1.6"},
       {:sweet_xml, "~> 0.6"},
       {:arc_ecto, "~> 0.11.1"},
-      {:ex_aws_s3, "~> 2.0"},      
+      {:ex_aws_s3, "~> 2.0"},
     ]
   end
 
