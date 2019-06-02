@@ -4,7 +4,7 @@ defmodule DavosCharityApiWeb.CampaignView do
   import IEx
 
   def cents_to_dollars(cents) do
-    cents / 100 |> Number.Currency.number_to_currency()
+    cents / 100 |> Number.Currency.number_to_currency() || 0
   end
 
   def defaulted_name(conn) do
