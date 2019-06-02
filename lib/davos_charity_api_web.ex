@@ -44,8 +44,6 @@ defmodule DavosCharityApiWeb do
 
           %{"sub" => user_id} = verified_token.claims
 
-          IO.puts(user_id)
-
           user = Management.get_user!(user_id)
 
           params = Map.get(conn, :params)
