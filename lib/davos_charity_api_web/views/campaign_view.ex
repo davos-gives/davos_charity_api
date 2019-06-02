@@ -3,6 +3,7 @@ defmodule DavosCharityApiWeb.CampaignView do
 
   import IEx
 
+
   def cents_to_dollars(cents) do
     cents / 100 |> Number.Currency.number_to_currency() || 0
   end
@@ -31,8 +32,12 @@ defmodule DavosCharityApiWeb.CampaignView do
     conn.assigns.campaign.show_goal || "hidden"
   end
 
+  # def percent_loaded(conn) do
+  #   conn.assigns.campaign.total_donations / conn.assigns.campaign.goal || 0
+  # end
+
   def percent_loaded(conn) do
-    conn.assigns.campaign.total_donations / conn.assigns.campaign.goal || 0
+   0
   end
 
   def defaulted_image(conn) do
