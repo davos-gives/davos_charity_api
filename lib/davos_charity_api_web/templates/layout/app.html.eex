@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title></title>
     <!-- <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/> -->
-    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/receipts.css") %>"/>
-
-    <link rel="stylesheet" media="all" type="text/css"  href="http://app.davos.gives/css/app.css" />
+    <!-- <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/receipts.css") %>"/> -->
+    <link rel="stylesheet" media="all" type="text/css"  href="https://app.davos.gives/css/receipts.css" />
+    <link rel="stylesheet" media="all" type="text/css"  href="https://app.davos.gives/css/app.css" />
 
   </head>
   <body>
