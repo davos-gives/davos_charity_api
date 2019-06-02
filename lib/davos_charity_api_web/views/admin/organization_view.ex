@@ -3,6 +3,6 @@ defmodule DavosCharityApiWeb.Admin.OrganizationView do
   use JaSerializer.PhoenixView
 
   location "admin/organizations/:id"
-  attributes [:name]
+  attributes [:name, :logo]
 
 end
