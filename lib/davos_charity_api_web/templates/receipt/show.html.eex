@@ -4,7 +4,7 @@
       <h1 class="primary-text capitalize my-12 font-black" id="header"><%= @template.header %></h1>
       <p class="text-grey-receipts leading-normal" id="description"><%= raw @template.description %></p>
       <img id="signature" src="<%= @template.signature %>" class="w-32" />
-      <p class="text-grey-receipts leading-normal text-sm italic">Wayne Hartrick, President</p>
+      <p class="text-grey-receipts leading-normal text-sm italic">Samuel Okurut, Co-founder</p>
     </address>
   </aside>
 
@@ -34,7 +34,7 @@
         <td><span class="uppercase font-thin text-xs quaternary-text">Street and Suite</span></td><td><span class="font-bold text-sm quaternary-text capitalize"><%= @receipt.address_2 %> <%= @receipt.address_1 %><span></td>
       </tr>
       <tr>
-        <td><span class="uppercase font-thin text-xs quaternary-text">Date of issue</span></td><td><span class="font-bold text-sm quaternary-text">26-12-2017</span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Date of issue</span></td><td><span class="font-bold text-sm quaternary-text">02-06-2019</span></td>
         <td><span class="uppercase font-thin text-xs quaternary-text">City, Province</span></td><td><span class="font-bold text-sm quaternary-text capitalize"><%= @receipt.city %>, <%= @receipt.province %><span></td>
       </tr>
       <tr>
@@ -46,7 +46,7 @@
         </td>
       </tr>
       <tr>
-        <td><span class="uppercase font-thin text-xs quaternary-text">Received on</span></td><td><span class="font-bold text-sm quaternary-text">26-12-2017<span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Received on</span></td><td><span class="font-bold text-sm quaternary-text">02-06-2019<span></td>
         <td><span class="uppercase font-thin text-xs quaternary-text">Amount Received</span></td><td><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@receipt.payment_amount) %><span></td>
       </tr>
       <tr>
@@ -64,7 +64,7 @@
     <aside class="footer">
       <address id="from">
         <div class="text-grey-receipts">
-          <p>(000) 000 0000<br />contact@yourmail.org<br />www.yourwebsite.org</p>
+          <p>The Father’s Heart Foundation Canada</strong><br />1+(503) 7247-5504<br />fathersheart@fhfcanada.ca</p>
         </div>
       </address>
 
