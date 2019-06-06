@@ -117,8 +117,9 @@ defmodule DavosCharityApi.Receipt do
   # BUILD ZE PDF
 
   def build_receipt_pdf(id) do
-    {:ok, py} = Python.start(python_path: Path.expand("lib/python"))
 
+
+    {:ok, py} = Python.start(python_path: "#{:code.priv_dir(:davos_charity_api)}/python")
     py |> Python.call(build(id), from_file: "receipt")
   end
 end
