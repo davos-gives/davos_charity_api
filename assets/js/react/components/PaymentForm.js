@@ -88,7 +88,6 @@ data-transaction-type="Sale" style={{width: 500, height: 300}}></iframe>
   }
 
   handleFrameTasks = (e) => {
-    console.log(e);
     if(e.data.code === 105) {
       this.setState({ crypto: e.data.cryptogram });
       this.setState({ canSubmit: true });

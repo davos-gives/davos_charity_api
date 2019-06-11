@@ -447,21 +447,40 @@ b {
 
 }
 
+.firstpay-container {
+  font-family: "Open Sans";
+  padding: 0;
+}
+
 .firstpay-validation-error {
   display: none!important;
 }
 
 .firstpay-label {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+  padding-left: 1rem;
   color: #606f7b;
   font-weight: 500;
+  margin: 0;
   text-transform: uppercase;
 }
 
-.firstpay-input {
-  border: none;
-  border-bottom: 1px solid #606f7b;
+input::placeholder {
   color: #606f7b;
+}
+
+.firstpay-input {
+  padding-left: 1rem!important;
+  border: none;
+  margin: 0;
+  border-bottom: 1px solid #b8c2cc;
+  color: #606f7b!important;
+}
+
+select.firstpay-input {
+  margin-left: 10px!important;
+  margin-right: 10px!important;
+  width: 90%;
 }
 
 .firstpay-form-row {

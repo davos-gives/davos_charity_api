@@ -81,7 +81,7 @@ class NewCardForm extends React.Component {
     return (
       <div class="w-full">
 
-      <Formsy onChange={this.handleInputChange} onValid={this.enableButton} onInvalid={this.disableButton} className="flex flex-wrap mt-4 w-4/5 mx-auto pl-8">
+      <Formsy onChange={this.handleInputChange} className="flex flex-wrap mt-4 w-4/5 mx-auto pl-8">
 
           <MyInput
            name="name"
@@ -89,14 +89,17 @@ class NewCardForm extends React.Component {
            validations="minLength:2"
            required
            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-full mb-6"
-           label="Credit Card Name"
+           label="Credit Card Name:"
            value={this.state.name}
            errorEmpty={false}
            placeholder={"Personal Card"}
           />
         </Formsy>
-
-        <div id="checkout-embed" className="new-card"></div>
+        <div className="w-4/5 pl-8 mx-auto flex flex-wrap">
+        <iframe className="" id="firstpay-iframe" src="https://secure-v.goemerchant.com/secure/PaymentHostedForm/v3/CreditCard"
+          data-transcenter-id="209141" data-processor-id="201173" data-manual-submit="False"
+          data-transaction-type="Vault" data-cvv="True" style={{width: 560, height: 250}}></iframe>
+        </div>
       <div class="-mt-8">
         <ButtonBlock
           buttonText={"Next"}
@@ -114,25 +117,17 @@ class NewCardForm extends React.Component {
   componentWillMount() {
   }
 
-  // <!-- <script src="https://secure-v.goemerchant.com//restgw/cdn/cryptogram.min.js"
-  // id="checkout-js" type="text/javascript"
-  // data-transcenter="209141"
-  // data-processor="201173"
-  // data-styleembed=TRUE
-  // data-cvv=TRUE
-  // data-autosubmit="TRUE"
-  // ></script> -->
-
 
   componentDidMount() {
     const script = document.createElement("script");
-    script.src = "https://secure-v.goemerchant.com/restgw/cdn/cryptogram.min.js";
-    script.id = "checkout-js";
+    script.src = "https://secure-v.goemerchant.com/secure/PaymentHostedForm/Scripts/firstpay/firstpay.cryptogram.js";
+    script.id = "firstpay-script-cryptogram";
     script.setAttribute("data-transcenter", "209141");
     script.setAttribute("data-processor", "201173");
     script.setAttribute("data-cvv", "TRUE");
     script.setAttribute("data-type", "Vault");
     script.setAttribute("data-autosubmit", "TRUE");
+    script.setAttribute("data-styleEmbed", "FALSE");
     document.body.appendChild(script);
     window.addEventListener('message', this.handleFrameTasks);
   }
@@ -142,12 +137,9 @@ class NewCardForm extends React.Component {
   }
 
   handleFrameTasks = (e) => {
-    console.log(e);
-    if(e.data !== "" && e.origin == "https://secure-v.1stpaygateway.net") {
-      this.setState({ crypto: e.data });
+    if(e.data.code === 105) {
+      this.setState({ crypto: e.data.cryptogram });
       this.setState({ canSubmit: true });
-    } else {
-      this.setState({ canSubmit: false });
     }
   }
 }
