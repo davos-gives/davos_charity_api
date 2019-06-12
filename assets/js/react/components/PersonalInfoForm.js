@@ -117,7 +117,7 @@ class PersonalInfoForm extends React.Component {
            label="email"
            value={this.state.email}
            errorEmpty={false}
-           placeholder={'bilbo.baggins@theonering.org'}
+           placeholder={'firstname.lastname@email.com'}
           />
 
           <MyInput
@@ -130,7 +130,7 @@ class PersonalInfoForm extends React.Component {
            label="first name"
            errorEmpty={false}
            value={this.state.fname}
-           placeholder={'Bilbo'}
+           placeholder={'firstname'}
           />
 
           <div className="w-1/10"></div>
@@ -145,7 +145,7 @@ class PersonalInfoForm extends React.Component {
            label="last name"
            errorEmpty={false}
            value={this.state.lname}
-           placeholder={'Baggins'}
+           placeholder={'lastname'}
            />
 
            <MyInput
@@ -157,7 +157,7 @@ class PersonalInfoForm extends React.Component {
             label="street"
             value={this.state.address_1}
             errorEmpty={false}
-            placeholder={"1 bagshot row"}
+            placeholder={"123 street"}
            />
 
            <div className="w-1/10"></div>
@@ -185,7 +185,7 @@ class PersonalInfoForm extends React.Component {
             label="city"
             value={this.state.city}
             errorEmpty={false}
-            placeholder={"Hobbiton"}
+            placeholder={"City"}
            />
            <div className="w-1/10"></div>
 

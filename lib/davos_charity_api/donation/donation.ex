@@ -324,14 +324,18 @@ defmodule DavosCharityApi.Donation do
   end
 
   defp format_data_for_iats(multi, attrs) do
+
+    donor = Donor.get_donor!(attrs["donor_id"])
+    address = Donor.get_address!(attrs["address_id"])
+
     Multi.run(multi, :formatted_data, fn _repo, %{} ->
       owner = %Owner{
-          name: "Ian Knauer",
-          street: "123 Fake Street",
-          city: "Vancouver",
-          province: "BC",
-          country: "Canada",
-          postal_code: "V3H4X9"
+          name: "#{donor.fname} #{donor.lname}",
+          street: "#{address.address_2} #{address.address_1}",
+          city: "#{address.city}",
+          province: "#{address.province}",
+          country: "#{address.country}",
+          postal_code: "#{address.postal_code}"
         }
       {:ok, owner}
     end)
@@ -365,10 +369,12 @@ defmodule DavosCharityApi.Donation do
 
   defp submit_data_to_iats(multi, attrs = %{"frequency" => _frequency}) do
     Multi.run(multi, :submitted_data, fn _repo, %{formatted_data: formatted_data} ->
+      
       ongoing = %OngoingDonation{
         frequency: attrs["frequency"],
       }
       payment = Exiats.sale(Float.to_string(attrs["amount"] / 100), formatted_data, ongoing, attrs["cryptogram"])
+
       {:ok, payment }
     end)
   end

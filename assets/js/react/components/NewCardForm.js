@@ -117,7 +117,6 @@ class NewCardForm extends React.Component {
   componentWillMount() {
   }
 
-
   componentDidMount() {
     const script = document.createElement("script");
     script.src = "https://secure-v.goemerchant.com/secure/PaymentHostedForm/Scripts/firstpay/firstpay.cryptogram.js";

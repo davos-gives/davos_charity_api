@@ -37,7 +37,7 @@ defmodule DavosCharityApiWeb.DonorController do
     render(conn, "index.json-api", data: donors)
   end
 
-  def create(conn, %{"data" => data = %{"type" => "donors", "attributes" => _params}}) do
+  def create(conn, %{"data" => data = %{"type" => "donors", "attributes" => %{"password" => _}}}) do
     data = data
     |> JaSerializer.Params.to_attributes()
 
@@ -45,7 +45,7 @@ defmodule DavosCharityApiWeb.DonorController do
       {:ok, %Donor{} = donor} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", Routes.address_path(conn, :show, donor))
+        |> put_resp_header("location", Routes.donor_path(conn, :show, donor))
         |> render("show.json-api", data: donor)
         |> send_verification_email(donor)
 
@@ -55,6 +55,25 @@ defmodule DavosCharityApiWeb.DonorController do
         |> render(DavosCharityApiWeb.ErrorView, "400.json-api", changeset)
     end
   end
+
+  def create(conn, %{"data" => data = %{"type" => "donors", "attributes" => _attributes}}) do
+    data = data
+    |> JaSerializer.Params.to_attributes()
+
+    case Donor.create_donor(data) do
+      {:ok, %Donor{} = donor} ->
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.donor_path(conn, :show, donor))
+        |> render("show.json-api", data: donor)
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_status(:bad_request)
+        |> render(DavosCharityApiWeb.ErrorView, "400.json-api", changeset)
+    end
+  end
+
 
   def send_reset_email(conn, %{"email" => email}) do
     donor = Donor.get_donor_by_email!(email)

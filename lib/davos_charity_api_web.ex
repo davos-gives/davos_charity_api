@@ -87,9 +87,9 @@ defmodule DavosCharityApiWeb do
         rescue
           _err ->
             conn
-            |> put_status(:unauthorized)
-            |> render(DavosCharityApiWeb.ErrorView, "401.json-api", %{detail: "User must be logged in to view this resource"})
-            |> halt
+            # |> put_status(:unauthorized)
+            # |> render(DavosCharityApiWeb.ErrorView, "401.json-api", %{detail: "User must be logged in to view this resource"})
+            # |> halt
         end
       end
     end
