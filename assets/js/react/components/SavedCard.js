@@ -15,7 +15,7 @@ class SavedCard extends React.Component {
     let donor = this.props.donor;
     // let currentAddressId = this.props.currentAddressId;
       return (
-        <div class="shadow-lg rounded-lg flex flex-col my-4 px-8 py-4 w-3/4 mx-auto border-b-2 border-purple group cursor-pointer">
+        <div class="shadow-lg rounded-lg flex flex-col my-4 px-8 py-4 w-3/4 mx-auto border-b-2 border-purple group cursor-pointer sm:w-full">
           <div class="flex justify-between w-full mb-3 items-center">
             <h1 class="capitalize text-grey-darker text-xl font-heavy">{card.name}</h1>
             {card.primary && <button class="rounded-full text-purple border-solid border border-purple py-1 px-4 text-xs">primary</button>}

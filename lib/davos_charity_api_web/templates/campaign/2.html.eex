@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <div class="tertiary-background-color pb-8 h-80 flex sm:flex-col smh-55 pt-4 font-sans">
+  <div class="tertiary-background-color pb-8 h-80 flex sm:flex-col pt-4 font-sans sm:h-full">
     <div class="sm:w-full sm:mt-6 items-center pin-r relative side-amount <%= show_goal(@conn) %>" id="showGoal">
       <div class="justify-right flex flex-wrap ml-8 sm:ml-0 h-full self-center">
         <div class="rounded-lg float-right py-8 px-6 w-full self-center sm:py-0">
@@ -62,11 +62,11 @@
     </div>
 </div>
 
-<div class="mx-auto font-sans w-3/5 mt-12 pt-12 sm:w-3/4">
+<div class="mx-auto font-sans w-3/5 mt-12 pt-12 sm:w-full sm:-mt-12 sm:bg-white sm:pt-6">
   <div class="bg-white pt-4 flex items-center mb-8 sm:flex-col mt-8">
     <div class="w-2/3 sm:w-full">
-      <h3 id="social-header" class="text-grey-dark text-xl mb-6 sm:text-center " style="<%= show_social_share(@conn) %>">Spread the word!</h3>
-      <div class="flex mb-8 sm:items-center sm:justify-left">
+      <h3 id="social-header" class="text-grey-dark text-xl mb-6 sm:text-center" style="<%= show_social_share(@conn) %>">Spread the word!</h3>
+      <div class="flex mb-8 sm:justify-center">
         <div id="facebook_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="<%= defaulted_facebook_share(@conn) %>">
           <img src="<%= Routes.static_path(@conn, "/images/FacebookWhite.svg") %>"  class="h-6"/>
         </div>
@@ -92,7 +92,7 @@
     <div class="mt-8">
 
     </div>
-    <div class="mr-8 mt-8 sm:mr-0">
+    <div class="mr-8 mt-8 sm:mx-auto">
     <p class="text-lg text-grey-darkest leading-normal sm:text-center sm:flex sm:items-center"><span class="font-bold">Connect With Us</span><br class="sm:hidden"/><img class="mt-2 sm:mt-0" src="<%= Routes.static_path(@conn, "/images/socialShare.png") %>" /></p>
     </div>
   </div>

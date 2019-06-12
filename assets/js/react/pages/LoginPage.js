@@ -31,7 +31,7 @@ class LoginPage extends React.Component {
         <div>
           <StepTracker />
           <div className="flex mt-8">
-            <div className="w-3/5 mx-auto pl-8">
+            <div className="w-3/5 mx-auto pl-8 sm:w-full sm:px-2">
               <div className="bg-purple text-white rounded-lg pt-6 text-center pb-4 flex overflow-hidden relative">
                 <span className="inline-block w-24 pt-3">You are donating</span>
                 <div className="flex-1 mb-4">

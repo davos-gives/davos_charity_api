@@ -23,7 +23,7 @@ class PaymentDetailsPage extends React.Component {
       return (
         <div>
           <StepTracker />
-          <div className="flex mt-8 w-full flex flex-col h-2">
+          <div className="flex mt-8 w-full flex flex-col sm:h-70">
             <PaymentForm
                  paymentInfo={this.props.paymentInfo}
                  inReview={reviewing}

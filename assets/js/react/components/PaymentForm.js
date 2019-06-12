@@ -47,10 +47,10 @@ class PaymentForm extends React.Component {
   render() {
     return (
       <div class="w-full flex flex-col relative">
-        <div class="w-4/5 mx-auto pl-8">
+        <div class="w-4/5 mx-auto pl-8 sm:w-full sm:px-2">
           <iframe id="firstpay-iframe" src="https://secure-v.goemerchant.com/secure/PaymentHostedForm/v3/CreditCard"
 data-transcenter-id="209141" data-processor-id="201173" data-manual-submit="False"
-data-transaction-type="Sale" style={{width: 500, height: 300}}></iframe>
+data-transaction-type="Sale"></iframe>
 
         </div>
         <div class="">

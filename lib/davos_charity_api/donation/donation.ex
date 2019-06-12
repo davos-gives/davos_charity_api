@@ -369,7 +369,7 @@ defmodule DavosCharityApi.Donation do
 
   defp submit_data_to_iats(multi, attrs = %{"frequency" => _frequency}) do
     Multi.run(multi, :submitted_data, fn _repo, %{formatted_data: formatted_data} ->
-      
+
       ongoing = %OngoingDonation{
         frequency: attrs["frequency"],
       }

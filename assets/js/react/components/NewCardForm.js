@@ -81,7 +81,7 @@ class NewCardForm extends React.Component {
     return (
       <div class="w-full">
 
-      <Formsy onChange={this.handleInputChange} className="flex flex-wrap mt-4 w-4/5 mx-auto pl-8">
+      <Formsy onChange={this.handleInputChange} className="flex flex-wrap mt-4 w-4/5 mx-auto pl-8 sm:w-full sm:px-2">
 
           <MyInput
            name="name"
@@ -95,7 +95,7 @@ class NewCardForm extends React.Component {
            placeholder={"Personal Card"}
           />
         </Formsy>
-        <div className="w-4/5 pl-8 mx-auto flex flex-wrap">
+        <div className="w-4/5 pl-8 mx-auto flex flex-wrap sm:w-full sm:pl-2">
         <iframe className="" id="firstpay-iframe" src="https://secure-v.goemerchant.com/secure/PaymentHostedForm/v3/CreditCard"
           data-transcenter-id="209141" data-processor-id="201173" data-manual-submit="False"
           data-transaction-type="Vault" data-cvv="True" style={{width: 560, height: 250}}></iframe>

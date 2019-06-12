@@ -54,7 +54,7 @@ class DavosPaymentDetailsPage extends React.Component {
           <StepTracker />
           <div className="flex mt-8 flex-col">
             {cards.map(card => <SavedCard key={card.id} card={card} donor={this.props.donorInfo} />)}
-            <div class="shadow-lg rounded-lg flex flex-col my-4 px-8 py-4 w-3/4 mx-auto group cursor-pointer">
+            <div class="shadow-lg rounded-lg flex flex-col my-4 px-8 py-4 w-3/4 mx-auto group cursor-pointer sm:w-full">
               <p class="text-grey-darker font-lg text-center" onClick={() => this.addCard()}>Add New Card</p>
             </div>
           </div>

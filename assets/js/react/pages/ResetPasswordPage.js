@@ -31,7 +31,7 @@ class ResetPasswordPage extends React.Component {
         <div>
           <StepTracker />
           <div className="flex mt-8 mb-8">
-            <div className="w-3/5 mx-auto pl-8 mt-12">
+            <div className="w-3/5 mx-auto pl-8 mt-12 sm:w-full sm:px-2">
               <p class="font-bold text-base text-grey-dark uppercase">Forgot your password?</p>
               <p class="text-grey-dark text-light mt-4 text-sm leading-normal">Enter your email address below to recover your Davos Account.</p>
             </div>

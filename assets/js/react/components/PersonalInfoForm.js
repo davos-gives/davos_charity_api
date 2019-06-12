@@ -104,8 +104,8 @@ class PersonalInfoForm extends React.Component {
     ]
 
     return (
-      <div>
-      <Formsy onChange={this.handleInputChange} onValidSubmit={this.submitForm} onValid={this.enableButton} onInvalid={this.disableButton} className="flex flex-wrap mt-4 w-4/5 mx-auto pl-8">
+      <div className="sm:w-full">
+      <Formsy onChange={this.handleInputChange} onValidSubmit={this.submitForm} onValid={this.enableButton} onInvalid={this.disableButton} className="flex flex-wrap mt-4 w-4/5 mx-auto pl-8 sm:px-1 sm:w-full">
 
           <MyInput
            name="email"
@@ -113,7 +113,7 @@ class PersonalInfoForm extends React.Component {
            validations="isEmail"
            validationError="this is not a valid email"
            required
-           wrapperDivClassName="border-b border-grey pb-3 mt-6 w-full"
+           wrapperDivClassName="border-b border-grey pb-3 mt-6 w-full sm:ml-8 sm:mr-2"
            label="email"
            value={this.state.email}
            errorEmpty={false}
@@ -126,7 +126,7 @@ class PersonalInfoForm extends React.Component {
            validations="isAlpha,minLength:2"
            validationError="Cannot be empty"
            required
-           wrapperDivClassName="border-b border-grey pb-3 mt-6 w-45/100"
+           wrapperDivClassName="border-b border-grey pb-3 mt-6 w-45/100 sm:w-full sm:ml-8 sm:mr-2"
            label="first name"
            errorEmpty={false}
            value={this.state.fname}
@@ -141,7 +141,7 @@ class PersonalInfoForm extends React.Component {
            validations="isAlpha,minLength:2"
            validationError="Cannot be empty"
            required
-           wrapperDivClassName="border-b border-grey pb-3 mt-6 w-45/100"
+           wrapperDivClassName="border-b border-grey pb-3 mt-6 w-45/100 sm:w-full sm:mr-2 sm:ml-8"
            label="last name"
            errorEmpty={false}
            value={this.state.lname}
@@ -153,7 +153,7 @@ class PersonalInfoForm extends React.Component {
             className="block mt-2 text-grey-darker font-semibold pl-4 outline-none w-full"
             validations="minLength:2"
             required
-            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-7/10"
+            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-7/10 sm:w-full sm:mr-2 sm:ml-8"
             label="street"
             value={this.state.address_1}
             errorEmpty={false}
@@ -168,7 +168,7 @@ class PersonalInfoForm extends React.Component {
             className="block mt-2 text-grey-darker font-semibold pl-4 outline-none fname"
             validations="isAlphanumeric"
             validationError="this is not a valid apartment Number"
-            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-1/5"
+            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-1/5 sm:w-full sm:mr-2 sm:ml-8"
             label="apt"
             value={this.state.address_2}
             errorEmpty={false}
@@ -181,7 +181,7 @@ class PersonalInfoForm extends React.Component {
             validations="isAlphanumeric,minLength:2"
             validationError="this is not a valid city name"
             required
-            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-266"
+            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-266 sm:w-full sm:mr-2 sm:ml-8"
             label="city"
             value={this.state.city}
             errorEmpty={false}
@@ -198,10 +198,10 @@ class PersonalInfoForm extends React.Component {
 
            <MyInput
             name="postal_code"
-            className="block mt-2 text-grey-darker font-semibold pl-4 outline-none fname"
+            className="block mt-2 text-grey-darker font-semibold pl-4 outline-none fname sm:w-9/10"
             validations="isAlphanumeric,isLength:6"
             validationError="this is not a valid email"
-            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-266"
+            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-266 sm:w-24"
             required
             label="postal code"
             value={this.state.postal_code}

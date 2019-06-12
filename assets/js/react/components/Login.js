@@ -123,7 +123,7 @@ class Login extends React.Component {
       <div>
         <div>
           <div className="flex mt-4">
-            <div className="w-3/5 mx-auto pl-8">
+            <div className="w-3/5 mx-auto pl-8 sm:w-full sm:px-1">
               <div className="bg-white rounded-lg pt-3 pb-3 shadow-md pl-6">
                 <label className="uppercase text-xs font-bold text-purple block" for="username">user name</label>
                 <input className="block mt-4 outline-none w-full" type="text" name="username" placeholder="Username@email.com" value={this.state.username} onChange={this.handleInputChange}></input>
@@ -131,7 +131,7 @@ class Login extends React.Component {
             </div>
           </div>
           <div className="flex mt-4">
-            <div className="w-3/5 mx-auto pl-8">
+            <div className="w-3/5 mx-auto pl-8 sm:w-full sm:px-1">
               <div className="bg-white rounded-lg pt-3 pb-3 shadow-md pl-6">
                 <label className="uppercase text-xs font-bold text-purple block" for="password">password</label>
                 <input className="block mt-4 outline-none" type="password" name="password" placeholder="*************" value={this.state.password} onChange={this.handleInputChange}></input>
@@ -140,10 +140,10 @@ class Login extends React.Component {
             </div>
           </div>
         </div>
-        <div className="flex justify-end mr-8 mt-8">
+        <div className="flex justify-end mr-8 mt-8 sm:mr-0">
           <button className="underline text-purple text-xs text-center mr-10 cursor" onClick={() => this.progressChange(2)}>Skip for now</button>
         </div>
-        <div class="-mt-8">
+        <div class="-mt-8 sm:block">
           <ButtonBlock
             handleClick={() => this.login()}
             inReview={reviewing}

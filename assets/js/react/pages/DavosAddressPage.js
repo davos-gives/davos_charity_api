@@ -51,8 +51,8 @@ class DavosAddressPage extends React.Component {
           <StepTracker />
           <div className="flex mt-8 flex-col">
             {addresses.map(address => <SavedAddress key={address.id} address={address} donor={this.props.donorInfo} currentAddressId={this.props.savedAddress.id} updateAddress={() => this.updateAddress(address)} />)}
-            <div class="shadow-lg rounded-lg flex flex-col my-4 px-8 py-4 w-3/4 mx-auto group cursor-pointer">
-              <p class="text-grey-darker font-lg text-center" onClick={() => this.addAddress()}>Add New Address</p>
+            <div className="shadow-lg rounded-lg flex flex-col my-4 px-8 py-4 w-3/4 mx-auto group cursor-pointer sm:w-full">
+              <p className="text-grey-darker font-lg text-center" onClick={() => this.addAddress()}>Add New Address</p>
             </div>
           </div>
           <ButtonBlock

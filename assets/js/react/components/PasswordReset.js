@@ -71,7 +71,7 @@ class PasswordReset extends React.Component {
         <div>
           <div>
             <div className="flex mt-4">
-              <div className="w-3/5 mx-auto pl-8">
+              <div className="w-3/5 mx-auto pl-8 sm:w-full sm:px-2">
                 <div className="bg-white rounded-lg pt-3 pb-3 shadow-md pl-6">
                   <label className="uppercase text-xs font-bold text-purple block" for="username">Email Address</label>
                   <input className="block mt-4 outline-none w-full" type="text" name="username" placeholder="Username@email.com" value={this.state.username} onChange={this.handleInputChange}></input>
@@ -102,7 +102,7 @@ class PasswordReset extends React.Component {
         <div>
           <div>
             <div className="flex mt-4">
-              <div className="w-3/5 mx-auto pl-8">
+              <div className="w-3/5 mx-auto pl-8 sm:w-full sm:px-2">
                 <div className="bg-white rounded-lg pt-3 pb-3 shadow-md pl-6">
                   <label className="uppercase text-xs font-bold text-purple block" for="username">Email Address</label>
                   <input className="block mt-4 outline-none w-full" type="text" name="username" placeholder="Username@email.com" value={this.state.username} onChange={this.handleInputChange}></input>

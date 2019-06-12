@@ -210,16 +210,16 @@ class ReviewPage extends React.Component {
           <div>
           <StepTracker />
           <div className="flex mt-8">
-            <div className="w-4/5 mx-auto pl-8">
-            <form className="flex flex-wrap mt-4">
-              <div className="border-b-2 border-purple-darkest pb-3 w-45/100">
+            <div className="w-4/5 mx-auto pl-8 sm:w-full sm:px-2">
+            <form className="flex flex-wrap mt-4 sm:flex-col">
+              <div className="border-b-2 border-purple-darkest pb-3 w-45/100 sm:w-full">
                 <label className="uppercase text-xs text-grey-darker block pl-4" htmlFor="fname">my name is</label>
                 <p className="block mt-2 capitalize text-grey-darker font-semibold pl-4 cursor-pointer" type="text" name="fname" onClick={() => this.linkTo('personal-info')}>{donor.fname} {donor.lname}</p>
               </div>
 
               <div className="w-1/10"></div>
 
-              <div className="border-b-2 border-purple-darkest pb-3 w-45/100">
+              <div className="border-b-2 border-purple-darkest pb-3 w-45/100 sm:w-full sm:mt-4">
                 <label className="uppercase text-xs text-grey-darker block pl-4">I am donating</label>
                 <p className="block mt-2 text-grey-darker font-semibold pl-4 cursor-pointer" onClick={() => this.linkTo('payment')}>{formatPrice(donation.amount)} as a {donation.frequency} gift</p>
               </div>
@@ -234,12 +234,12 @@ class ReviewPage extends React.Component {
                 <p className="block mt-2 text-grey-darker font-semibold pl-4 cursor-pointer" onClick={() => this.linkTo('davos-personal-info')}>{address.address_1}, {address.city}, {address.province}, <span className="uppercase">{address.postal_code}</span></p>
               </div>
 
-              <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-45/100">
+              <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-45/100 sm:w-full">
                 <label className="uppercase text-xs text-grey-darker block pl-4">Paying with</label>
                 <p className="block mt-2 text-grey-darker pl-4 cursor-pointer" onClick={() => this.linkTo('davos-payment-details')}>{card.cardType} card ending with <span className="font-semibold">{card.lastFourDigits}</span></p>
               </div>
               <div className="w-1/10"></div>
-              <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-45/100">
+              <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-45/100 sm:w-full">
                 <label className="uppercase text-xs text-grey-darker block pl-4">I can be reached at</label>
                 <p className="block mt-2 text-grey-darker font-semibold pl-4 cursor-pointer" onClick={() => this.linkTo('personal-info')}>{donor.email}</p>
               </div>
@@ -262,23 +262,23 @@ class ReviewPage extends React.Component {
           <div>
           <StepTracker />
           <div className="flex mt-8">
-            <div className="w-4/5 mx-auto pl-8">
-            <form className="flex flex-wrap mt-4">
-              <div className="border-b-2 border-purple-darkest pb-3 w-45/100">
+            <div className="w-4/5 mx-auto pl-8 sm:w-full sm:px-2">
+            <form className="flex flex-wrap mt-4 sm:flex-col">
+              <div className="border-b-2 border-purple-darkest pb-3 w-45/100 sm:w-full">
                 <label className="uppercase text-xs text-grey-darker block pl-4" htmlFor="fname">my name is</label>
                 <p className="block mt-2 capitalize text-grey-darker font-semibold pl-4 cursor-pointer" type="text" name="fname" onClick={() => this.linkTo('personal-info')}>{donor.fname} {donor.lname}</p>
               </div>
 
               <div className="w-1/10"></div>
 
-              <div className="border-b-2 border-purple-darkest pb-3 w-45/100">
+              <div className="border-b-2 border-purple-darkest pb-3 w-45/100 sm:w-full sm:mt-4">
                 <label className="uppercase text-xs text-grey-darker block pl-4">I am donating</label>
                 <p className="block mt-2 text-grey-darker font-semibold pl-4 cursor-pointer" onClick={() => this.linkTo('payment')}>{formatPrice(donation.amount)} as a {donation.frequency} gift</p>
               </div>
 
               <div className="pb-3 mt-6 w-full">
                 <label className="uppercase text-xs text-grey-darker block pl-4">To</label>
-                <p className="block mt-2 text-grey-darker font-semibold pl-4" >Planned Lifetime Advocacy Network</p>
+                <p className="block mt-2 text-grey-darker font-semibold pl-4" >Father's Heart Foundation Canada</p>
               </div>
 
               <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-full">
@@ -286,23 +286,23 @@ class ReviewPage extends React.Component {
                 <p className="block mt-2 text-grey-darker font-semibold pl-4 cursor-pointer" onClick={() => this.linkTo('personal-info')}>{donor.address_1}, {donor.city}, {donor.province}, <span className="uppercase">{donor.postal_code}</span></p>
               </div>
 
-              <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-45/100">
+              <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-45/100 sm:w-full">
                 <label className="uppercase text-xs text-grey-darker block pl-4">Paying with</label>
                 <p className="block mt-2 text-grey-darker pl-4 cursor-pointer" onClick={() => this.linkTo('payment-details')}> Credit card</p>
               </div>
               <div className="w-1/10"></div>
-              <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-45/100">
+              <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-45/100 sm:w-full">
                 <label className="uppercase text-xs text-grey-darker block pl-4">I can be reached at</label>
                 <p className="block mt-2 text-grey-darker font-semibold pl-4 cursor-pointer" onClick={() => this.linkTo('personal-info')}>{donor.email}</p>
               </div>
 
-              <div className="pb-3 mt-6 w-45/100 pl-4">
+              <div className="pb-3 mt-6 w-45/100 pl-4 sm:w-full">
                 <p class="uppercase text-purple text-xs font-bold mb-2">Add a password</p>
                 <p class="text-purple text-xs">to create a Davos account</p>
               </div>
               <div className="w-1/10"></div>
-              <div className="pb-3 mt-3 w-45/100">
-              <div className="bg-white pt-3 pb-3 pl-6 border-b-2">
+              <div className="pb-3 mt-3 w-45/100 sm:w-full">
+              <div className="bg-white pt-3 pb-3 pl-6 border-b-2 sm:mt-0">
                 <label className="uppercase text-xs font-bold text-purple block hidden" for="password">password</label>
                 <input className="block mt-4 outline-none" type="password" name="password" placeholder="*************" value={this.state.password} onChange={this.handlePasswordChange}></input>
               </div>

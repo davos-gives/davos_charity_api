@@ -133,7 +133,7 @@ class DavosInfoForm extends React.Component {
     return (
       <div>
       <h1 className="w-4/5 mx-auto pl-10 text-purple text-lg font-semibold">Add New Address</h1>
-      <Formsy onChange={this.handleInputChange} onValidSubmit={this.submitForm} onValid={this.enableButton} onInvalid={this.disableButton} className="flex flex-wrap mt-4 w-4/5 mx-auto pl-8">
+      <Formsy onChange={this.handleInputChange} onValidSubmit={this.submitForm} onValid={this.enableButton} onInvalid={this.disableButton} className="flex flex-wrap mt-4 w-4/5 mx-auto pl-8 sm:w-full sm:px-2">
 
           <MyInput
            name="name"
@@ -152,7 +152,7 @@ class DavosInfoForm extends React.Component {
             className="block mt-2 text-grey-darker font-semibold pl-4 outline-none w-full"
             validations="minLength:2"
             required
-            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-7/10"
+            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-7/10 sm:w-full"
             label="street"
             value={this.state.address_1}
             errorEmpty={false}
@@ -167,7 +167,7 @@ class DavosInfoForm extends React.Component {
             className="block mt-2 text-grey-darker font-semibold pl-4 outline-none fname"
             validations="isAlphanumeric"
             validationError="this is not a valid apartment Number"
-            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-1/5"
+            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-1/5 sm:w-full"
             label="apt"
             value={this.state.address_2}
             errorEmpty={false}
@@ -180,15 +180,15 @@ class DavosInfoForm extends React.Component {
             validations="isAlphanumeric,minLength:2"
             validationError="this is not a valid city name"
             required
-            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-266"
+            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-266 sm:w-full"
             label="city"
             value={this.state.city}
             errorEmpty={false}
             placeholder={"Hobbiton"}
            />
-           <div className="w-1/10"></div>
+           <div className="w-1/10 sm:hidden"></div>
 
-           <div className="border-b border-grey mt-6 w-266">
+           <div className="border-b border-grey mt-6 w-266 sm:w-1/3">
              <label className="uppercase text-xs text-grey-darker block pl-4" htmlFor="province">Province</label>
 
              <Select className="block mt-2 text-grey-darker font-semibold pl-4 w-24 capitalize outline-none province" options={provinces} clearable={false} searchable={false} placeholder="select an option" value={this.state.province} onChange={this.updateProvince} name="province"/>
@@ -201,7 +201,7 @@ class DavosInfoForm extends React.Component {
             className="block mt-2 text-grey-darker font-semibold pl-4 outline-none fname"
             validations="isAlphanumeric,isLength:6"
             validationError="this is not a valid email"
-            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-266"
+            wrapperDivClassName="border-b border-grey pb-3 mt-6 w-266 sm:w-1/3"
             required
             label="postal code"
             value={this.state.postal_code}
