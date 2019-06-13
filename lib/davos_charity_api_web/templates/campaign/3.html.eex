@@ -1,8 +1,8 @@
 <div>
-  <div class="mx-auto font-sans w-3/5 sm:w-full sm:h-16 sm:mt-4">
+  <div class="mx-auto h-64 font-sans w-3/5 sm:w-full sm:h-16 sm:mt-4">
     <div class="bg-white pt-4 sm:pt-0 flex self-center sm:justify-around sm:h-16 sm:items-end">
       <div class="w-1/2 sm:w-1/3 sm:self-center">
-        <!-- <img src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="w-32 mt-6 sm:mt-0 sm:w-16" /> -->
+        <img id="logo" src="<%= defaulted_logo(@conn) %>" class="w-32 mt-6 sm:mt-0 sm:w-16" />
       </div>
       <div class="w-1/2 sm:w-1/3 line-200 sm:self-center">
         <p class="float-right text-grey-darker align-bottom">
@@ -19,8 +19,8 @@
       </div>
     </div>
   </div>
-  <div class="flex sm:flex-col-reverse mx-auto w-5/6 sm:w-full justify-center sm-tertiary-background-color sm:w-full sm:py-2">
-    <div class="font-sans w-4/5 sm:mt-0 sm:w-9/10 -mt-12 z-20 sm:mx-auto">
+  <div class="flex sm:flex-col-reverse mx-auto w-5/6 sm:w-full justify-center sm-tertiary-background-color sm:w-full sm:py-2 md:w-full md:flex-col">
+    <div class="font-sans w-4/5 sm:mt-0 sm:w-9/10 -mt-12 z-20 sm:mx-auto md:w-full md:mx-2">
       <div class="bg-white mt-8 rounded-lg shadow-md flex self-center forced-height sm:flex-col-reverse sm:mt-0">
         <div class="w-2/3 p-6 mt-8 sm:w-full sm:mx-0 sm:p-0 sm:pb-4">
           <%= ReactPhoenix.ClientSide.react_component("Components.App") %>
@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <div class="sm:w-full sm:bg-white items-center relative <%= show_goal(@conn) %>" id="showGoal">
+    <div class="sm:w-full items-center relative md:hidden <%= show_goal(@conn) %>" id="showGoal">
       <div class="justify-left flex flex-wrap ml-8 sm:ml-0 h-full items-start sm:justify-center">
         <div class="sm:w-full">
         <h3 class="primary-text mb-8 pr-8 sm:leading-loose ml-4 sm:ml-0 sm:pr-0 sm:text-xl sm:text-center">Help us reach <br class="sm:hidden"/> our goal!</h3>
@@ -51,8 +51,8 @@
     </div>
 </div>
 
-<div class="background-white pb-8 sm:h-auto w-full mx-auto flex justify-center sm:flex-col">
-  <div class="mx-auto font-sans w-3/5 pt-8 sm:w-full">
+<div class="background-white pb-8 sm:h-auto w-full mx-auto flex justify-center sm:flex-col md:flex-col">
+  <div class="mx-auto font-sans w-3/5 pt-8 sm:w-full md:w-4/5">
     <div class="mt-4 py-4 flex self-center sm:flex-col sm:mx-12">
       <div class="w-auto pr-8 sm:pr-0 sm:w-full">
         <h1 class="primary-text mb-8 pr-8 sm:text-2xl sm:leading-normal" id="name"><%= defaulted_name(@conn) %></h1>
@@ -60,7 +60,7 @@
       </div>
     </div>
   </div>
-  <div id="social-header" class="w-1/4 sm:w-full mt-12 pt-6" style="<%= show_social_share(@conn) %>">
+  <div id="social-header" class="w-1/4 sm:w-full mt-12 pt-6 md:w-4/5 md:mx-auto" style="<%= show_social_share(@conn) %>">
     <h3  class="text-grey-dark text-xl mb-6 sm:text-center">Spread the word!</h3>
     <div class="flex mb-8 sm:items-center sm:justify-left">
       <div id="facebook_share" class="primary-background-color text-white rounded-full h-12 w-12 flex items-center justify-center lg:mr-8 sm:mx-2" style="<%= defaulted_facebook_share(@conn) %>">
@@ -79,8 +79,8 @@
   </div>
 </div>
 
-<div class="mx-auto font-sans w-3/5 sm:w-3/4">
-  <div class="bg-white pt-4 flex items-center  sm:flex-col">
+<div class="mx-auto font-sans w-3/5 sm:w-3/4 md:w-4/5">
+  <div class="bg-white pt-4 flex items-center sm:flex-col md:flex-col">
     <div class="w-2/3 sm:w-full">
     </div>
     <div class="w-1/3 flex items-end pb-6 sm:w-full justify-end sm:justify-center">

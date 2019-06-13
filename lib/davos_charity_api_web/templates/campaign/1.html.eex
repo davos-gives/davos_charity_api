@@ -1,8 +1,8 @@
 <div>
-  <div class="mx-auto font-sans w-3/5 sm:w-full sm:h-8 sm:mt-4">
-    <div class="bg-white pt-4 sm:pt-0 flex self-center sm:justify-around sm:h-16 sm:items-end">
+  <div class="mx-auto font-sans w-3/5 sm:w-full sm:h-8 sm:mt-4 md:w-full md:px-8">
+    <div class="bg-white pt-4 sm:pt-0 flex self-center sm:justify-around sm:h-24 sm:items-end">
       <div class="w-1/2 sm:w-1/3 sm:self-center">
-        <!-- <img src="<%= Routes.static_path(@conn, "/images/logo.png") %>" class="w-32 mt-6 sm:mt-0 sm:w-16" /> -->
+        <img id="logo" src="<%= defaulted_logo(@conn) %>" class="w-32 mt-6 sm:mt-0 sm:w-16" />
       </div>
       <div class="w-1/2 sm:w-1/3 line-200 sm:self-center">
         <p class="float-right text-grey-darker align-bottom">
@@ -19,8 +19,8 @@
       </div>
     </div>
   </div>
-  <div class="tertiary-background-color pb-8 h-84 sm:h-auto">
-    <div class="mx-auto font-sans w-3/5 mt-8 pt-8 forced-height sm:w-full">
+  <div class="tertiary-background-color pb-8 h-84 sm:h-auto md:h-auto sm:mt-8">
+    <div class="mx-auto font-sans w-3/5 mt-8 pt-8 forced-height sm:w-full md:w-9/10">
       <div class="mt-4 py-4 flex self-center sm:flex-col sm:mx-12">
         <div class="w-auto pr-8 sm:pr-0 sm:w-full">
           <h1 class="quaternary-text mb-8 pr-8 sm:text-2xl sm:leading-normal" id="name"><%= defaulted_name(@conn) %></h1>
@@ -48,9 +48,9 @@
   </div>
 </div>
 
-<div class="mx-auto font-sans w-3/5 -mt-32 sm:-mt-16 sm:w-9/10">
+<div class="mx-auto font-sans w-3/5 -mt-32 sm:-mt-16 sm:w-9/10 md:w-full md:-mt-12">
   <div class="bg-white mt-8 rounded-lg shadow-md flex self-center forced-height sm:flex-col-reverse">
-    <div class="w-2/3 p-6 mr-8 mt-8 mx-8 sm:w-full sm:mx-0 sm:p-0 sm:pb-4">
+    <div class="w-2/3 p-6 mr-8 mt-8 mx-8 sm:w-full sm:mx-0 sm:p-0 sm:pb-4 md:w-full">
       <%= ReactPhoenix.ClientSide.react_component("Components.App") %>
     </div>
     <div class="w-1/3 sm:w-full">
@@ -60,7 +60,7 @@
 </div>
 
 
-<div class="mx-auto font-sans w-3/5 mt-8 sm:w-2/3">
+<div class="mx-auto font-sans w-3/5 mt-8 sm:w-2/3 md:w-full md:px-4">
   <div class="bg-white pt-4 flex items-center mb-8 sm:flex-col">
     <div class="w-1/2 sm:w-3/4">
       <h3 id="social-header" class="text-grey-dark text-xl mb-6 sm:text-center" style="<%= show_social_share(@conn) %>">Spread the word!</h3>

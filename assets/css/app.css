@@ -280,11 +280,11 @@
   }
 
   .forced-height {
-    height: 100%!important;
+    height: auto!important;
   }
 
   .forced-height-2 {
-    height: auto!important;
+    height: 500px!important;
   }
 
   @media (max-width: 1366px) and (min-width: 0px){
