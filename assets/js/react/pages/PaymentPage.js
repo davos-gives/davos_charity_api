@@ -6,9 +6,19 @@ import GiftAmountDisplay from "../components/GiftAmountDisplay";
 import GiftAmountBlock from "../components/GiftAmountBlock";
 import ButtonBlock from "../components/ButtonBlock";
 import { getProgress,  getGiftInfo } from "../redux/selectors";
-import { updateProgressStep } from "../redux/actions";
+import { updateProgressStep, updateSource } from "../redux/actions";
+import querySearch from "stringquery";
+
 
 class PaymentPage extends React.Component {
+
+  constructor(props) {
+    super(props);
+    let params = querySearch(props.location.search)
+    if (params.utm_source != undefined) {
+      this.props.updateSource(params.utm_source);
+    }
+  }
 
   progressChange = step => {
     if(this.props.progressInfo.reviewing == true) {
@@ -60,5 +70,5 @@ class PaymentPage extends React.Component {
 }
 
 export default withRouter(connect(
- state => ({ giftInfo: getGiftInfo(state), progressInfo: getProgress(state) }), {updateProgressStep}
+ state => ({ giftInfo: getGiftInfo(state), progressInfo: getProgress(state) }), {updateProgressStep, updateSource}
 )(PaymentPage));

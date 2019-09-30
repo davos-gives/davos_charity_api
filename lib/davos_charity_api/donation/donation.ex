@@ -125,6 +125,7 @@ defmodule DavosCharityApi.Donation do
         donor_id: attrs["donor_id"],
         status: "active",
         campaign_id: attrs["campaign_id"],
+        source: attrs["source"],
         reference_number: submitted_data["data"]["referenceNumber"],
         donor_organization_relationship_id: 1,
         vault_card_id: attrs["vault_card_id"]
@@ -145,6 +146,7 @@ defmodule DavosCharityApi.Donation do
         frequency: "one-time",
         reference_number: submitted_data["data"]["referenceNumber"],
         donor_id: attrs["donor_id"],
+        source: attrs["source"],
         campaign_id: attrs["campaign_id"],
         donor_organization_relationship_id: 1,
       }

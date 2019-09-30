@@ -41,6 +41,7 @@ class ReviewPage extends React.Component {
         type: "payments",
         attributes: {
           amount: this.props.giftInfo.amount,
+          source: this.props.giftInfo.source,
           frequency: "one-time",
           vault_id: this.props.api.vaults.data[0].attributes["iats-id"],
           vault_key: this.props.vaultCard.iatsId,
@@ -61,6 +62,7 @@ class ReviewPage extends React.Component {
           attributes: {
             amount: this.props.giftInfo.amount,
             frequency: this.props.giftInfo.frequency,
+            source: this.props.giftInfo.source,
             vault_id: this.props.api.vaults.data[0].attributes["iats-id"],
             vault_card_id: this.props.vaultCard.id,
             vault_key: this.props.vaultCard.iatsId,
@@ -119,6 +121,7 @@ class ReviewPage extends React.Component {
             attributes: {
               amount: this.props.giftInfo.amount,
               frequency: "one-time",
+              source: this.props.giftInfo.source,
               cryptogram: this.props.paymentInfo.crypto,
               donor_id: this.props.api.donors.data[0].id,
               address_id: this.props.api.addresses.data[0].id,
@@ -176,6 +179,7 @@ class ReviewPage extends React.Component {
               attributes: {
                 amount: this.props.giftInfo.amount,
                 frequency: this.props.giftInfo.frequency,
+                source: this.props.giftInfo.source,
                 cryptogram: this.props.paymentInfo.crypto,
                 donor_id: this.props.api.donors.data[0].id,
                 address_id: this.props.api.addresses.data[0].id,
@@ -226,7 +230,7 @@ class ReviewPage extends React.Component {
 
               <div className="pb-3 mt-6 w-full">
                 <label className="uppercase text-xs text-grey-darker block pl-4">To</label>
-                <p className="block mt-2 text-grey-darker font-semibold pl-4" >Planned Lifetime Advocacy Network</p>
+                <p className="block mt-2 text-grey-darker font-semibold pl-4" >Canadian Men's Health Foundation</p>
               </div>
 
               <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-full">
@@ -278,7 +282,7 @@ class ReviewPage extends React.Component {
 
               <div className="pb-3 mt-6 w-full">
                 <label className="uppercase text-xs text-grey-darker block pl-4">To</label>
-                <p className="block mt-2 text-grey-darker font-semibold pl-4" >Father's Heart Foundation Canada</p>
+                <p className="block mt-2 text-grey-darker font-semibold pl-4" >Canadian Men's Health Foundation</p>
               </div>
 
               <div className="border-b-2 border-purple-darkest pb-3 mt-6 w-full">

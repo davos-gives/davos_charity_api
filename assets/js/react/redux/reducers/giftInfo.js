@@ -1,9 +1,10 @@
-import { UPDATE_GIFT_TYPE, UPDATE_GIFT_AMOUNT, UPDATE_CUSTOM_GIFT_AMOUNT, UPDATE_CUSTOM_GIFT_STATUS } from "../actionTypes";
+import { UPDATE_GIFT_TYPE, UPDATE_GIFT_AMOUNT, UPDATE_CUSTOM_GIFT_AMOUNT, UPDATE_CUSTOM_GIFT_STATUS, UPDATE_SOURCE } from "../actionTypes";
 
 const initialState = {
   amount: 1000,
   frequency: "weekly",
   custom: false,
+  source: '',
 };
 
 export default function(state = initialState, action) {
@@ -31,6 +32,15 @@ export default function(state = initialState, action) {
         custom: true,
       };
     }
+
+    case UPDATE_SOURCE: {
+      const { source } = action.payload;
+      return {
+        ...state,
+        source: source,
+      };
+    }
+
     case UPDATE_CUSTOM_GIFT_STATUS: {
       return {
         ...state,

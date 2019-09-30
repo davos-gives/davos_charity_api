@@ -14,6 +14,7 @@ defmodule DavosCharityApi.Donation.Ongoing do
     field :status, :string
     field :amount, :integer
     field :reference_number, :string
+    field :source, :string
 
     belongs_to :donor, Donor
     belongs_to :campaign, Campaign

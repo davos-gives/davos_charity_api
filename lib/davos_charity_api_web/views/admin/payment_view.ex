@@ -3,7 +3,7 @@ defmodule DavosCharityApiWeb.Admin.PaymentView do
   use JaSerializer.PhoenixView
 
   location "/admin/payments/:id"
-  attributes [:amount, :created_at, :frequency]
+  attributes [:amount, :created_at, :frequency, :source]
 
   def attributes(model, conn) do
     model

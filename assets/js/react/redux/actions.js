@@ -9,6 +9,7 @@ import {
   UPDATE_REVIEWING_STATUS,
   UPDATE_ACTIVE_VAULT_CARD_INFORMATION,
   UPDATE_SAVED_ADDRESS_INFORMATION,
+  UPDATE_SOURCE,
 } from "./actionTypes";
 
 export const updateGiftType = frequency => ({
@@ -22,6 +23,13 @@ export const updateGiftAmount = amount => ({
   type: UPDATE_GIFT_AMOUNT,
   payload: {
     amount
+  }
+})
+
+export const updateSource = source => ({
+  type: UPDATE_SOURCE,
+  payload: {
+    source
   }
 })
 

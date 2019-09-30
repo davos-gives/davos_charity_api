@@ -140,7 +140,9 @@ class NewCardForm extends React.Component {
       this.setState({ crypto: e.data.cryptogram });
       this.setState({ canSubmit: true });
     }
+    console.log(e);
   }
+
 }
 
 export default connect(state => ({api: getApi(state)}), {updateActiveVaultCardInformation})(NewCardForm);
